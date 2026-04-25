@@ -1046,16 +1046,11 @@
       transform: scale(0.9);
     }
 
-    /* FAB — subtle pulse on idle */
-    @keyframes fabPulse {
-      0%, 100% { box-shadow: 0 6px 20px rgba(124,58,237,0.5), 0 0 0 0 rgba(124,58,237,0.4); }
-      50% { box-shadow: 0 6px 20px rgba(124,58,237,0.5), 0 0 0 8px rgba(124,58,237,0); }
-    }
+    /* FAB — clean, no idle animation */
     .fab {
-      animation: fabPulse 2.5s ease-in-out infinite;
+      animation: none;
     }
     .fab:active {
-      animation: none;
       transform: scale(0.92) rotate(45deg);
     }
 
@@ -1170,6 +1165,69 @@
     ::selection {
       background: rgba(167, 139, 250, 0.3);
       color: var(--text);
+    }
+
+    /* Shake animation for invalid inputs */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .shake {
+      animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+      border-color: var(--red) !important;
+    }
+
+    /* Confirm modal */
+    .confirm-modal {
+      max-width: 320px !important;
+      text-align: center;
+      padding: 24px 20px !important;
+    }
+    .confirm-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+    .confirm-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .confirm-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+    .confirm-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .confirm-actions button {
+      flex: 1;
+      padding: 11px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .confirm-cancel {
+      background: var(--bg);
+      color: var(--text);
+    }
+    .confirm-confirm {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red) !important;
+    }
+    .confirm-confirm.primary {
+      background: var(--purple);
+      border-color: var(--purple) !important;
     }
   </style>
 </head>
@@ -1303,6 +1361,28 @@ function fmtSign(n, type) {
   return (type === 'income' ? '+' : '-') + fmt(n);
 }
 
+// Relative date formatter: "Hoy", "Ayer", "Hace X días", or full date
+function fmtRelativeDate(dateStr) {
+  if (!dateStr) return '';
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const txDate = new Date(dateStr + 'T00:00:00');
+  const diffMs = today - txDate;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return 'Hoy';
+  if (diffDays === 1) return 'Ayer';
+  if (diffDays >= 2 && diffDays <= 6) return `Hace ${diffDays} días`;
+  if (diffDays === -1) return 'Mañana';
+  // Older: format as "25 abr"
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const day = txDate.getDate();
+  const month = months[txDate.getMonth()];
+  const year = txDate.getFullYear();
+  const currentYear = today.getFullYear();
+  return year === currentYear ? `${day} ${month}` : `${day} ${month} ${year}`;
+}
+
 // ── STORAGE ───────────────────────────────────────────────────────────────
 function loadTxs() {
   try { return JSON.parse(localStorage.getItem('mie_txs') || '[]'); }
@@ -1367,6 +1447,7 @@ const CATEGORY_EMOJIS = [
 let currentView = 'dashboard';
 let histFilter = 'all';
 let formState = {
+  id: null, // for edit mode
   type: 'expense', amount: '', category: 'tarjeta',
   method: 'Tarjeta crédito', description: '',
   tags: [],
@@ -1448,8 +1529,9 @@ function pctChange(current, previous) {
 }
 function fmtPct(p) {
   if (p === null) return '';
+  const arrow = p > 0 ? '↗' : p < 0 ? '↘' : '→';
   const sign = p > 0 ? '+' : '';
-  return `${sign}${Math.round(p)}%`;
+  return `${arrow} ${sign}${Math.round(p)}%`;
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────
@@ -1682,8 +1764,16 @@ function renderDashboard() {
     </div>` : `
     <div class="empty">
       <div class="emoji">📭</div>
-      <p>Sin movimientos este mes.<br>¡Agregá tu primer ingreso o gasto!</p>
+      <p style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px">${transactions.length === 0 ? '¡Bienvenido a MiEconomía!' : 'Sin movimientos este mes'}</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:18px">${transactions.length === 0
+        ? 'Empezá registrando tus ingresos y gastos.<br>Todo se guarda automáticamente.'
+        : 'Tocá el botón <strong style="color:var(--purple-light)">+</strong> para agregar uno.'}</p>
       <button class="btn-add" onclick="showView('add')">+ Agregar movimiento</button>
+      ${transactions.length === 0 ? `
+      <p style="font-size:11px;color:var(--muted);margin-top:18px;line-height:1.6">
+        💡 Tip: configurá tus <strong style="color:var(--purple-light);cursor:pointer" onclick="showView('recurring')">gastos recurrentes</strong> en Ajustes<br>
+        para no tener que cargarlos cada mes.
+      </p>` : ''}
     </div>`}
   </div>`;
 }
@@ -1758,6 +1848,35 @@ function closeModal() {
   document.getElementById('modal-container').innerHTML = '';
 }
 
+// ── CUSTOM CONFIRM MODAL ──────────────────────────────────────────────────
+function showConfirm(title, desc, onConfirm, options = {}) {
+  const {
+    icon = '⚠️',
+    confirmText = 'Eliminar',
+    cancelText = 'Cancelar',
+    primary = false  // true = purple confirm button, false = red (destructive)
+  } = options;
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal confirm-modal">
+        <div class="confirm-icon">${icon}</div>
+        <div class="confirm-title">${title}</div>
+        <div class="confirm-desc">${desc}</div>
+        <div class="confirm-actions">
+          <button class="confirm-cancel" onclick="closeModal()">${cancelText}</button>
+          <button class="confirm-confirm ${primary ? 'primary' : ''}" id="confirm-btn">${confirmText}</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+  document.getElementById('confirm-btn').onclick = () => {
+    closeModal();
+    onConfirm();
+  };
+}
+
 // ── TX ROW ────────────────────────────────────────────────────────────────
 function txRow(tx, showDelete = true) {
   const cat = getCat(tx.category);
@@ -1770,17 +1889,18 @@ function txRow(tx, showDelete = true) {
       ${tx.tags.map(t => `<span class="tx-tag-mini">#${t}</span>`).join('')}
     </div>
   ` : '';
+  const isAuto = tx.description && tx.description.includes('(auto)');
   return `
-  <div class="tx-row">
+  <div class="tx-row" onclick="${isAuto ? `showToast('Movimientos automáticos no se editan, solo se borran', 'error')` : `editTransaction(${tx.id})`}" style="cursor:pointer">
     <span class="tx-icon">${cat.icon}</span>
     <div class="tx-info">
       <div class="tx-desc" ${hasLongDesc ? 'style="white-space:normal;line-height:1.35"' : ''}>${desc.replace(/\n/g, '<br>')}</div>
-      <div class="tx-meta">${meth.icon} ${tx.method} · ${tx.date} · ${cat.label}</div>
+      <div class="tx-meta">${meth.icon} ${tx.method} · ${fmtRelativeDate(tx.date)} · ${cat.label}</div>
       ${tags}
     </div>
     <div class="tx-right">
       <div class="tx-amount ${color}">${fmtSign(tx.amount, tx.type)}</div>
-      ${showDelete ? `<button class="btn-delete" onclick="deleteTx(${tx.id})">✕</button>` : ''}
+      ${showDelete ? `<button class="btn-delete" onclick="event.stopPropagation(); deleteTx(${tx.id})">✕</button>` : ''}
     </div>
   </div>`;
 }
@@ -1879,16 +1999,12 @@ function renderStats() {
   transactions.filter(t=>t.type==='expense').forEach(t => { byMethod[t.method] = (byMethod[t.method]||0)+t.amount; });
   const methods = Object.entries(byMethod).sort((a,b)=>b[1]-a[1]);
 
-  // By category (for pie chart) - current month
-  const today = new Date();
-  const ty = today.getFullYear(), tm = today.getMonth();
-  const monthExpenses = transactions.filter(t => {
-    const d = new Date(t.date);
-    return t.type === 'expense' && d.getFullYear() === ty && d.getMonth() === tm;
+  // By category (for pie chart) - histórico completo
+  const byCategoryAll = {};
+  transactions.filter(t => t.type === 'expense').forEach(t => {
+    byCategoryAll[t.category] = (byCategoryAll[t.category] || 0) + t.amount;
   });
-  const byCategoryMonth = {};
-  monthExpenses.forEach(t => { byCategoryMonth[t.category] = (byCategoryMonth[t.category] || 0) + t.amount; });
-  const pieCats = Object.entries(byCategoryMonth).sort((a, b) => b[1] - a[1]);
+  const pieCats = Object.entries(byCategoryAll).sort((a, b) => b[1] - a[1]);
   const pieTotal = pieCats.reduce((s, [_, v]) => s + v, 0);
 
   // Monthly summary (last 6 months)
@@ -1932,7 +2048,7 @@ function renderStats() {
     ${settingsFlags.showPieChart && pieCats.length > 0 && pieTotal > 0 ? `
     <!-- Pie chart -->
     <div class="section">
-      <div class="section-title">🥧 Distribución del mes actual</div>
+      <div class="section-title">🥧 Distribución de gastos (histórico)</div>
       <div class="pie-wrapper">
         <svg class="pie-svg" width="120" height="120" viewBox="0 0 100 100">
           ${(() => {
@@ -2028,9 +2144,13 @@ function renderStats() {
 // ── ADD FORM ──────────────────────────────────────────────────────────────
 function renderForm() {
   const cats = CATEGORIES[formState.type];
+  const isEdit = formState.id !== null;
   return `
   <div class="form-card fade-up">
-    <div class="section-title" style="margin-bottom:16px">Nuevo movimiento</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div class="section-title" style="margin:0">${isEdit ? '✏️ Editar movimiento' : '➕ Nuevo movimiento'}</div>
+      ${isEdit ? `<button class="btn-delete" style="padding:6px 10px;font-size:11px" onclick="deleteFromEdit()">🗑️ Eliminar</button>` : ''}
+    </div>
 
     <!-- Type toggle -->
     <div class="type-toggle">
@@ -2093,10 +2213,15 @@ function renderForm() {
     <input type="date" id="f-date" value="${formState.date}" onchange="formState.date=this.value" />
 
     <div class="form-actions">
-      <button class="btn-cancel" onclick="showView('dashboard')">Cancelar</button>
-      <button class="btn-save" onclick="saveTransaction()">💾 Guardar</button>
+      <button class="btn-cancel" onclick="cancelForm()">Cancelar</button>
+      <button class="btn-save" onclick="saveTransaction()">${isEdit ? '💾 Actualizar' : '💾 Guardar'}</button>
     </div>
   </div>`;
+}
+
+function cancelForm() {
+  formState = { id: null, type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
+  showView('dashboard');
 }
 
 function setFormType(t) {
@@ -2116,23 +2241,78 @@ function setFormCat(id) {
 function saveTransaction() {
   const amount = parseFloat(formState.amount);
   if (!amount || isNaN(amount) || amount <= 0) {
-    showToast('Ingresá un monto válido', 'error'); return;
+    showToast('Ingresá un monto válido', 'error');
+    // Shake animation on amount input
+    const amtEl = document.getElementById('f-amount');
+    if (amtEl) {
+      amtEl.classList.add('shake');
+      setTimeout(() => amtEl.classList.remove('shake'), 500);
+    }
+    return;
   }
-  const tx = {
-    id: Date.now(),
-    type: formState.type,
-    amount,
-    category: formState.category,
-    method: formState.method,
-    description: formState.description.trim(),
-    tags: (formState.tags || []).filter(t => t.trim()),
-    date: formState.date,
-  };
-  transactions.unshift(tx);
-  saveTxs(transactions);
-  formState = { type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
+
+  if (formState.id !== null) {
+    // EDIT
+    const idx = transactions.findIndex(t => t.id === formState.id);
+    if (idx >= 0) {
+      transactions[idx] = {
+        ...transactions[idx],
+        type: formState.type,
+        amount,
+        category: formState.category,
+        method: formState.method,
+        description: formState.description.trim(),
+        tags: (formState.tags || []).filter(t => t.trim()),
+        date: formState.date,
+      };
+      saveTxs(transactions);
+      showToast('Movimiento actualizado');
+    }
+  } else {
+    // CREATE
+    const tx = {
+      id: Date.now(),
+      type: formState.type,
+      amount,
+      category: formState.category,
+      method: formState.method,
+      description: formState.description.trim(),
+      tags: (formState.tags || []).filter(t => t.trim()),
+      date: formState.date,
+    };
+    transactions.unshift(tx);
+    saveTxs(transactions);
+    showToast('Movimiento guardado');
+  }
+
+  formState = { id: null, type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
   showView('dashboard');
-  showToast('Movimiento guardado');
+}
+
+function editTransaction(id) {
+  const tx = transactions.find(t => t.id === id);
+  if (!tx) return;
+  formState = {
+    id: tx.id,
+    type: tx.type,
+    amount: tx.amount.toString(),
+    category: tx.category,
+    method: tx.method,
+    description: tx.description || '',
+    tags: tx.tags ? [...tx.tags] : [],
+    date: tx.date,
+  };
+  showView('add');
+}
+
+function deleteFromEdit() {
+  showConfirm('¿Eliminar este movimiento?', 'Esta acción no se puede deshacer.', () => {
+    transactions = transactions.filter(t => t.id !== formState.id);
+    saveTxs(transactions);
+    formState = { id: null, type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
+    showToast('Movimiento eliminado');
+    showView('dashboard');
+  });
 }
 
 // ── TAGS HELPERS ──────────────────────────────────────────────────────────
@@ -2159,11 +2339,16 @@ function removeTag(idx) {
 }
 
 function deleteTx(id) {
-  if (!confirm('¿Eliminar este movimiento?')) return;
-  transactions = transactions.filter(t => t.id !== id);
-  saveTxs(transactions);
-  showToast('Movimiento eliminado');
-  render();
+  showConfirm(
+    '¿Eliminar movimiento?',
+    'Esta acción no se puede deshacer.',
+    () => {
+      transactions = transactions.filter(t => t.id !== id);
+      saveTxs(transactions);
+      showToast('Movimiento eliminado');
+      render();
+    }
+  );
 }
 
 // ── ATTACH EVENTS ─────────────────────────────────────────────────────────
@@ -2248,11 +2433,17 @@ function restoreCSV(event) {
       }).filter(t => t.amount > 0 && t.date && t.type);
 
       if (restored.length === 0) { showToast('CSV inválido o vacío', 'error'); return; }
-      if (!confirm(`¿Restaurar ${restored.length} movimientos? Esto reemplazará los datos actuales.`)) return;
-      transactions = restored;
-      saveTxs(transactions);
-      showToast(`${restored.length} movimientos restaurados ✅`);
-      showView('dashboard');
+      showConfirm(
+        `¿Restaurar ${restored.length} movimientos?`,
+        'Esto reemplazará todos los datos actuales del historial.',
+        () => {
+          transactions = restored;
+          saveTxs(transactions);
+          showToast(`${restored.length} movimientos restaurados`);
+          showView('dashboard');
+        },
+        { icon: '📥', confirmText: 'Restaurar', primary: true }
+      );
     } catch(err) {
       showToast('Error al leer el archivo', 'error');
     }
@@ -2303,19 +2494,26 @@ function shareWhatsApp() {
 
 // ── SYSTEM ────────────────────────────────────────────────────────────────
 function reloadApp() {
-  if (confirm('¿Recargar la app? Esto buscará la última versión disponible.')) {
-    // Force fresh reload bypassing cache
-    if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
-        .then(() => location.reload());
-    } else {
-      location.reload();
-    }
-  }
+  showConfirm(
+    '¿Recargar la app?',
+    'Buscará la última versión disponible y limpiará la caché.',
+    () => {
+      if ('caches' in window) {
+        caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
+          .then(() => location.reload());
+      } else {
+        location.reload();
+      }
+    },
+    { icon: '🔄', confirmText: 'Recargar', primary: true }
+  );
 }
 
 function openAbout() {
   const lastBackup = getLastBackup();
+  const incomeCount = transactions.filter(t => t.type === 'income').length;
+  const expenseCount = transactions.filter(t => t.type === 'expense').length;
+
   const html = `
     <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
       <div class="modal">
@@ -2326,19 +2524,81 @@ function openAbout() {
         <div class="about-content">
           <div class="about-logo">💰</div>
           <div class="about-title">MiEconomía</div>
-          <div class="about-version">v1.7 · Fase 3</div>
+          <div class="about-version">v1.7 · Fase 3 completa</div>
           <p class="about-desc">
-            App de control financiero personal.<br>
-            Datos guardados localmente en tu dispositivo.
+            Tu app de control financiero personal.<br>
+            100% local, sin backend ni cuentas.
           </p>
-          <div style="text-align:left;font-size:12px;color:var(--muted);background:var(--bg);padding:12px;border-radius:10px;border:1px solid var(--border)">
-            <div style="margin-bottom:6px">📊 <strong style="color:var(--text)">${transactions.length}</strong> movimientos registrados</div>
+
+          <div style="text-align:left;font-size:12px;color:var(--muted);background:var(--bg);padding:12px;border-radius:10px;border:1px solid var(--border);margin-bottom:14px">
+            <div style="margin-bottom:6px">📊 <strong style="color:var(--text)">${transactions.length}</strong> movimientos · <strong style="color:var(--green)">${incomeCount} ingresos</strong> · <strong style="color:var(--red)">${expenseCount} gastos</strong></div>
             <div style="margin-bottom:6px">📅 Último backup: <strong style="color:var(--text)">${lastBackup ? new Date(lastBackup).toLocaleDateString('es-AR') : 'Nunca'}</strong></div>
             <div>💾 Almacenamiento: <strong style="color:var(--text)">${getStorageSize()} KB</strong></div>
           </div>
+
+          <div style="font-size:11px;color:var(--purple-light);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px;text-align:left">🔗 Enlaces útiles</div>
+
           <a class="about-link" href="https://gonzalog85.github.io/mieconomia/" target="_blank">
-            <strong>Sitio web →</strong>
+            🌐 <strong>Sitio web</strong> · gonzalog85.github.io/mieconomia
           </a>
+          <a class="about-link" href="https://github.com/gonzalog85/mieconomia" target="_blank">
+            💻 <strong>Código fuente</strong> · GitHub
+          </a>
+          <a class="about-link" onclick="closeModal(); openHelp(); return false;" href="#">
+            ❓ <strong>Ayuda básica</strong> · cómo usar la app
+          </a>
+
+          <p style="font-size:10px;color:var(--muted);margin-top:18px;line-height:1.6;text-align:center">
+            Hecho con 💜 para uso personal.<br>
+            Tus datos nunca salen de tu dispositivo.
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function openHelp() {
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">❓ Ayuda básica</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div style="font-size:13px;line-height:1.7;color:var(--text-dim)">
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">📊 Dashboard</strong><br>
+            Resumen del mes seleccionado. Tocá la fecha para cambiar de mes.
+          </div>
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">➕ Agregar movimiento</strong><br>
+            Tocá el botón violeta abajo a la derecha. Activá <em>Modo rápido</em> en Ajustes para una versión simplificada.
+          </div>
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">✏️ Editar / eliminar</strong><br>
+            Tocá cualquier movimiento del historial para editarlo. La ✕ lo elimina directamente.
+          </div>
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">🎯 Presupuestos</strong><br>
+            En Ajustes definís cuánto querés gastar por categoría. Te avisa cuando llegás al 80%.
+          </div>
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">🔁 Recurrentes</strong><br>
+            Cargás una vez "alquiler $X día 1" y se carga automático cada mes.
+          </div>
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">🏷️ Tags</strong><br>
+            Etiquetá movimientos con tags como <em>#vacaciones</em> o <em>#regalo</em> para filtrar después.
+          </div>
+          <div style="margin-bottom:14px">
+            <strong style="color:var(--purple-light)">💾 Backup</strong><br>
+            Exportá CSV regularmente desde Ajustes. Si perdés el browser, podés restaurar desde ese archivo.
+          </div>
+          <div style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3);border-radius:10px;padding:12px;margin-top:8px">
+            <strong style="color:var(--purple-light)">💡 Tip:</strong> Si la app se ve rara, tocá "🔄 Recargar app" en Ajustes para traer la última versión.
+          </div>
         </div>
       </div>
     </div>
@@ -2599,11 +2859,18 @@ function setBudget(catId) {
 }
 
 function deleteBudget(catId) {
-  if (!confirm('¿Quitar este presupuesto?')) return;
-  delete budgets[catId];
-  saveBudgets();
-  showToast('Presupuesto eliminado');
-  render();
+  const cat = getCat(catId);
+  showConfirm(
+    `¿Quitar presupuesto de ${cat.label}?`,
+    'Los movimientos no se afectan, solo se quita el límite mensual.',
+    () => {
+      delete budgets[catId];
+      saveBudgets();
+      showToast('Presupuesto eliminado');
+      render();
+    },
+    { icon: '🎯' }
+  );
 }
 
 // ── RECURRING PAGE ────────────────────────────────────────────────────────
@@ -2759,12 +3026,18 @@ function saveRecurringForm() {
 }
 
 function deleteRecurring() {
-  if (!confirm(`¿Eliminar "${recurringForm.name}"?\nLos movimientos ya creados no se borran.`)) return;
-  recurring = recurring.filter(r => r.id !== recurringForm.id);
-  saveRecurring();
-  closeModal();
-  showToast('Recurrente eliminado');
-  render();
+  showConfirm(
+    `¿Eliminar "${recurringForm.name}"?`,
+    'Los movimientos ya creados no se borran, pero no se generarán nuevos.',
+    () => {
+      recurring = recurring.filter(r => r.id !== recurringForm.id);
+      saveRecurring();
+      closeModal();
+      showToast('Recurrente eliminado');
+      render();
+    },
+    { icon: '🔁' }
+  );
 }
 
 function toggleRecurring(id) {
@@ -2948,18 +3221,25 @@ function saveCategoryForm() {
 }
 
 function deleteCategory(catId, type) {
+  const cat = CATEGORIES[type].find(c => c.id === catId);
+  if (!cat) return;
   const used = transactions.some(t => t.category === catId);
-  if (used) {
-    if (!confirm('Esta categoría tiene movimientos. ¿Eliminar igual? Los movimientos se quedarán sin categoría visible.')) return;
-  } else {
-    if (!confirm('¿Eliminar esta categoría?')) return;
-  }
-  CATEGORIES[type] = CATEGORIES[type].filter(c => c.id !== catId);
-  saveCategoriesToStorage();
-  // Also remove budget if exists
-  if (budgets[catId]) { delete budgets[catId]; saveBudgets(); }
-  showToast('Categoría eliminada');
-  render();
+  const message = used
+    ? 'Tiene movimientos asociados. Si la eliminás, esos movimientos se quedarán sin categoría visible.'
+    : 'Esta acción no se puede deshacer.';
+
+  showConfirm(
+    `¿Eliminar categoría ${cat.label}?`,
+    message,
+    () => {
+      CATEGORIES[type] = CATEGORIES[type].filter(c => c.id !== catId);
+      saveCategoriesToStorage();
+      if (budgets[catId]) { delete budgets[catId]; saveBudgets(); }
+      showToast('Categoría eliminada');
+      render();
+    },
+    { icon: '🏷️' }
+  );
 }
 
 // ── METHODS PAGE ──────────────────────────────────────────────────────────
@@ -3088,26 +3368,32 @@ function deleteMethod(methodId) {
   const m = METHODS.find(x => x.id === methodId);
   if (!m) return;
   const usage = transactions.filter(t => t.method === m.label).length;
-  let msg = `¿Eliminar "${m.label}"?`;
-  if (usage > 0) msg += `\n\nLos ${usage} movimientos con este método se reasignarán a "Otro".`;
-  if (!confirm(msg)) return;
+  const desc = usage > 0
+    ? `Los ${usage} movimientos con este método se reasignarán a "Otro".`
+    : 'Esta acción no se puede deshacer.';
 
-  // Reassign transactions
-  if (usage > 0) {
-    transactions.forEach(t => {
-      if (t.method === m.label) t.method = 'Otro';
-    });
-    recurring.forEach(r => {
-      if (r.method === m.label) r.method = 'Otro';
-    });
-    saveTxs(transactions);
-    saveRecurring();
-  }
-
-  METHODS = METHODS.filter(x => x.id !== methodId);
-  saveMethodsToStorage();
-  showToast('Método eliminado');
-  render();
+  showConfirm(
+    `¿Eliminar "${m.label}"?`,
+    desc,
+    () => {
+      // Reassign transactions
+      if (usage > 0) {
+        transactions.forEach(t => {
+          if (t.method === m.label) t.method = 'Otro';
+        });
+        recurring.forEach(r => {
+          if (r.method === m.label) r.method = 'Otro';
+        });
+        saveTxs(transactions);
+        saveRecurring();
+      }
+      METHODS = METHODS.filter(x => x.id !== methodId);
+      saveMethodsToStorage();
+      showToast('Método eliminado');
+      render();
+    },
+    { icon: '💳' }
+  );
 }
 
 // ── PHASE 3 TOGGLES ───────────────────────────────────────────────────────
