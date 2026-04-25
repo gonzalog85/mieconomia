@@ -162,8 +162,17 @@
     }
     .card.full { grid-column: 1 / -1; }
     .card-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
-    .card-amount { font-size: 24px; font-weight: 700; font-family: 'DM Mono', monospace; }
+    .card-amount {
+      font-size: 24px; font-weight: 700; font-family: 'DM Mono', monospace;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      max-width: 100%;
+    }
     .card-amount.balance { font-size: 32px; }
+    /* Auto-shrink for big numbers */
+    .card-amount.shrink-1 { font-size: 20px; }
+    .card-amount.shrink-2 { font-size: 17px; }
+    .card-amount.balance.shrink-1 { font-size: 26px; }
+    .card-amount.balance.shrink-2 { font-size: 22px; }
     .green { color: var(--green); }
     .red { color: var(--red); }
     .orange { color: var(--orange); }
@@ -1361,6 +1370,14 @@ function fmtSign(n, type) {
   return (type === 'income' ? '+' : '-') + fmt(n);
 }
 
+// Returns CSS class to shrink large amounts
+function shrinkClass(value) {
+  const len = Math.abs(value).toString().length;
+  if (len >= 9) return 'shrink-2';   // 100M+
+  if (len >= 7) return 'shrink-1';   // 1M+
+  return '';
+}
+
 // Relative date formatter: "Hoy", "Ayer", "Hace X días", or full date
 function fmtRelativeDate(dateStr) {
   if (!dateStr) return '';
@@ -1663,15 +1680,15 @@ function renderDashboard() {
     <div class="cards-grid">
       <div class="card full">
         <div class="card-label">Balance del mes</div>
-        <div class="card-amount balance ${balance>=0?'green':'red'}">${fmtSign(balance, balance>=0?'income':'expense')}</div>
+        <div class="card-amount balance ${shrinkClass(balance)} ${balance>=0?'green':'red'}">${fmtSign(balance, balance>=0?'income':'expense')}</div>
       </div>
       <div class="card">
         <div class="card-label">↑ Ingresos ${incomeChange !== null ? `<span class="comparison ${incomeChange > 0 ? 'up-good' : incomeChange < 0 ? 'down-bad' : 'neutral'}">${fmtPct(incomeChange)}</span>` : ''}</div>
-        <div class="card-amount green">${fmt(income)}</div>
+        <div class="card-amount ${shrinkClass(income)} green">${fmt(income)}</div>
       </div>
       <div class="card">
         <div class="card-label">↓ Gastos ${expenseChange !== null ? `<span class="comparison ${expenseChange > 0 ? 'up-bad' : expenseChange < 0 ? 'down-good' : 'neutral'}">${fmtPct(expenseChange)}</span>` : ''}</div>
-        <div class="card-amount red">${fmt(expense)}</div>
+        <div class="card-amount ${shrinkClass(expense)} red">${fmt(expense)}</div>
       </div>
     </div>
 
@@ -1699,7 +1716,7 @@ function renderDashboard() {
           <div class="credit-sub">Gastos del mes</div>
         </div>
       </div>
-      <div class="card-amount orange">${fmt(cardExp)}</div>
+      <div class="card-amount orange ${shrinkClass(cardExp)}">${fmt(cardExp)}</div>
     </div>
 
     ${(() => {
