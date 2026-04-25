@@ -420,16 +420,19 @@
     .search-wrap { position: relative; margin-bottom: 14px; }
     .search-input {
       width: 100%; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 11px 38px 11px 38px; color: var(--text);
+      border-radius: 10px; padding: 11px 38px 11px 40px; color: var(--text);
       font-family: inherit; font-size: 14px; outline: none;
       box-sizing: border-box;
       transition: border-color 0.2s;
     }
     .search-input:focus { border-color: var(--purple); }
     .search-icon {
-      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-      color: var(--muted); font-size: 16px; pointer-events: none;
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); pointer-events: none;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
     }
+    .search-icon svg { width: 100%; height: 100%; stroke: currentColor; }
     .search-clear {
       position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
       background: var(--border); color: var(--muted); border: none;
@@ -1176,6 +1179,26 @@
       color: var(--text);
     }
 
+    /* Range selector for chart */
+    .range-selector {
+      display: flex; gap: 4px;
+      background: var(--bg);
+      padding: 3px; border-radius: 100px;
+      border: 1px solid var(--border);
+    }
+    .range-btn {
+      background: transparent; border: none;
+      color: var(--muted); font-family: inherit;
+      font-size: 11px; font-weight: 700;
+      padding: 5px 10px; border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .range-btn.active {
+      background: var(--purple);
+      color: #fff;
+    }
+
     /* Shake animation for invalid inputs */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -1522,6 +1545,7 @@ function getFavoriteCategory() {
 }
 
 let viewDate = new Date(); // for month navigation
+let chartRange = parseInt(localStorage.getItem('mie_chart_range')) || 6; // months shown in stats chart (3 | 6 | 12)
 let searchQuery = ''; // search filter for history
 let backupReminderDismissed = false; // session-level dismiss
 
@@ -1951,7 +1975,7 @@ function renderHistory() {
   return `
   <div class="fade-up">
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
       <input type="text" class="search-input" id="search-input"
         placeholder="Buscar por descripción, monto, categoría..."
         value="${searchQuery.replace(/"/g, '&quot;')}"
@@ -1986,6 +2010,11 @@ function renderHistory() {
 
 function setFilter(f) { histFilter = f; render(); }
 function setTagFilter(t) { tagFilter = t; render(); }
+function setChartRange(months) {
+  chartRange = months;
+  localStorage.setItem('mie_chart_range', months);
+  render();
+}
 
 function updateSearch(v) {
   searchQuery = v;
@@ -2026,7 +2055,7 @@ function renderStats() {
 
   // Monthly summary (last 6 months)
   const monthlySummary = [];
-  for (let i = 5; i >= 0; i--) {
+  for (let i = chartRange - 1; i >= 0; i--) {
     const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i);
     const y = d.getFullYear(), m = d.getMonth();
     const monthTxs = transactions.filter(t => {
@@ -2108,18 +2137,26 @@ function renderStats() {
 
     <!-- Monthly chart -->
     <div class="section">
-      <div class="section-title">📅 Últimos 6 meses</div>
-      <div style="display:flex;align-items:flex-end;gap:8px;height:120px;padding:8px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div class="section-title" style="margin:0">📅 Evolución mensual</div>
+        <div class="range-selector">
+          <button class="range-btn ${chartRange===3?'active':''}" onclick="setChartRange(3)">3M</button>
+          <button class="range-btn ${chartRange===6?'active':''}" onclick="setChartRange(6)">6M</button>
+          <button class="range-btn ${chartRange===12?'active':''}" onclick="setChartRange(12)">12M</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:${chartRange === 12 ? '4px' : '8px'};height:120px;padding:8px 0">
         ${monthlySummary.map(m => {
           const hInc = maxVal > 0 ? (m.income/maxVal)*100 : 0;
           const hExp = maxVal > 0 ? (m.expense/maxVal)*100 : 0;
+          const barW = chartRange === 12 ? '6px' : chartRange === 6 ? '10px' : '14px';
           return `
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
-            <div style="display:flex;align-items:flex-end;gap:3px;height:90px">
-              <div style="width:10px;background:var(--green);border-radius:3px 3px 0 0;height:${hInc}%;opacity:0.85"></div>
-              <div style="width:10px;background:var(--red);border-radius:3px 3px 0 0;height:${hExp}%;opacity:0.85"></div>
+            <div style="display:flex;align-items:flex-end;gap:2px;height:90px">
+              <div style="width:${barW};background:var(--green);border-radius:3px 3px 0 0;height:${hInc}%;opacity:0.85"></div>
+              <div style="width:${barW};background:var(--red);border-radius:3px 3px 0 0;height:${hExp}%;opacity:0.85"></div>
             </div>
-            <div style="font-size:10px;color:var(--muted)">${m.label}</div>
+            <div style="font-size:${chartRange === 12 ? '8px' : '10px'};color:var(--muted)">${m.label}</div>
           </div>`;
         }).join('')}
       </div>
