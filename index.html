@@ -303,13 +303,20 @@
 
     /* ── TOAST ── */
     .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      position: fixed; bottom: calc(90px + env(safe-area-inset-bottom));
+      left: 50%; transform: translateX(-50%) translateY(80px);
       background: #1f2937; color: var(--text); padding: 12px 20px; border-radius: 12px;
       font-size: 14px; font-weight: 500; z-index: 999; border: 1px solid var(--border);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0s linear 0.3s;
       white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      visibility: hidden;
+      pointer-events: none;
     }
-    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      visibility: visible;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0s;
+    }
     .toast.success { border-color: var(--green); }
     .toast.error { border-color: var(--red); }
 
@@ -565,7 +572,7 @@
       background: var(--surface);
       border-top: 1px solid var(--border);
       display: flex;
-      padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+      padding: 8px 12px calc(16px + env(safe-area-inset-bottom));
       z-index: 100;
       max-width: 480px;
       margin: 0 auto;
@@ -782,11 +789,6 @@
     .empty-section .big-icon { font-size: 48px; margin-bottom: 12px; }
     .empty-section p { font-size: 13px; line-height: 1.6; margin-bottom: 16px; }
 
-    /* Toast position adjusted for bottom nav */
-    .toast {
-      bottom: calc(90px + env(safe-area-inset-bottom)) !important;
-    }
-
     /* Recurring banner */
     .recurring-applied-banner {
       background: linear-gradient(135deg, #052e16, #0c2e16);
@@ -970,6 +972,205 @@
       transition: transform 0.2s;
     }
     .switch.on::after { transform: translateX(18px); }
+
+    /* ═══════════════════════════════════════════════════════════
+       UX POLISH · feedback táctil, animaciones, micro-interactions
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Smooth view transitions */
+    main > * {
+      animation: viewIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes viewIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Ripple base — used on tappable elements */
+    .ripple {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .ripple::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--rx, 50%) var(--ry, 50%),
+                                   rgba(167, 139, 250, 0.25) 0%,
+                                   rgba(167, 139, 250, 0) 50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      z-index: 0;
+    }
+    .ripple.tapped::after {
+      opacity: 1;
+      transition: opacity 0s;
+    }
+    .ripple > * { position: relative; z-index: 1; }
+
+    /* Bottom nav — better active state with subtle bg pill */
+    .bn-btn {
+      position: relative;
+    }
+    .bn-btn::before {
+      content: "";
+      position: absolute;
+      top: 4px; left: 50%;
+      transform: translateX(-50%) scale(0.5);
+      width: 36px; height: 28px;
+      background: rgba(167, 139, 250, 0.14);
+      border-radius: 100px;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: -1;
+    }
+    .bn-btn.active::before {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+    .bn-btn .bn-icon {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .bn-btn.active .bn-icon {
+      transform: scale(1.15);
+    }
+    .bn-btn:active .bn-icon {
+      transform: scale(0.9);
+    }
+
+    /* FAB — subtle pulse on idle */
+    @keyframes fabPulse {
+      0%, 100% { box-shadow: 0 6px 20px rgba(124,58,237,0.5), 0 0 0 0 rgba(124,58,237,0.4); }
+      50% { box-shadow: 0 6px 20px rgba(124,58,237,0.5), 0 0 0 8px rgba(124,58,237,0); }
+    }
+    .fab {
+      animation: fabPulse 2.5s ease-in-out infinite;
+    }
+    .fab:active {
+      animation: none;
+      transform: scale(0.92) rotate(45deg);
+    }
+
+    /* All buttons — improve tap feedback */
+    button {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    /* Cards — subtle hover */
+    .card, .credit-highlight, .section, .tx-row, .settings-row, .recurring-row, .budget-row {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Save button — pulse on success */
+    @keyframes savePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); box-shadow: 0 8px 24px rgba(124,58,237,0.7); }
+      100% { transform: scale(1); }
+    }
+    .btn-save.success-pulse { animation: savePulse 0.4s ease; }
+
+    /* Toast — better entrance with bounce */
+    .toast {
+      will-change: transform, opacity;
+    }
+
+    /* TX row — tap feedback */
+    .tx-row {
+      transition: background 0.15s, transform 0.1s;
+    }
+    .tx-row:active {
+      background: var(--bg);
+      transform: scale(0.995);
+    }
+
+    /* Settings rows — smoother active */
+    .settings-row {
+      transition: background 0.15s, transform 0.1s;
+    }
+    .settings-row:active {
+      background: var(--bg);
+      transform: scale(0.995);
+    }
+
+    /* Filter buttons — better active */
+    .filter-btn, .tag-filter-btn {
+      transition: all 0.2s;
+    }
+    .filter-btn:active, .tag-filter-btn:active {
+      transform: scale(0.94);
+    }
+
+    /* Cat buttons in form */
+    .cat-btn {
+      transition: all 0.15s;
+    }
+    .cat-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Modal entrance — smoother */
+    .modal {
+      will-change: transform, opacity;
+    }
+    .modal-overlay {
+      will-change: opacity;
+    }
+
+    /* Inputs — focus ring */
+    input:focus, select:focus, textarea:focus {
+      box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+    }
+
+    /* Number input on dashboard amount */
+    .quick-amount-input:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    /* Subtle scale on switch */
+    .switch {
+      transition: background 0.25s;
+    }
+    .switch:active {
+      transform: scale(0.95);
+    }
+
+    /* Backup reminder buttons — better feedback */
+    .backup-reminder button {
+      transition: transform 0.1s, opacity 0.15s;
+    }
+    .backup-reminder button:active {
+      transform: scale(0.94);
+    }
+
+    /* Add a soft border on focus for sliders/cards in forms */
+    .cat-btn.active, .month-cell.current {
+      animation: gentleScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes gentleScale {
+      from { transform: scale(0.92); }
+      to { transform: scale(1); }
+    }
+
+    /* Smooth scroll between views */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Pretty selection */
+    ::selection {
+      background: rgba(167, 139, 250, 0.3);
+      color: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -3022,6 +3223,88 @@ function saveQuickAdd() {
 // ── INIT ──────────────────────────────────────────────────────────────────
 checkRecurring();
 render();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UX POLISH · feedback táctil, ripple, animaciones
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Haptic feedback (vibración corta para confirmar toques importantes)
+function haptic(type = 'light') {
+  if (!navigator.vibrate) return;
+  const patterns = {
+    light: 10,        // tap normal
+    medium: 20,       // confirmación
+    success: [10, 50, 10],  // 2 pulsos
+    error: [30, 30, 30],    // 3 pulsos
+  };
+  navigator.vibrate(patterns[type] || 10);
+}
+
+// Ripple effect at tap location
+document.addEventListener('pointerdown', (e) => {
+  const target = e.target.closest('.bn-btn, .settings-row, .tx-row, .card, .recurring-row, .budget-row, .cat-btn, .month-cell, .system-btn, .backup-btn, .filter-btn, .tag-filter-btn, .btn-add, .btn-save, .btn-cancel, .toggle-btn, .subpage-action, .back-btn, .fab');
+  if (!target) return;
+
+  // Light haptic on every tappable
+  haptic('light');
+
+  // Ripple positioning
+  if (!target.classList.contains('ripple')) target.classList.add('ripple');
+  const rect = target.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+  target.style.setProperty('--rx', x + '%');
+  target.style.setProperty('--ry', y + '%');
+
+  target.classList.remove('tapped');
+  // Force reflow
+  void target.offsetWidth;
+  target.classList.add('tapped');
+  setTimeout(() => target.classList.remove('tapped'), 600);
+}, { passive: true });
+
+// Stronger haptic on successful saves
+function patchSaveActions() {
+  const originalSaveTx = window.saveTransaction;
+  window.saveTransaction = function() {
+    const len = transactions.length;
+    originalSaveTx();
+    if (transactions.length > len) {
+      haptic('success');
+      // Pulse the save button (visual)
+      const btn = document.querySelector('.btn-save');
+      if (btn) {
+        btn.classList.add('success-pulse');
+        setTimeout(() => btn.classList.remove('success-pulse'), 400);
+      }
+    } else {
+      haptic('error');
+    }
+  };
+
+  const originalQuickSave = window.saveQuickAdd;
+  window.saveQuickAdd = function() {
+    const len = transactions.length;
+    originalQuickSave();
+    if (transactions.length > len) haptic('success');
+    else haptic('error');
+  };
+}
+patchSaveActions();
+
+// Patch toast to vibrate on errors
+const originalShowToast = window.showToast;
+window.showToast = function(msg, type = 'success') {
+  originalShowToast(msg, type);
+  if (type === 'error') haptic('error');
+};
+
+// Subtle haptic on view changes
+const originalShowView = window.showView;
+window.showView = function(v) {
+  if (currentView !== v) haptic('light');
+  originalShowView(v);
+};
 </script>
 
 </body>
