@@ -13,6 +13,14 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%237c3aed'/><text y='.9em' font-size='75' x='12'>💰</text></svg>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script>
+    // Init theme ASAP to prevent flash
+    (function() {
+      const stored = localStorage.getItem('mie_theme');
+      const theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script>
     // Register Service Worker (skip on Claude preview)
     if ('serviceWorker' in navigator && !location.hostname.includes('claudeusercontent')) {
       window.addEventListener('load', () => {
@@ -28,7 +36,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
+    :root, [data-theme="dark"] {
       --bg: #0f0f13;
       --surface: #1a1a2e;
       --surface2: #16213e;
@@ -41,7 +49,66 @@
       --red: #f87171;
       --orange: #fb923c;
       --radius: 14px;
+      --shadow-color: rgba(0,0,0,0.3);
+      --gradient-header-from: #16213e;
+      --gradient-header-to: #0d1b2a;
     }
+
+    [data-theme="light"] {
+      --bg: #f5f5f9;
+      --surface: #ffffff;
+      --surface2: #ede9fe;
+      --border: #e2e2ee;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --purple: #7c3aed;
+      --purple-light: #6d28d9;
+      --green: #15803d;
+      --red: #dc2626;
+      --orange: #ea580c;
+      --radius: 14px;
+      --shadow-color: rgba(0,0,0,0.08);
+      --gradient-header-from: #ede9fe;
+      --gradient-header-to: #ddd6fe;
+    }
+
+    [data-theme="light"] body {
+      background: linear-gradient(180deg, #faf5ff, #f5f5f9);
+    }
+    [data-theme="light"] .header-v2 {
+      background: linear-gradient(135deg, var(--gradient-header-from), var(--gradient-header-to));
+    }
+    [data-theme="light"] .header-v2 .logo { color: var(--purple); }
+    [data-theme="light"] .credit-highlight {
+      background: linear-gradient(135deg, #faf5ff, #ede9fe);
+      border-color: #c4b5fd;
+    }
+    [data-theme="light"] .credit-card-amount,
+    [data-theme="light"] .card-amount.orange { color: #c2410c; }
+    [data-theme="light"] .bottom-nav {
+      box-shadow: 0 -8px 24px rgba(124, 58, 237, 0.08);
+    }
+    [data-theme="light"] .toggle-btn.expense-active { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+    [data-theme="light"] .toggle-btn.income-active { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    [data-theme="light"] .cat-btn.active { background: #ede9fe; border-color: var(--purple); }
+    [data-theme="light"] .cat-btn.active .cat-lbl { color: var(--purple); }
+    [data-theme="light"] .filter-btn.active { background: #ede9fe; color: var(--purple); }
+    [data-theme="light"] .nav-btn.active { color: var(--purple); }
+    [data-theme="light"] .month-cell.current { background: #ede9fe; color: var(--purple); }
+    [data-theme="light"] .backup-reminder {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-color: #fcd34d;
+    }
+    [data-theme="light"] .backup-reminder-text { color: #78350f; }
+    [data-theme="light"] .backup-reminder-text strong { color: #92400e; }
+    [data-theme="light"] .recurring-applied-banner {
+      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+      border-color: #86efac;
+      color: #166534;
+    }
+    [data-theme="light"] .toast { background: var(--surface); color: var(--text); }
+    [data-theme="light"] .modal-overlay { background: rgba(0,0,0,0.4); }
+    [data-theme="light"] ::-webkit-scrollbar-thumb { background: var(--border); }
 
     html, body {
       height: 100%;
@@ -462,30 +529,485 @@
       transition: border-color 0.2s;
     }
     textarea:focus { border-color: var(--purple); }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 2 · Rediseño + nuevas features
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Reset old header layout */
+    body {
+      padding-bottom: 80px; /* space for bottom nav */
+    }
+
+    /* New simplified header */
+    header.header-v2 {
+      background: linear-gradient(135deg, var(--surface2) 0%, #0d1b2a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-v2 .logo {
+      font-size: 18px; font-weight: 700; color: var(--text);
+      transition: opacity 0.15s;
+    }
+    .header-v2 .logo:active { opacity: 0.6; }
+    .header-v2 .logo span { color: var(--purple-light); }
+    .header-v2-meta {
+      font-size: 10px; color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+      z-index: 100;
+      max-width: 480px;
+      margin: 0 auto;
+      box-shadow: 0 -8px 24px rgba(0,0,0,0.3);
+    }
+    .bn-btn {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      gap: 3px; padding: 8px 4px; background: transparent; border: none;
+      color: var(--muted); cursor: pointer; font-family: inherit;
+      font-size: 10px; font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+    .bn-btn .bn-icon { font-size: 22px; line-height: 1; }
+    .bn-btn.active { color: var(--purple-light); }
+    .bn-btn.active .bn-icon { transform: scale(1.1); }
+    .bn-btn:active { transform: scale(0.92); }
+
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: calc(78px + env(safe-area-inset-bottom));
+      right: 20px;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), #a855f7);
+      color: #fff; border: none;
+      font-size: 28px; font-weight: 300;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(124,58,237,0.5);
+      z-index: 99;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s;
+    }
+    .fab:active { transform: scale(0.92); }
+    .fab.hidden { transform: scale(0); pointer-events: none; }
+
+    /* Settings list */
+    .settings-list {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .settings-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row:active { background: var(--bg); }
+    .settings-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: var(--accent-soft, rgba(167,139,250,0.1));
+      flex-shrink: 0;
+    }
+    .settings-info { flex: 1; min-width: 0; }
+    .settings-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .settings-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .settings-arrow { color: var(--muted); font-size: 18px; }
+    .settings-badge {
+      background: var(--purple); color: #fff;
+      padding: 2px 8px; border-radius: 100px;
+      font-size: 10px; font-weight: 700;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* Sub-page header (back button) */
+    .subpage-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .back-btn {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); width: 36px; height: 36px;
+      border-radius: 10px; cursor: pointer;
+      font-size: 16px; font-family: inherit;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .back-btn:active { background: var(--border); }
+    .subpage-title {
+      font-size: 18px; font-weight: 700;
+      flex: 1;
+    }
+    .subpage-action {
+      background: var(--purple); color: #fff;
+      border: none; padding: 7px 14px;
+      border-radius: 10px; font-weight: 700;
+      font-family: inherit; font-size: 13px;
+      cursor: pointer;
+    }
+    .subpage-action:active { transform: scale(0.95); }
+
+    /* Budget item */
+    .budget-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .budget-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .budget-cat {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 600;
+    }
+    .budget-cat .icon { font-size: 20px; }
+    .budget-amounts {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .budget-amounts .spent { color: var(--text); }
+    .budget-amounts .total { color: var(--muted); }
+    .budget-bar {
+      height: 6px; background: var(--bg); border-radius: 3px;
+      overflow: hidden; position: relative;
+    }
+    .budget-bar-fill {
+      height: 100%; border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+    .budget-bar-fill.safe { background: linear-gradient(90deg, #4ade80, #22c55e); }
+    .budget-bar-fill.warn { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+    .budget-bar-fill.danger { background: linear-gradient(90deg, #f87171, #ef4444); }
+    .budget-pct {
+      font-size: 11px; font-weight: 700;
+      margin-top: 6px; text-align: right;
+      font-family: 'DM Mono', monospace;
+    }
+    .budget-pct.safe { color: var(--green); }
+    .budget-pct.warn { color: var(--orange); }
+    .budget-pct.danger { color: var(--red); }
+    .budget-actions {
+      display: flex; gap: 8px; margin-top: 10px;
+      padding-top: 10px; border-top: 1px solid var(--border);
+    }
+    .budget-actions button {
+      flex: 1; padding: 6px; font-size: 11px; font-weight: 600;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text-dim);
+      font-family: inherit; cursor: pointer;
+    }
+    .budget-actions button.delete { color: var(--red); }
+    .budget-actions button:active { transform: scale(0.96); }
+
+    /* Recurring item */
+    .recurring-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .recurring-row .ricon {
+      font-size: 24px; flex-shrink: 0;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg); border-radius: 10px;
+    }
+    .recurring-info { flex: 1; min-width: 0; }
+    .recurring-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .recurring-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .recurring-amount {
+      font-size: 14px; font-weight: 700;
+      font-family: 'DM Mono', monospace;
+    }
+    .recurring-amount.income { color: var(--green); }
+    .recurring-amount.expense { color: var(--red); }
+    .recurring-toggle {
+      background: transparent; border: 1px solid var(--border);
+      width: 30px; height: 30px; border-radius: 8px;
+      color: var(--muted); cursor: pointer;
+      font-size: 14px;
+    }
+    .recurring-toggle.active { color: var(--green); border-color: var(--green); }
+    .recurring-toggle.paused { color: var(--muted); opacity: 0.5; }
+
+    /* Custom category form */
+    .emoji-picker {
+      display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
+      max-height: 180px; overflow-y: auto;
+      padding: 10px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .emoji-cell {
+      padding: 6px; border-radius: 6px;
+      background: transparent; border: 1px solid transparent;
+      cursor: pointer; font-size: 18px;
+      transition: all 0.15s;
+    }
+    .emoji-cell:active { transform: scale(0.9); }
+    .emoji-cell.selected {
+      background: rgba(167,139,250,0.2);
+      border-color: var(--purple);
+    }
+
+    .empty-section {
+      text-align: center; padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-section .big-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-section p { font-size: 13px; line-height: 1.6; margin-bottom: 16px; }
+
+    /* Toast position adjusted for bottom nav */
+    .toast {
+      bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+    }
+
+    /* Recurring banner */
+    .recurring-applied-banner {
+      background: linear-gradient(135deg, #052e16, #0c2e16);
+      border: 1px solid #166534;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: #4ade80;
+      display: flex; align-items: center; gap: 10px;
+      animation: fadeUp 0.4s ease;
+    }
+    .recurring-applied-banner .ricon { font-size: 18px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 3 · Refinamiento UX
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Tags input */
+    .tags-input-wrap {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 8px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 9px;
+      min-height: 44px;
+      align-items: center;
+    }
+    .tag-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--purple-light);
+      padding: 4px 10px; border-radius: 100px;
+      font-size: 12px; font-weight: 600;
+      border: 1px solid rgba(167, 139, 250, 0.3);
+    }
+    .tag-chip .x {
+      cursor: pointer; opacity: 0.6; font-size: 14px;
+      padding: 0 0 0 2px; line-height: 1;
+    }
+    .tag-chip .x:hover { opacity: 1; }
+    .tag-input {
+      flex: 1; min-width: 80px;
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-family: inherit;
+      font-size: 13px; padding: 4px;
+    }
+    .tag-suggestions {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+    }
+    .tag-suggestion {
+      background: var(--surface); color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 4px 10px; border-radius: 100px;
+      font-size: 11px; cursor: pointer;
+      font-family: inherit;
+    }
+    .tag-suggestion:active { transform: scale(0.95); }
+    .tx-tags {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
+    }
+    .tx-tag-mini {
+      background: rgba(167, 139, 250, 0.12);
+      color: var(--purple-light);
+      padding: 2px 8px; border-radius: 100px;
+      font-size: 10px; font-weight: 600;
+    }
+    .tag-filter-row {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      margin-bottom: 12px;
+      max-height: 80px; overflow-y: auto;
+    }
+    .tag-filter-btn {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); padding: 5px 12px;
+      border-radius: 100px; font-size: 12px;
+      cursor: pointer; font-family: inherit; font-weight: 600;
+    }
+    .tag-filter-btn.active {
+      background: rgba(167, 139, 250, 0.2);
+      color: var(--purple-light);
+      border-color: var(--purple);
+    }
+
+    /* Pie chart */
+    .pie-wrapper {
+      display: flex; align-items: center; gap: 16px;
+      padding: 8px 0;
+    }
+    .pie-svg {
+      flex-shrink: 0;
+      transform: rotate(-90deg);
+    }
+    .pie-segment { transition: opacity 0.2s; }
+    .pie-segment:hover { opacity: 0.85; }
+    .pie-legend {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .pie-legend-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px;
+    }
+    .pie-legend-dot {
+      width: 10px; height: 10px; border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .pie-legend-label {
+      flex: 1; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .pie-legend-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Quick add modal */
+    .quick-add {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 20px;
+      width: 100%; max-width: 360px;
+    }
+    .quick-add-title {
+      text-align: center; font-size: 14px;
+      color: var(--purple-light); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 18px;
+    }
+    .quick-amount-input {
+      width: 100%; background: transparent; border: none; outline: none;
+      color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 42px; font-weight: 700;
+      text-align: center; padding: 12px 0;
+    }
+    .quick-amount-input::placeholder { color: var(--border); }
+    .quick-cats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+      margin: 18px 0;
+    }
+    .quick-cat-btn {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 12px 4px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--bg);
+      color: #9ca3af; cursor: pointer; font-family: inherit;
+      font-size: 18px; gap: 3px;
+    }
+    .quick-cat-btn .lbl { font-size: 9px; color: var(--muted); }
+    .quick-cat-btn.active { background: #2a1a5e; border-color: var(--purple); color: var(--text); }
+    .quick-cat-btn.active .lbl { color: var(--purple-light); }
+    .quick-actions {
+      display: flex; gap: 8px; margin-top: 4px;
+    }
+    .quick-actions .btn-cancel { flex: 1; }
+    .quick-actions .btn-save { flex: 2; }
+    .quick-more {
+      text-align: center; margin-top: 12px;
+      font-size: 12px; color: var(--purple-light);
+      background: transparent; border: none; cursor: pointer;
+      padding: 8px;
+    }
+
+    /* Settings toggle switch */
+    .switch {
+      position: relative;
+      width: 42px; height: 24px;
+      background: var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .switch.on { background: var(--purple); }
+    .switch::after {
+      content: "";
+      position: absolute;
+      width: 18px; height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      top: 3px; left: 3px;
+      transition: transform 0.2s;
+    }
+    .switch.on::after { transform: translateX(18px); }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="header-top">
-    <div class="logo">💰 Mi<span>Economía</span></div>
-    <button class="btn-add" onclick="showView('add')">+ Agregar</button>
-  </div>
-  <nav>
-    <button class="nav-btn active" id="nav-dashboard" onclick="showView('dashboard')">📊 Resumen</button>
-    <button class="nav-btn" id="nav-history" onclick="showView('history')">📋 Historial</button>
-    <button class="nav-btn" id="nav-stats" onclick="showView('stats')">📈 Estadísticas</button>
-  </nav>
+<header class="header-v2">
+  <div class="logo" onclick="showView('dashboard')" style="cursor:pointer">💰 Mi<span>Economía</span></div>
+  <div class="header-v2-meta" id="header-meta">v1.7</div>
 </header>
 
 <main id="main"></main>
+
+<button class="fab" id="fab" onclick="onFabClick()">+</button>
+
+<nav class="bottom-nav">
+  <button class="bn-btn active" id="nav-dashboard" onclick="showView('dashboard')">
+    <span class="bn-icon">📊</span>
+    <span>Inicio</span>
+  </button>
+  <button class="bn-btn" id="nav-history" onclick="showView('history')">
+    <span class="bn-icon">📋</span>
+    <span>Historial</span>
+  </button>
+  <button class="bn-btn" id="nav-stats" onclick="showView('stats')">
+    <span class="bn-icon">📈</span>
+    <span>Stats</span>
+  </button>
+  <button class="bn-btn" id="nav-settings" onclick="showView('settings')">
+    <span class="bn-icon">⚙️</span>
+    <span>Ajustes</span>
+  </button>
+</nav>
 
 <div class="toast" id="toast"></div>
 <div id="modal-container"></div>
 
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────
-const CATEGORIES = {
+const DEFAULT_CATEGORIES = {
   expense: [
     { id: "tarjeta",      label: "Tarjeta créd.", icon: "💳" },
     { id: "supermercado", label: "Supermercado",  icon: "🛒" },
@@ -510,7 +1032,59 @@ const CATEGORIES = {
   ]
 };
 
-const METHODS = ["Efectivo", "Tarjeta débito", "Tarjeta crédito", "Transferencia", "Otro"];
+// Load custom categories from localStorage, merged with defaults
+function loadCategories() {
+  try {
+    const stored = localStorage.getItem('mie_categories');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+}
+function saveCategoriesToStorage() {
+  localStorage.setItem('mie_categories', JSON.stringify(CATEGORIES));
+}
+
+let CATEGORIES = loadCategories();
+
+const DEFAULT_METHODS = [
+  { id: "efectivo",      label: "Efectivo",        icon: "💵" },
+  { id: "debito",        label: "Tarjeta débito",  icon: "💳" },
+  { id: "credito",       label: "Tarjeta crédito", icon: "💳" },
+  { id: "transferencia", label: "Transferencia",   icon: "🏦" },
+  { id: "mercadopago",   label: "Mercado Pago",    icon: "🟡" },
+  { id: "modo",          label: "MODO",            icon: "🟣" },
+  { id: "cuentadni",     label: "Cuenta DNI",      icon: "🔵" },
+  { id: "otro",          label: "Otro",            icon: "📦" }
+];
+
+function loadMethods() {
+  try {
+    const stored = localStorage.getItem('mie_methods');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return JSON.parse(JSON.stringify(DEFAULT_METHODS));
+}
+function saveMethodsToStorage() {
+  localStorage.setItem('mie_methods', JSON.stringify(METHODS));
+}
+
+let METHODS = loadMethods();
+
+function getMethod(label) {
+  return METHODS.find(m => m.label === label) || { label, icon: '💸' };
+}
+
+function isCustomMethod(methodId) {
+  return !DEFAULT_METHODS.some(m => m.id === methodId);
+}
+
+// Form state for new/edit method
+let methodForm = {
+  id: null,
+  label: '',
+  icon: '💳',
+  oldLabel: null  // to migrate transactions when editing
+};
 const MONTHS_ES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 
 function getCat(id) {
@@ -539,14 +1113,115 @@ function saveTxs(txs) {
 
 let transactions = loadTxs();
 
+// ── BUDGETS ───────────────────────────────────────────────────────────────
+function loadBudgets() {
+  try { return JSON.parse(localStorage.getItem('mie_budgets') || '{}'); }
+  catch { return {}; }
+}
+function saveBudgets() {
+  localStorage.setItem('mie_budgets', JSON.stringify(budgets));
+}
+let budgets = loadBudgets();
+
+// ── RECURRING ─────────────────────────────────────────────────────────────
+function loadRecurring() {
+  try { return JSON.parse(localStorage.getItem('mie_recurring') || '[]'); }
+  catch { return []; }
+}
+function saveRecurring() {
+  localStorage.setItem('mie_recurring', JSON.stringify(recurring));
+}
+let recurring = loadRecurring();
+let recurringJustApplied = []; // ids of recurring applied on this session
+
+// Form state for new recurring
+let recurringForm = {
+  id: null,
+  name: '',
+  amount: '',
+  type: 'expense',
+  category: 'tarjeta',
+  method: 'Tarjeta crédito',
+  dayOfMonth: 1,
+  active: true
+};
+
+// Form state for new/edit category
+let categoryForm = {
+  id: null,
+  label: '',
+  icon: '📦',
+  type: 'expense'
+};
+
+// Common emojis for category picker
+const CATEGORY_EMOJIS = [
+  '🛒','🍽️','🚗','🏠','🏥','🎬','👕','💡','📚','🐾','📦','💳',
+  '💼','💻','📈','🏘️','🎁','➕','💰','🍕','☕','🥗','🛍️','🎮',
+  '✈️','🏖️','🎨','📱','🎵','📷','⚽','🏋️','🚴','🧘','💊','🦷',
+  '🚌','🚆','⛽','🔧','🧹','🌳','🎂','🍷','🎓','💼','🏦','💸'
+];
+
 // ── STATE ─────────────────────────────────────────────────────────────────
 let currentView = 'dashboard';
 let histFilter = 'all';
 let formState = {
   type: 'expense', amount: '', category: 'tarjeta',
   method: 'Tarjeta crédito', description: '',
+  tags: [],
   date: new Date().toISOString().slice(0,10)
 };
+// ── PHASE 3 STATE ─────────────────────────────────────────────────────────
+let tagFilter = ''; // selected tag filter in history
+let pendingTagInput = ''; // current text in tag input
+
+// Settings (toggleable features)
+function loadSettingsFlags() {
+  try { return JSON.parse(localStorage.getItem('mie_settings_flags') || '{}'); }
+  catch { return {}; }
+}
+function saveSettingsFlags() {
+  localStorage.setItem('mie_settings_flags', JSON.stringify(settingsFlags));
+}
+let settingsFlags = Object.assign({
+  quickAddEnabled: false,
+  showPieChart: true,
+}, loadSettingsFlags());
+
+// Theme
+function getCurrentTheme() {
+  return document.documentElement.getAttribute('data-theme') || 'dark';
+}
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('mie_theme', theme);
+}
+function toggleTheme() {
+  setTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+  render();
+}
+
+// Tags helpers
+function getAllUsedTags() {
+  const set = new Set();
+  transactions.forEach(t => {
+    if (t.tags && Array.isArray(t.tags)) t.tags.forEach(tag => set.add(tag));
+  });
+  return [...set].sort();
+}
+
+// Most-used category in last 30 days (for quick add)
+function getFavoriteCategory() {
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+  const recent = transactions.filter(t =>
+    t.type === 'expense' && new Date(t.date) >= cutoff
+  );
+  if (recent.length === 0) return CATEGORIES.expense[0]?.id || 'tarjeta';
+  const counts = {};
+  recent.forEach(t => { counts[t.category] = (counts[t.category] || 0) + 1; });
+  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+}
+
 let viewDate = new Date(); // for month navigation
 let searchQuery = ''; // search filter for history
 let backupReminderDismissed = false; // session-level dismiss
@@ -587,18 +1262,42 @@ function showToast(msg, type = 'success') {
 // ── VIEW ROUTER ───────────────────────────────────────────────────────────
 function showView(v) {
   currentView = v;
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const navEl = document.getElementById('nav-' + v);
-  if (navEl) navEl.classList.add('active');
+
+  // Update bottom nav active state
+  document.querySelectorAll('.bn-btn').forEach(b => b.classList.remove('active'));
+  // Map sub-views to main nav items
+  let navTarget = v;
+  if (['budgets', 'recurring', 'categories', 'methods', 'about'].includes(v)) navTarget = 'settings';
+  if (v === 'add') navTarget = null; // no highlight on add
+  if (navTarget) {
+    const navEl = document.getElementById('nav-' + navTarget);
+    if (navEl) navEl.classList.add('active');
+  }
+
+  // Hide FAB on add and settings sub-pages
+  const fab = document.getElementById('fab');
+  if (['add', 'budgets', 'recurring', 'categories', 'methods', 'about'].includes(v)) {
+    fab.classList.add('hidden');
+  } else {
+    fab.classList.remove('hidden');
+  }
+
   render();
+  // Scroll to top on view change
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function render() {
   const main = document.getElementById('main');
-  if (currentView === 'dashboard') main.innerHTML = renderDashboard();
-  else if (currentView === 'add') main.innerHTML = renderForm();
-  else if (currentView === 'history') main.innerHTML = renderHistory();
-  else if (currentView === 'stats') main.innerHTML = renderStats();
+  if (currentView === 'dashboard')      main.innerHTML = renderDashboard();
+  else if (currentView === 'add')       main.innerHTML = renderForm();
+  else if (currentView === 'history')   main.innerHTML = renderHistory();
+  else if (currentView === 'stats')     main.innerHTML = renderStats();
+  else if (currentView === 'settings')  main.innerHTML = renderSettings();
+  else if (currentView === 'budgets')   main.innerHTML = renderBudgets();
+  else if (currentView === 'recurring') main.innerHTML = renderRecurring();
+  else if (currentView === 'categories') main.innerHTML = renderCategoriesPage();
+  else if (currentView === 'methods')   main.innerHTML = renderMethodsPage();
   attachEvents();
 }
 
@@ -650,6 +1349,12 @@ function renderDashboard() {
 
   return `
   <div class="fade-up">
+    ${recurringJustApplied.length > 0 ? `
+    <div class="recurring-applied-banner">
+      <span class="ricon">🔁</span>
+      <div>Se aplicaron movimientos recurrentes: <strong>${recurringJustApplied.join(', ')}</strong></div>
+    </div>` : ''}
+
     ${showReminder ? `
     <div class="backup-reminder">
       <div class="backup-reminder-icon">📦</div>
@@ -713,6 +1418,41 @@ function renderDashboard() {
       </div>
       <div class="card-amount orange">${fmt(cardExp)}</div>
     </div>
+
+    ${(() => {
+      const activeBudgets = Object.entries(budgets);
+      if (activeBudgets.length === 0) return '';
+      const alerts = activeBudgets.filter(([catId, total]) => {
+        const sp = byCat[catId] || 0;
+        return sp >= total * 0.8;
+      });
+      if (alerts.length === 0) return '';
+      return `
+      <div class="section">
+        <div class="section-title">🎯 Estado de presupuestos</div>
+        ${alerts.slice(0, 4).map(([catId, total]) => {
+          const cat = getCat(catId);
+          const sp = byCat[catId] || 0;
+          const pct = (sp / total) * 100;
+          const cls = pct >= 100 ? 'danger' : 'warn';
+          return `
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:13px">${cat.icon} ${cat.label}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700" class="budget-pct ${cls}">${Math.round(pct)}%</span>
+            </div>
+            <div class="budget-bar"><div class="budget-bar-fill ${cls}" style="width:${Math.min(pct, 100)}%"></div></div>
+            <div style="font-size:10px;color:var(--muted);margin-top:3px;text-align:right;font-family:'DM Mono',monospace">
+              ${fmt(sp)} / ${fmt(total)}
+            </div>
+          </div>`;
+        }).join('')}
+        ${activeBudgets.length > alerts.length ? `
+        <button onclick="showView('budgets')" style="width:100%;margin-top:6px;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--purple-light);font-family:inherit;font-size:12px;cursor:pointer">
+          Ver todos los presupuestos →
+        </button>` : ''}
+      </div>`;
+    })()}
 
     ${topCats.length > 0 ? `
     <!-- Top categories -->
@@ -820,15 +1560,22 @@ function closeModal() {
 // ── TX ROW ────────────────────────────────────────────────────────────────
 function txRow(tx, showDelete = true) {
   const cat = getCat(tx.category);
+  const meth = getMethod(tx.method);
   const color = tx.type === 'income' ? 'green' : 'red';
   const desc = tx.description || cat.label;
   const hasLongDesc = desc.length > 35 || desc.includes('\n');
+  const tags = tx.tags && tx.tags.length > 0 ? `
+    <div class="tx-tags">
+      ${tx.tags.map(t => `<span class="tx-tag-mini">#${t}</span>`).join('')}
+    </div>
+  ` : '';
   return `
   <div class="tx-row">
     <span class="tx-icon">${cat.icon}</span>
     <div class="tx-info">
       <div class="tx-desc" ${hasLongDesc ? 'style="white-space:normal;line-height:1.35"' : ''}>${desc.replace(/\n/g, '<br>')}</div>
-      <div class="tx-meta">${tx.method} · ${tx.date} · ${cat.label}</div>
+      <div class="tx-meta">${meth.icon} ${tx.method} · ${tx.date} · ${cat.label}</div>
+      ${tags}
     </div>
     <div class="tx-right">
       <div class="tx-amount ${color}">${fmtSign(tx.amount, tx.type)}</div>
@@ -841,6 +1588,11 @@ function txRow(tx, showDelete = true) {
 function renderHistory() {
   let filtered = transactions.filter(t => histFilter === 'all' || t.type === histFilter);
 
+  // Tag filter
+  if (tagFilter) {
+    filtered = filtered.filter(t => t.tags && t.tags.includes(tagFilter));
+  }
+
   const q = searchQuery.trim().toLowerCase();
   if (q) {
     filtered = filtered.filter(t => {
@@ -850,10 +1602,13 @@ function renderHistory() {
         cat.label.toLowerCase().includes(q) ||
         t.method.toLowerCase().includes(q) ||
         t.amount.toString().includes(q) ||
-        t.date.includes(q)
+        t.date.includes(q) ||
+        (t.tags || []).some(tag => tag.includes(q))
       );
     });
   }
+
+  const allTags = getAllUsedTags();
 
   return `
   <div class="fade-up">
@@ -872,11 +1627,19 @@ function renderHistory() {
       <button class="filter-btn ${histFilter==='expense'?'active':''}" onclick="setFilter('expense')">Gastos</button>
     </div>
 
-    ${q ? `<div class="search-results-info">${filtered.length} resultado${filtered.length !== 1 ? 's' : ''} para "${q}"</div>` : ''}
+    ${allTags.length > 0 ? `
+    <div class="tag-filter-row">
+      <button class="tag-filter-btn ${tagFilter==='' ? 'active' : ''}" onclick="setTagFilter('')">Todas</button>
+      ${allTags.map(t => `
+        <button class="tag-filter-btn ${tagFilter===t ? 'active' : ''}" onclick="setTagFilter('${t.replace(/'/g, "\\'")}')">#${t}</button>
+      `).join('')}
+    </div>` : ''}
+
+    ${q || tagFilter ? `<div class="search-results-info">${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}${q ? ` para "${q}"` : ''}${tagFilter ? ` con etiqueta #${tagFilter}` : ''}</div>` : ''}
 
     <div class="section">
       ${filtered.length === 0
-        ? `<div class="empty"><div class="emoji">🔍</div><p>${q ? 'No se encontraron movimientos.' : 'No hay movimientos aquí.'}</p></div>`
+        ? `<div class="empty"><div class="emoji">🔍</div><p>${q || tagFilter ? 'No se encontraron movimientos.' : 'No hay movimientos aquí.'}</p></div>`
         : filtered.map(tx => txRow(tx, true)).join('')
       }
     </div>
@@ -884,6 +1647,7 @@ function renderHistory() {
 }
 
 function setFilter(f) { histFilter = f; render(); }
+function setTagFilter(t) { tagFilter = t; render(); }
 
 function updateSearch(v) {
   searchQuery = v;
@@ -914,6 +1678,18 @@ function renderStats() {
   transactions.filter(t=>t.type==='expense').forEach(t => { byMethod[t.method] = (byMethod[t.method]||0)+t.amount; });
   const methods = Object.entries(byMethod).sort((a,b)=>b[1]-a[1]);
 
+  // By category (for pie chart) - current month
+  const today = new Date();
+  const ty = today.getFullYear(), tm = today.getMonth();
+  const monthExpenses = transactions.filter(t => {
+    const d = new Date(t.date);
+    return t.type === 'expense' && d.getFullYear() === ty && d.getMonth() === tm;
+  });
+  const byCategoryMonth = {};
+  monthExpenses.forEach(t => { byCategoryMonth[t.category] = (byCategoryMonth[t.category] || 0) + t.amount; });
+  const pieCats = Object.entries(byCategoryMonth).sort((a, b) => b[1] - a[1]);
+  const pieTotal = pieCats.reduce((s, [_, v]) => s + v, 0);
+
   // Monthly summary (last 6 months)
   const monthlySummary = [];
   for (let i = 5; i >= 0; i--) {
@@ -930,6 +1706,9 @@ function renderStats() {
     });
   }
   const maxVal = Math.max(...monthlySummary.flatMap(m=>[m.income,m.expense]), 1);
+
+  // Pie chart colors
+  const PIE_COLORS = ['#a78bfa','#f472b6','#fb923c','#4ade80','#60a5fa','#facc15','#f87171','#34d399','#c084fc','#fbbf24','#22d3ee','#fb7185'];
 
   return `
   <div class="fade-up">
@@ -948,6 +1727,50 @@ function renderStats() {
         <div class="card-amount orange" style="font-size:18px">${fmt(total_card)}</div>
       </div>
     </div>
+
+    ${settingsFlags.showPieChart && pieCats.length > 0 && pieTotal > 0 ? `
+    <!-- Pie chart -->
+    <div class="section">
+      <div class="section-title">🥧 Distribución del mes actual</div>
+      <div class="pie-wrapper">
+        <svg class="pie-svg" width="120" height="120" viewBox="0 0 100 100">
+          ${(() => {
+            let cumAngle = 0;
+            return pieCats.map(([catId, amount], i) => {
+              const pct = amount / pieTotal;
+              const startAngle = cumAngle;
+              const endAngle = cumAngle + pct * 360;
+              cumAngle = endAngle;
+              if (pct >= 0.999) {
+                return `<circle cx="50" cy="50" r="45" fill="${PIE_COLORS[i % PIE_COLORS.length]}" />`;
+              }
+              const startRad = (startAngle * Math.PI) / 180;
+              const endRad = (endAngle * Math.PI) / 180;
+              const x1 = 50 + 45 * Math.cos(startRad);
+              const y1 = 50 + 45 * Math.sin(startRad);
+              const x2 = 50 + 45 * Math.cos(endRad);
+              const y2 = 50 + 45 * Math.sin(endRad);
+              const largeArc = pct > 0.5 ? 1 : 0;
+              return `<path class="pie-segment" d="M 50 50 L ${x1} ${y1} A 45 45 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${PIE_COLORS[i % PIE_COLORS.length]}" />`;
+            }).join('');
+          })()}
+          <circle cx="50" cy="50" r="22" fill="var(--surface)" />
+        </svg>
+        <div class="pie-legend">
+          ${pieCats.slice(0, 6).map(([catId, amount], i) => {
+            const cat = getCat(catId);
+            const pct = (amount / pieTotal) * 100;
+            return `
+              <div class="pie-legend-item">
+                <div class="pie-legend-dot" style="background:${PIE_COLORS[i % PIE_COLORS.length]}"></div>
+                <span class="pie-legend-label">${cat.icon} ${cat.label}</span>
+                <span class="pie-legend-value">${Math.round(pct)}%</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    </div>` : ''}
 
     <!-- Monthly chart -->
     <div class="section">
@@ -982,9 +1805,10 @@ function renderStats() {
       <div class="section-title">💳 Gastos por método de pago</div>
       ${methods.map(([method, amount]) => {
         const pct = total_expense > 0 ? (amount/total_expense)*100 : 0;
+        const meth = getMethod(method);
         return `
         <div class="cat-row">
-          <div class="cat-name" style="flex:unset;min-width:110px">${method}</div>
+          <div class="cat-name" style="flex:unset;min-width:130px">${meth.icon} ${method}</div>
           <div class="cat-bar-wrap" style="flex:1;justify-content:flex-end">
             <div class="bar-track" style="width:80px"><div class="bar-fill" style="width:${pct}%"></div></div>
             <div class="cat-amount-sm">${fmt(amount)}</div>
@@ -996,52 +1820,6 @@ function renderStats() {
     <!-- Count -->
     <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px">
       ${transactions.length} movimiento${transactions.length!==1?'s':''} registrado${transactions.length!==1?'s':''}
-    </div>
-
-    <!-- BACKUP -->
-    <div class="section" style="margin-top:14px">
-      <div class="section-title">💾 Respaldo de datos</div>
-      <div class="backup-grid">
-        <button class="backup-btn excel" onclick="exportExcel()">
-          <span class="bico">📊</span>
-          Exportar Excel
-        </button>
-        <button class="backup-btn whatsapp" onclick="shareWhatsApp()">
-          <span class="bico">💬</span>
-          Resumen WhatsApp
-        </button>
-        <button class="backup-btn csv" onclick="exportCSV()">
-          <span class="bico">📄</span>
-          Exportar CSV
-        </button>
-        <button class="backup-btn restore" onclick="document.getElementById('restore-input').click()">
-          <span class="bico">📥</span>
-          Restaurar CSV
-        </button>
-      </div>
-      <input type="file" id="restore-input" accept=".csv" style="display:none" onchange="restoreCSV(event)" />
-      <p style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6">
-        Exportá regularmente para no perder tus datos si borrás el browser.
-      </p>
-    </div>
-
-    <!-- SYSTEM -->
-    <div class="section">
-      <div class="section-title">⚙️ Sistema</div>
-      <div class="system-grid">
-        <button class="system-btn reload" onclick="reloadApp()">
-          <span class="sico">🔄</span>
-          Recargar
-        </button>
-        <button class="system-btn about" onclick="openAbout()">
-          <span class="sico">ℹ️</span>
-          Acerca de
-        </button>
-      </div>
-      ${getLastBackup() ? `
-      <p style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6;margin-top:12px">
-        Último backup: ${new Date(getLastBackup()).toLocaleDateString('es-AR')}
-      </p>` : ''}
     </div>
   </div>`;
 }
@@ -1077,13 +1855,37 @@ function renderForm() {
     <!-- Method -->
     <label>Método de pago</label>
     <select id="f-method" onchange="formState.method=this.value">
-      ${METHODS.map(m => `<option ${formState.method===m?'selected':''}>${m}</option>`).join('')}
+      ${METHODS.map(m => `<option value="${m.label}" ${formState.method===m.label?'selected':''}>${m.icon} ${m.label}</option>`).join('')}
     </select>
 
     <!-- Description -->
     <label>Descripción / Notas <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional)</span></label>
     <textarea id="f-desc" placeholder="Ej: Cumpleaños de Juan en restaurante X, fuimos 6 personas"
       oninput="formState.description=this.value">${formState.description}</textarea>
+
+    <!-- Tags -->
+    <label>Etiquetas <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional, ej: vacaciones, regalo)</span></label>
+    <div class="tags-input-wrap">
+      ${(formState.tags || []).map((tag, i) => `
+        <span class="tag-chip">#${tag}<span class="x" onclick="removeTag(${i})">×</span></span>
+      `).join('')}
+      <input type="text" class="tag-input" id="tag-input" placeholder="Agregar etiqueta..."
+        onkeydown="if(event.key==='Enter'||event.key===','){event.preventDefault();addTagFromInput(this)}"
+        onblur="addTagFromInput(this)" />
+    </div>
+    ${(() => {
+      const used = getAllUsedTags();
+      const existing = (formState.tags || []);
+      const suggestions = used.filter(t => !existing.includes(t)).slice(0, 8);
+      if (suggestions.length === 0) return '';
+      return `
+        <div class="tag-suggestions">
+          ${suggestions.map(t => `
+            <button class="tag-suggestion" onclick="addTag('${t.replace(/'/g, "\\'")}')">+ #${t}</button>
+          `).join('')}
+        </div>
+      `;
+    })()}
 
     <!-- Date -->
     <label>Fecha</label>
@@ -1122,13 +1924,37 @@ function saveTransaction() {
     category: formState.category,
     method: formState.method,
     description: formState.description.trim(),
+    tags: (formState.tags || []).filter(t => t.trim()),
     date: formState.date,
   };
   transactions.unshift(tx);
   saveTxs(transactions);
-  formState = { type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', date: new Date().toISOString().slice(0,10) };
+  formState = { type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
   showView('dashboard');
   showToast('Movimiento guardado');
+}
+
+// ── TAGS HELPERS ──────────────────────────────────────────────────────────
+function addTag(tag) {
+  tag = tag.trim().toLowerCase().replace(/^#/, '').replace(/[^a-z0-9áéíóúñü]/g, '');
+  if (!tag) return;
+  if (!formState.tags) formState.tags = [];
+  if (formState.tags.includes(tag)) return;
+  formState.tags.push(tag);
+  render();
+  setTimeout(() => {
+    const el = document.getElementById('tag-input');
+    if (el) el.focus();
+  }, 50);
+}
+function addTagFromInput(input) {
+  const v = input.value;
+  if (v.trim()) addTag(v);
+  input.value = '';
+}
+function removeTag(idx) {
+  if (formState.tags) formState.tags.splice(idx, 1);
+  render();
 }
 
 function deleteTx(id) {
@@ -1299,7 +2125,7 @@ function openAbout() {
         <div class="about-content">
           <div class="about-logo">💰</div>
           <div class="about-title">MiEconomía</div>
-          <div class="about-version">v1.1 · Quick Wins</div>
+          <div class="about-version">v1.7 · Fase 3</div>
           <p class="about-desc">
             App de control financiero personal.<br>
             Datos guardados localmente en tu dispositivo.
@@ -1326,7 +2152,875 @@ function getStorageSize() {
   } catch { return '?'; }
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// FASE 2 · SETTINGS, BUDGETS, RECURRING, CATEGORIES
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── SETTINGS MAIN PAGE ────────────────────────────────────────────────────
+function renderSettings() {
+  const activeRecurring = recurring.filter(r => r.active).length;
+  const customCats = (CATEGORIES.expense.length + CATEGORIES.income.length) -
+                     (DEFAULT_CATEGORIES.expense.length + DEFAULT_CATEGORIES.income.length);
+  const customMethods = METHODS.length - DEFAULT_METHODS.length;
+  const setBudgets = Object.keys(budgets).length;
+
+  return `
+  <div class="fade-up">
+    <h2 style="font-size:22px;font-weight:700;margin-bottom:18px">⚙️ Ajustes</h2>
+
+    <!-- Configuración -->
+    <div class="settings-list">
+      <div class="settings-row" onclick="showView('budgets')">
+        <div class="settings-icon" style="background:rgba(74,222,128,0.1)">🎯</div>
+        <div class="settings-info">
+          <div class="settings-title">Presupuestos</div>
+          <div class="settings-desc">Definir límites mensuales por categoría</div>
+        </div>
+        ${setBudgets > 0 ? `<span class="settings-badge">${setBudgets}</span>` : ''}
+        <div class="settings-arrow">›</div>
+      </div>
+      <div class="settings-row" onclick="showView('recurring')">
+        <div class="settings-icon" style="background:rgba(96,165,250,0.1)">🔁</div>
+        <div class="settings-info">
+          <div class="settings-title">Gastos recurrentes</div>
+          <div class="settings-desc">Alquiler, suscripciones, sueldo automáticos</div>
+        </div>
+        ${activeRecurring > 0 ? `<span class="settings-badge">${activeRecurring}</span>` : ''}
+        <div class="settings-arrow">›</div>
+      </div>
+      <div class="settings-row" onclick="showView('categories')">
+        <div class="settings-icon" style="background:rgba(251,146,60,0.1)">🏷️</div>
+        <div class="settings-info">
+          <div class="settings-title">Categorías</div>
+          <div class="settings-desc">Personalizar las categorías de gastos e ingresos</div>
+        </div>
+        ${customCats > 0 ? `<span class="settings-badge">+${customCats}</span>` : ''}
+        <div class="settings-arrow">›</div>
+      </div>
+      <div class="settings-row" onclick="showView('methods')">
+        <div class="settings-icon" style="background:rgba(244,114,182,0.1)">💳</div>
+        <div class="settings-info">
+          <div class="settings-title">Métodos de pago</div>
+          <div class="settings-desc">Mercado Pago, Modo, tarjetas, efectivo...</div>
+        </div>
+        ${customMethods > 0 ? `<span class="settings-badge">+${customMethods}</span>` : ''}
+        <div class="settings-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- Personalización -->
+    <div class="settings-list">
+      <div class="settings-row" onclick="toggleTheme()">
+        <div class="settings-icon" style="background:rgba(167,139,250,0.1)">${getCurrentTheme() === 'dark' ? '🌙' : '☀️'}</div>
+        <div class="settings-info">
+          <div class="settings-title">Tema</div>
+          <div class="settings-desc">${getCurrentTheme() === 'dark' ? 'Modo oscuro activo' : 'Modo claro activo'}</div>
+        </div>
+        <div class="switch ${getCurrentTheme() === 'light' ? 'on' : ''}"></div>
+      </div>
+      <div class="settings-row" onclick="toggleQuickAdd()">
+        <div class="settings-icon" style="background:rgba(74,222,128,0.1)">⚡</div>
+        <div class="settings-info">
+          <div class="settings-title">Modo rápido</div>
+          <div class="settings-desc">Pantalla mínima al tocar "+" ${settingsFlags.quickAddEnabled ? '· activo' : ''}</div>
+        </div>
+        <div class="switch ${settingsFlags.quickAddEnabled ? 'on' : ''}"></div>
+      </div>
+      <div class="settings-row" onclick="togglePieChart()">
+        <div class="settings-icon" style="background:rgba(244,114,182,0.1)">🥧</div>
+        <div class="settings-info">
+          <div class="settings-title">Gráfico de torta</div>
+          <div class="settings-desc">Distribución por categoría en Stats ${settingsFlags.showPieChart ? '· activo' : ''}</div>
+        </div>
+        <div class="switch ${settingsFlags.showPieChart ? 'on' : ''}"></div>
+      </div>
+    </div>
+
+    <!-- Backup -->
+    <div class="settings-list">
+      <div class="settings-row" onclick="exportExcel()">
+        <div class="settings-icon" style="background:rgba(74,222,128,0.1)">📊</div>
+        <div class="settings-info">
+          <div class="settings-title">Exportar Excel</div>
+          <div class="settings-desc">Resumen completo en .xlsx</div>
+        </div>
+        <div class="settings-arrow">↓</div>
+      </div>
+      <div class="settings-row" onclick="exportCSV()">
+        <div class="settings-icon" style="background:rgba(96,165,250,0.1)">📄</div>
+        <div class="settings-info">
+          <div class="settings-title">Exportar CSV (backup)</div>
+          <div class="settings-desc">Copia restaurable de todos los datos</div>
+        </div>
+        <div class="settings-arrow">↓</div>
+      </div>
+      <div class="settings-row" onclick="document.getElementById('restore-input-2').click()">
+        <div class="settings-icon" style="background:rgba(212,162,122,0.1)">📥</div>
+        <div class="settings-info">
+          <div class="settings-title">Restaurar desde CSV</div>
+          <div class="settings-desc">Importar backup anterior</div>
+        </div>
+        <div class="settings-arrow">↑</div>
+      </div>
+      <div class="settings-row" onclick="shareWhatsApp()">
+        <div class="settings-icon" style="background:rgba(52,211,153,0.1)">💬</div>
+        <div class="settings-info">
+          <div class="settings-title">Compartir resumen del mes</div>
+          <div class="settings-desc">Mandar por WhatsApp el resumen actual</div>
+        </div>
+        <div class="settings-arrow">›</div>
+      </div>
+      <input type="file" id="restore-input-2" accept=".csv" style="display:none" onchange="restoreCSV(event)" />
+    </div>
+
+    <!-- Sistema -->
+    <div class="settings-list">
+      <div class="settings-row" onclick="reloadApp()">
+        <div class="settings-icon" style="background:rgba(96,165,250,0.1)">🔄</div>
+        <div class="settings-info">
+          <div class="settings-title">Recargar app</div>
+          <div class="settings-desc">Buscar última versión disponible</div>
+        </div>
+        <div class="settings-arrow">›</div>
+      </div>
+      <div class="settings-row" onclick="openAbout()">
+        <div class="settings-icon" style="background:rgba(167,139,250,0.1)">ℹ️</div>
+        <div class="settings-info">
+          <div class="settings-title">Acerca de</div>
+          <div class="settings-desc">Versión, estadísticas, info del sistema</div>
+        </div>
+        <div class="settings-arrow">›</div>
+      </div>
+    </div>
+
+    <p style="text-align:center;color:var(--muted);font-size:11px;margin-top:24px;line-height:1.6">
+      ${transactions.length} movimiento${transactions.length !== 1 ? 's' : ''} ·
+      ${getStorageSize()} KB usados
+    </p>
+  </div>`;
+}
+
+// ── BUDGETS PAGE ──────────────────────────────────────────────────────────
+function renderBudgets() {
+  // Calculate spent for current month
+  const now = new Date();
+  const y = viewDate.getFullYear(), m = viewDate.getMonth();
+  const monthTxs = transactions.filter(t => {
+    const d = new Date(t.date);
+    return d.getFullYear() === y && d.getMonth() === m && t.type === 'expense';
+  });
+
+  const spent = {};
+  monthTxs.forEach(t => { spent[t.category] = (spent[t.category] || 0) + t.amount; });
+
+  const allCats = CATEGORIES.expense;
+  const budgeted = allCats.filter(c => budgets[c.id]);
+  const unbudgeted = allCats.filter(c => !budgets[c.id]);
+
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">🎯 Presupuestos</div>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
+      Definí cuánto querés gastar al mes en cada categoría. La app te avisa cuando estés cerca del límite.
+    </p>
+
+    ${budgeted.length === 0 ? `
+    <div class="empty-section">
+      <div class="big-icon">🎯</div>
+      <p>Aún no definiste presupuestos.<br>Tocá una categoría abajo para empezar.</p>
+    </div>` : `
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;color:var(--purple-light);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px">Activos</div>
+      ${budgeted.map(cat => budgetRow(cat, spent[cat.id] || 0, budgets[cat.id])).join('')}
+    </div>`}
+
+    ${unbudgeted.length > 0 ? `
+    <div>
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px">Sin presupuesto · Tocá para agregar</div>
+      ${unbudgeted.map(cat => `
+        <div class="budget-row" onclick="setBudget('${cat.id}')" style="cursor:pointer;padding:12px 14px">
+          <div class="budget-cat">
+            <span class="icon">${cat.icon}</span>
+            <span>${cat.label}</span>
+            <span style="margin-left:auto;color:var(--muted);font-size:13px">+ Definir</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>` : ''}
+  </div>`;
+}
+
+function budgetRow(cat, spent, total) {
+  const pct = total > 0 ? (spent / total) * 100 : 0;
+  const cls = pct >= 100 ? 'danger' : pct >= 80 ? 'warn' : 'safe';
+  return `
+    <div class="budget-row">
+      <div class="budget-header">
+        <div class="budget-cat">
+          <span class="icon">${cat.icon}</span>
+          <span>${cat.label}</span>
+        </div>
+        <div class="budget-amounts">
+          <span class="spent">${fmt(spent)}</span>
+          <span class="total"> / ${fmt(total)}</span>
+        </div>
+      </div>
+      <div class="budget-bar">
+        <div class="budget-bar-fill ${cls}" style="width:${Math.min(pct, 100)}%"></div>
+      </div>
+      <div class="budget-pct ${cls}">${Math.round(pct)}% usado</div>
+      <div class="budget-actions">
+        <button onclick="setBudget('${cat.id}')">✏️ Modificar</button>
+        <button class="delete" onclick="deleteBudget('${cat.id}')">🗑️ Quitar</button>
+      </div>
+    </div>
+  `;
+}
+
+function setBudget(catId) {
+  const cat = getCat(catId);
+  const current = budgets[catId];
+  const input = prompt(
+    `Presupuesto mensual para "${cat.label}":\n${current ? `(actual: ${fmt(current)})` : ''}`,
+    current || ''
+  );
+  if (input === null) return;
+  const amount = parseFloat(input);
+  if (isNaN(amount) || amount <= 0) { showToast('Monto inválido', 'error'); return; }
+  budgets[catId] = amount;
+  saveBudgets();
+  showToast(`Presupuesto definido: ${fmt(amount)}`);
+  render();
+}
+
+function deleteBudget(catId) {
+  if (!confirm('¿Quitar este presupuesto?')) return;
+  delete budgets[catId];
+  saveBudgets();
+  showToast('Presupuesto eliminado');
+  render();
+}
+
+// ── RECURRING PAGE ────────────────────────────────────────────────────────
+function renderRecurring() {
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">🔁 Recurrentes</div>
+      <button class="subpage-action" onclick="openRecurringForm()">+ Nuevo</button>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
+      Cargá una vez "Alquiler $300.000 todos los días 1" y la app lo registra automáticamente cada mes.
+    </p>
+
+    ${recurring.length === 0 ? `
+    <div class="empty-section">
+      <div class="big-icon">🔁</div>
+      <p>No hay movimientos recurrentes.<br>Tocá "+ Nuevo" para agregar uno.</p>
+    </div>` : `
+    ${recurring.map(r => {
+      const cat = getCat(r.category);
+      const meth = getMethod(r.method);
+      return `
+        <div class="recurring-row">
+          <div class="ricon">${cat.icon}</div>
+          <div class="recurring-info" onclick="editRecurring('${r.id}')" style="cursor:pointer">
+            <div class="recurring-name">${r.name}</div>
+            <div class="recurring-meta">Día ${r.dayOfMonth} · ${cat.label} · ${meth.icon} ${r.method}</div>
+          </div>
+          <div class="recurring-amount ${r.type}">
+            ${r.type === 'income' ? '+' : '-'}${fmt(r.amount)}
+          </div>
+          <button class="recurring-toggle ${r.active ? 'active' : 'paused'}"
+            onclick="toggleRecurring('${r.id}')"
+            title="${r.active ? 'Pausar' : 'Activar'}">
+            ${r.active ? '✓' : '⏸'}
+          </button>
+        </div>
+      `;
+    }).join('')}`}
+  </div>`;
+}
+
+function openRecurringForm(id = null) {
+  if (id) {
+    const r = recurring.find(x => x.id === id);
+    if (r) recurringForm = { ...r };
+  } else {
+    recurringForm = {
+      id: null, name: '', amount: '', type: 'expense',
+      category: 'tarjeta', method: 'Tarjeta crédito',
+      dayOfMonth: 1, active: true
+    };
+  }
+  renderRecurringModal();
+}
+
+function editRecurring(id) {
+  openRecurringForm(id);
+}
+
+function renderRecurringModal() {
+  const cats = CATEGORIES[recurringForm.type];
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:360px">
+        <div class="modal-header">
+          <div class="modal-title">${recurringForm.id ? '✏️ Editar' : '➕ Nuevo'} recurrente</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <label>Nombre</label>
+        <input type="text" placeholder="Ej: Alquiler, Netflix, Sueldo"
+          value="${recurringForm.name.replace(/"/g, '&quot;')}"
+          oninput="recurringForm.name=this.value" />
+
+        <div class="type-toggle" style="margin-top:14px">
+          <button class="toggle-btn ${recurringForm.type==='expense'?'expense-active':''}"
+            onclick="recurringForm.type='expense'; recurringForm.category='${CATEGORIES.expense[0].id}'; renderRecurringModal()">↓ Gasto</button>
+          <button class="toggle-btn ${recurringForm.type==='income'?'income-active':''}"
+            onclick="recurringForm.type='income'; recurringForm.category='${CATEGORIES.income[0].id}'; renderRecurringModal()">↑ Ingreso</button>
+        </div>
+
+        <label>Monto</label>
+        <input type="number" inputmode="decimal" placeholder="0"
+          value="${recurringForm.amount}"
+          oninput="recurringForm.amount=this.value" />
+
+        <label>Categoría</label>
+        <div class="cat-grid">
+          ${cats.map(cat => `
+            <button class="cat-btn ${recurringForm.category===cat.id?'active':''}"
+              onclick="recurringForm.category='${cat.id}'; renderRecurringModal()">
+              ${cat.icon}
+              <span class="cat-lbl">${cat.label}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <label>Método de pago</label>
+        <select onchange="recurringForm.method=this.value">
+          ${METHODS.map(m => `<option value="${m.label}" ${recurringForm.method===m.label?'selected':''}>${m.icon} ${m.label}</option>`).join('')}
+        </select>
+
+        <label>Día del mes (1-28)</label>
+        <input type="number" min="1" max="28"
+          value="${recurringForm.dayOfMonth}"
+          oninput="recurringForm.dayOfMonth=parseInt(this.value)||1" />
+
+        <div class="form-actions" style="margin-top:18px">
+          ${recurringForm.id ? `<button class="btn-cancel" style="background:#3a1f1f;color:var(--red)" onclick="deleteRecurring()">🗑️</button>` : ''}
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveRecurringForm()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveRecurringForm() {
+  if (!recurringForm.name.trim()) { showToast('Falta el nombre', 'error'); return; }
+  const amount = parseFloat(recurringForm.amount);
+  if (isNaN(amount) || amount <= 0) { showToast('Monto inválido', 'error'); return; }
+  if (recurringForm.dayOfMonth < 1 || recurringForm.dayOfMonth > 28) {
+    showToast('Día debe estar entre 1 y 28', 'error'); return;
+  }
+
+  const data = {
+    id: recurringForm.id || ('r_' + Date.now()),
+    name: recurringForm.name.trim(),
+    amount,
+    type: recurringForm.type,
+    category: recurringForm.category,
+    method: recurringForm.method,
+    dayOfMonth: recurringForm.dayOfMonth,
+    active: recurringForm.active,
+    lastApplied: recurringForm.lastApplied || null
+  };
+
+  if (recurringForm.id) {
+    const idx = recurring.findIndex(r => r.id === recurringForm.id);
+    if (idx >= 0) recurring[idx] = data;
+  } else {
+    recurring.push(data);
+  }
+  saveRecurring();
+  closeModal();
+  showToast(`${recurringForm.id ? 'Actualizado' : 'Creado'}: ${data.name}`);
+  render();
+}
+
+function deleteRecurring() {
+  if (!confirm(`¿Eliminar "${recurringForm.name}"?\nLos movimientos ya creados no se borran.`)) return;
+  recurring = recurring.filter(r => r.id !== recurringForm.id);
+  saveRecurring();
+  closeModal();
+  showToast('Recurrente eliminado');
+  render();
+}
+
+function toggleRecurring(id) {
+  const r = recurring.find(x => x.id === id);
+  if (!r) return;
+  r.active = !r.active;
+  saveRecurring();
+  render();
+  showToast(r.active ? 'Activado' : 'Pausado');
+}
+
+// Apply recurring transactions if their date has passed
+function checkRecurring() {
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  let applied = 0;
+  const appliedNames = [];
+
+  recurring.forEach(r => {
+    if (!r.active) return;
+
+    // Last applied date
+    const lastDate = r.lastApplied ? new Date(r.lastApplied) : null;
+
+    // Find all due dates between lastApplied (or 30 days ago if never) and today
+    const startDate = lastDate
+      ? new Date(lastDate.getFullYear(), lastDate.getMonth() + 1, 1)
+      : new Date(today.getFullYear(), today.getMonth(), 1);
+
+    let cursor = new Date(startDate.getFullYear(), startDate.getMonth(), r.dayOfMonth);
+    while (cursor <= today) {
+      // Check that this exact date hasn't been applied (defensive)
+      const cursorStr = cursor.toISOString().slice(0, 10);
+      const exists = transactions.some(t =>
+        t._recurringId === r.id && t.date === cursorStr
+      );
+      if (!exists) {
+        const tx = {
+          id: Date.now() + Math.random(),
+          type: r.type,
+          amount: r.amount,
+          category: r.category,
+          method: r.method,
+          description: r.name + ' (auto)',
+          date: cursorStr,
+          _recurringId: r.id
+        };
+        transactions.unshift(tx);
+        applied++;
+        if (!appliedNames.includes(r.name)) appliedNames.push(r.name);
+      }
+      // Next month
+      cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, r.dayOfMonth);
+    }
+
+    r.lastApplied = todayStr;
+  });
+
+  if (applied > 0) {
+    saveTxs(transactions);
+    saveRecurring();
+    recurringJustApplied = appliedNames;
+  }
+}
+
+// ── CATEGORIES PAGE ───────────────────────────────────────────────────────
+function renderCategoriesPage() {
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">🏷️ Categorías</div>
+      <button class="subpage-action" onclick="openCategoryForm()">+ Nueva</button>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
+      Personalizá las categorías. Las predefinidas no se pueden borrar pero podés agregar las tuyas.
+    </p>
+
+    <div style="font-size:11px;color:var(--red);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:10px">↓ Gastos</div>
+    ${CATEGORIES.expense.map(c => categoryRow(c, 'expense')).join('')}
+
+    <div style="font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin:24px 0 10px">↑ Ingresos</div>
+    ${CATEGORIES.income.map(c => categoryRow(c, 'income')).join('')}
+  </div>`;
+}
+
+function isCustomCategory(catId, type) {
+  return !DEFAULT_CATEGORIES[type].some(c => c.id === catId);
+}
+
+function categoryRow(cat, type) {
+  const isCustom = isCustomCategory(cat.id, type);
+  return `
+    <div class="recurring-row" style="margin-bottom:8px">
+      <div class="ricon">${cat.icon}</div>
+      <div class="recurring-info">
+        <div class="recurring-name">${cat.label}</div>
+        <div class="recurring-meta">${isCustom ? 'Personalizada' : 'Predefinida'}</div>
+      </div>
+      ${isCustom ? `
+        <button class="recurring-toggle" onclick="editCategory('${cat.id}', '${type}')" title="Editar">✏️</button>
+        <button class="recurring-toggle" onclick="deleteCategory('${cat.id}', '${type}')" title="Eliminar" style="color:var(--red);border-color:#5a2a2a">🗑️</button>
+      ` : ''}
+    </div>
+  `;
+}
+
+function openCategoryForm() {
+  categoryForm = { id: null, label: '', icon: '📦', type: 'expense' };
+  renderCategoryModal();
+}
+
+function editCategory(catId, type) {
+  const cat = CATEGORIES[type].find(c => c.id === catId);
+  if (!cat) return;
+  categoryForm = { id: cat.id, label: cat.label, icon: cat.icon, type };
+  renderCategoryModal();
+}
+
+function renderCategoryModal() {
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:360px">
+        <div class="modal-header">
+          <div class="modal-title">${categoryForm.id ? '✏️ Editar' : '➕ Nueva'} categoría</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        ${!categoryForm.id ? `
+        <div class="type-toggle">
+          <button class="toggle-btn ${categoryForm.type==='expense'?'expense-active':''}"
+            onclick="categoryForm.type='expense'; renderCategoryModal()">↓ Gasto</button>
+          <button class="toggle-btn ${categoryForm.type==='income'?'income-active':''}"
+            onclick="categoryForm.type='income'; renderCategoryModal()">↑ Ingreso</button>
+        </div>` : ''}
+
+        <label>Nombre</label>
+        <input type="text" placeholder="Ej: Café"
+          value="${categoryForm.label.replace(/"/g, '&quot;')}"
+          oninput="categoryForm.label=this.value" maxlength="20" />
+
+        <label>Ícono · Seleccionado: <span style="font-size:18px">${categoryForm.icon}</span></label>
+        <div class="emoji-picker">
+          ${CATEGORY_EMOJIS.map(e => `
+            <button class="emoji-cell ${categoryForm.icon === e ? 'selected' : ''}"
+              onclick="categoryForm.icon='${e}'; renderCategoryModal()">${e}</button>
+          `).join('')}
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveCategoryForm()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveCategoryForm() {
+  if (!categoryForm.label.trim()) { showToast('Falta el nombre', 'error'); return; }
+  const label = categoryForm.label.trim();
+
+  if (categoryForm.id) {
+    // Edit
+    const idx = CATEGORIES[categoryForm.type].findIndex(c => c.id === categoryForm.id);
+    if (idx >= 0) {
+      CATEGORIES[categoryForm.type][idx].label = label;
+      CATEGORIES[categoryForm.type][idx].icon = categoryForm.icon;
+    }
+  } else {
+    // Create
+    const id = 'custom_' + Date.now();
+    CATEGORIES[categoryForm.type].push({ id, label, icon: categoryForm.icon });
+  }
+  saveCategoriesToStorage();
+  closeModal();
+  showToast(`Categoría ${categoryForm.id ? 'actualizada' : 'creada'}`);
+  render();
+}
+
+function deleteCategory(catId, type) {
+  const used = transactions.some(t => t.category === catId);
+  if (used) {
+    if (!confirm('Esta categoría tiene movimientos. ¿Eliminar igual? Los movimientos se quedarán sin categoría visible.')) return;
+  } else {
+    if (!confirm('¿Eliminar esta categoría?')) return;
+  }
+  CATEGORIES[type] = CATEGORIES[type].filter(c => c.id !== catId);
+  saveCategoriesToStorage();
+  // Also remove budget if exists
+  if (budgets[catId]) { delete budgets[catId]; saveBudgets(); }
+  showToast('Categoría eliminada');
+  render();
+}
+
+// ── METHODS PAGE ──────────────────────────────────────────────────────────
+function renderMethodsPage() {
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">💳 Métodos de pago</div>
+      <button class="subpage-action" onclick="openMethodForm()">+ Nuevo</button>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
+      Personalizá los métodos de pago. Si editás uno existente, los movimientos viejos se actualizan automáticamente.
+    </p>
+
+    ${METHODS.map(m => methodRow(m)).join('')}
+  </div>`;
+}
+
+function methodRow(m) {
+  const isCustom = isCustomMethod(m.id);
+  const usage = transactions.filter(t => t.method === m.label).length;
+  return `
+    <div class="recurring-row" style="margin-bottom:8px">
+      <div class="ricon">${m.icon}</div>
+      <div class="recurring-info">
+        <div class="recurring-name">${m.label}</div>
+        <div class="recurring-meta">${isCustom ? 'Personalizado' : 'Predefinido'} · ${usage} movimiento${usage !== 1 ? 's' : ''}</div>
+      </div>
+      <button class="recurring-toggle" onclick="editMethod('${m.id}')" title="Editar">✏️</button>
+      ${isCustom ? `
+        <button class="recurring-toggle" onclick="deleteMethod('${m.id}')" title="Eliminar" style="color:var(--red);border-color:#5a2a2a">🗑️</button>
+      ` : ''}
+    </div>
+  `;
+}
+
+function openMethodForm() {
+  methodForm = { id: null, label: '', icon: '💳', oldLabel: null };
+  renderMethodModal();
+}
+
+function editMethod(methodId) {
+  const m = METHODS.find(x => x.id === methodId);
+  if (!m) return;
+  methodForm = { id: m.id, label: m.label, icon: m.icon, oldLabel: m.label };
+  renderMethodModal();
+}
+
+function renderMethodModal() {
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:360px">
+        <div class="modal-header">
+          <div class="modal-title">${methodForm.id ? '✏️ Editar' : '➕ Nuevo'} método</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <label>Nombre</label>
+        <input type="text" placeholder="Ej: Naranja X, Ualá, Brubank"
+          value="${methodForm.label.replace(/"/g, '&quot;')}"
+          oninput="methodForm.label=this.value" maxlength="25" />
+
+        <label>Ícono · Seleccionado: <span style="font-size:18px">${methodForm.icon}</span></label>
+        <div class="emoji-picker">
+          ${['💵','💳','🏦','🟡','🟣','🔵','🟢','🔴','🟠','📱','💰','💸','🧾','📲','🪙','💴','💶','💷','📦','⚡','🌟','✨','🎯','📊','🔐','🏧','💼','🎫','🎟️','🪪','📇','💎','🏷️','🛡️','📞','🌐','💻','⌚','📱','🖥️'].map(e => `
+            <button class="emoji-cell ${methodForm.icon === e ? 'selected' : ''}"
+              onclick="methodForm.icon='${e}'; renderMethodModal()">${e}</button>
+          `).join('')}
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveMethodForm()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveMethodForm() {
+  const label = methodForm.label.trim();
+  if (!label) { showToast('Falta el nombre', 'error'); return; }
+
+  // Check duplicate
+  const existing = METHODS.find(m => m.label === label && m.id !== methodForm.id);
+  if (existing) { showToast('Ya existe un método con ese nombre', 'error'); return; }
+
+  if (methodForm.id) {
+    // Edit
+    const idx = METHODS.findIndex(m => m.id === methodForm.id);
+    if (idx >= 0) {
+      const oldLabel = methodForm.oldLabel;
+      METHODS[idx].label = label;
+      METHODS[idx].icon = methodForm.icon;
+
+      // Migrate transactions if label changed
+      if (oldLabel && oldLabel !== label) {
+        let migrated = 0;
+        transactions.forEach(t => {
+          if (t.method === oldLabel) { t.method = label; migrated++; }
+        });
+        recurring.forEach(r => {
+          if (r.method === oldLabel) r.method = label;
+        });
+        if (migrated > 0) {
+          saveTxs(transactions);
+          saveRecurring();
+        }
+      }
+    }
+  } else {
+    // Create
+    const id = 'custom_m_' + Date.now();
+    METHODS.push({ id, label, icon: methodForm.icon });
+  }
+  saveMethodsToStorage();
+  closeModal();
+  showToast(`Método ${methodForm.id ? 'actualizado' : 'creado'}`);
+  render();
+}
+
+function deleteMethod(methodId) {
+  const m = METHODS.find(x => x.id === methodId);
+  if (!m) return;
+  const usage = transactions.filter(t => t.method === m.label).length;
+  let msg = `¿Eliminar "${m.label}"?`;
+  if (usage > 0) msg += `\n\nLos ${usage} movimientos con este método se reasignarán a "Otro".`;
+  if (!confirm(msg)) return;
+
+  // Reassign transactions
+  if (usage > 0) {
+    transactions.forEach(t => {
+      if (t.method === m.label) t.method = 'Otro';
+    });
+    recurring.forEach(r => {
+      if (r.method === m.label) r.method = 'Otro';
+    });
+    saveTxs(transactions);
+    saveRecurring();
+  }
+
+  METHODS = METHODS.filter(x => x.id !== methodId);
+  saveMethodsToStorage();
+  showToast('Método eliminado');
+  render();
+}
+
+// ── PHASE 3 TOGGLES ───────────────────────────────────────────────────────
+function toggleQuickAdd() {
+  settingsFlags.quickAddEnabled = !settingsFlags.quickAddEnabled;
+  saveSettingsFlags();
+  render();
+  showToast(settingsFlags.quickAddEnabled ? 'Modo rápido activado' : 'Modo rápido desactivado');
+}
+
+function togglePieChart() {
+  settingsFlags.showPieChart = !settingsFlags.showPieChart;
+  saveSettingsFlags();
+  render();
+}
+
+function onFabClick() {
+  if (settingsFlags.quickAddEnabled) {
+    openQuickAdd();
+  } else {
+    showView('add');
+  }
+}
+
+// ── QUICK ADD ─────────────────────────────────────────────────────────────
+let quickAddState = { amount: '', category: null };
+
+function openQuickAdd() {
+  quickAddState = { amount: '', category: getFavoriteCategory() };
+  renderQuickAdd();
+  // Focus amount input
+  setTimeout(() => {
+    const el = document.getElementById('quick-amount');
+    if (el) el.focus();
+  }, 100);
+}
+
+function renderQuickAdd() {
+  // Top 8 most-used categories from last 30 days
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+  const recent = transactions.filter(t =>
+    t.type === 'expense' && new Date(t.date) >= cutoff
+  );
+  const counts = {};
+  recent.forEach(t => { counts[t.category] = (counts[t.category] || 0) + 1; });
+  let sortedCats = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([id]) => CATEGORIES.expense.find(c => c.id === id))
+    .filter(Boolean);
+
+  // Fill with default if needed
+  if (sortedCats.length < 8) {
+    CATEGORIES.expense.forEach(c => {
+      if (sortedCats.length < 8 && !sortedCats.find(s => s.id === c.id)) {
+        sortedCats.push(c);
+      }
+    });
+  }
+  sortedCats = sortedCats.slice(0, 8);
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="quick-add">
+        <div class="quick-add-title">⚡ Gasto rápido</div>
+        <input type="number" inputmode="decimal" class="quick-amount-input" id="quick-amount"
+          placeholder="0" value="${quickAddState.amount}"
+          oninput="quickAddState.amount=this.value" />
+        <div class="quick-cats">
+          ${sortedCats.map(cat => `
+            <button class="quick-cat-btn ${quickAddState.category === cat.id ? 'active' : ''}"
+              onclick="quickAddState.category='${cat.id}'; renderQuickAdd()">
+              ${cat.icon}
+              <span class="lbl">${cat.label.length > 8 ? cat.label.slice(0, 8) + '…' : cat.label}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="quick-actions">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveQuickAdd()">💾 Guardar</button>
+        </div>
+        <button class="quick-more" onclick="closeModal(); showView('add')">Más opciones →</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveQuickAdd() {
+  const amount = parseFloat(quickAddState.amount);
+  if (!amount || isNaN(amount) || amount <= 0) {
+    showToast('Ingresá un monto', 'error'); return;
+  }
+  if (!quickAddState.category) {
+    showToast('Elegí una categoría', 'error'); return;
+  }
+  const tx = {
+    id: Date.now(),
+    type: 'expense',
+    amount,
+    category: quickAddState.category,
+    method: 'Tarjeta crédito', // default
+    description: '',
+    tags: [],
+    date: new Date().toISOString().slice(0, 10)
+  };
+  transactions.unshift(tx);
+  saveTxs(transactions);
+  closeModal();
+  showToast('Gasto guardado ⚡');
+  if (currentView === 'dashboard') render();
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────
+checkRecurring();
 render();
 </script>
 
