@@ -2040,11 +2040,12 @@
     }
     .heatmap-grid {
       display: grid; grid-template-columns: repeat(7, 1fr);
-      gap: 3px;
+      gap: 2px;
+      overflow: hidden;
     }
     .heatmap-cell {
-      aspect-ratio: 1;
-      border-radius: 4px;
+      height: 28px;
+      border-radius: 3px;
       background: rgba(167,139,250, calc(var(--intensity, 0) * 0.85 + 0.08));
       display: flex; align-items: center; justify-content: center;
       cursor: default;
@@ -2057,7 +2058,7 @@
       box-shadow: 0 0 0 2px var(--purple);
     }
     .heatmap-day-num {
-      font-size: 9px; color: rgba(255,255,255,0.7); font-weight: 600;
+      font-size: 8px; color: rgba(255,255,255,0.6); font-weight: 600;
     }
     .heatmap-legend {
       display: flex; align-items: center; gap: 8px;
