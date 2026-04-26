@@ -2038,10 +2038,13 @@
       text-align: center; font-size: 10px;
       font-weight: 700; color: var(--muted);
     }
+    .heatmap-wrap {
+      overflow: hidden;
+      border-radius: 4px;
+    }
     .heatmap-grid {
       display: grid; grid-template-columns: repeat(7, 1fr);
       gap: 2px;
-      overflow: hidden;
     }
     .heatmap-cell {
       height: 28px;
@@ -2050,12 +2053,14 @@
       display: flex; align-items: center; justify-content: center;
       cursor: default;
       position: relative;
-      transition: transform 0.1s;
     }
-    .heatmap-cell:active { transform: scale(0.9); }
-    .heatmap-cell.empty { background: transparent; }
+    .heatmap-cell.empty {
+      background: transparent;
+      height: 28px;
+    }
     .heatmap-cell.today {
-      box-shadow: 0 0 0 2px var(--purple);
+      outline: 2px solid var(--purple);
+      outline-offset: -2px;
     }
     .heatmap-day-num {
       font-size: 8px; color: rgba(255,255,255,0.6); font-weight: 600;
@@ -5203,6 +5208,7 @@ function renderHeatmap() {
     <div class="heatmap-day-labels">
       ${dayLabels.map(l => `<span>${l}</span>`).join('')}
     </div>
+    <div class="heatmap-wrap">
     <div class="heatmap-grid">
       ${cells.map(c => c.empty
         ? `<div class="heatmap-cell empty"></div>`
@@ -5212,6 +5218,7 @@ function renderHeatmap() {
              <span class="heatmap-day-num">${c.day}</span>
            </div>`
       ).join('')}
+    </div>
     </div>
     <div class="heatmap-legend">
       <span>Sin gasto</span>
