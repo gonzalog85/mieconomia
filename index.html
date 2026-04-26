@@ -794,6 +794,1348 @@
       border-color: var(--purple);
     }
 
+    /* ── CARDS (Fase 4.1) ── */
+    .card-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--purple);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .card-row.inactive { opacity: 0.55; }
+    .card-row .ricon {
+      font-size: 24px; flex-shrink: 0;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg); border-radius: 10px;
+    }
+    .color-picker {
+      display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
+      padding: 10px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .color-cell {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .color-cell:active { transform: scale(0.9); }
+    .color-cell.selected {
+      border-color: var(--text);
+      transform: scale(1.1);
+    }
+    .due-mode-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+      margin-bottom: 4px;
+    }
+    .due-mode-btn {
+      padding: 10px 6px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .due-mode-btn:active { transform: scale(0.96); }
+    .due-mode-btn.active {
+      background: #2a1a5e;
+      border-color: var(--purple);
+      color: var(--purple-light);
+    }
+    .due-mode-help {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.4;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px dashed var(--border);
+    }
+    .empty-cards {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-cards .big-icon {
+      font-size: 48px;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+    .empty-cards .empty-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .empty-cards .empty-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Card presets (Fase 4.1) */
+    .preset-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin: 28px 0 10px;
+      text-align: center;
+    }
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .preset-card {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--purple);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      font-family: inherit;
+      color: var(--text);
+    }
+    .preset-card:active { transform: scale(0.97); }
+    .preset-card:hover { border-color: var(--purple); }
+    .preset-card .preset-emoji { font-size: 22px; }
+    .preset-card .preset-info { flex: 1; min-width: 0; }
+    .preset-card .preset-name {
+      font-size: 13px; font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .preset-card .preset-meta {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+    .preset-help {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    /* Card preset chips inside the modal */
+    .preset-chips {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .preset-chip {
+      padding: 6px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .preset-chip:active { transform: scale(0.95); }
+    .preset-chip:hover {
+      border-color: var(--purple);
+      color: var(--purple-light);
+    }
+
+    /* Migration callout */
+    .migration-callout {
+      background: linear-gradient(135deg, rgba(251,146,60,0.08), rgba(251,191,36,0.05));
+      border: 1px solid rgba(251,146,60,0.3);
+      border-left: 3px solid #fb923c;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-dim);
+      text-align: left;
+    }
+    .migration-callout .mig-title {
+      font-weight: 700;
+      color: #fb923c;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .mig-btn {
+      background: #fb923c;
+      color: #1a0a00;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .mig-btn:active { transform: scale(0.96); }
+    .mig-btn:hover { background: #f97316; }
+    .mig-detail {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      background: var(--bg);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 4.2 · Compras con tarjeta y cuotas
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Bloque de campos extra cuando method = Tarjeta crédito en el form */
+    .card-purchase-block {
+      background: linear-gradient(135deg, rgba(167,139,250,0.06), rgba(96,165,250,0.04));
+      border: 1px solid rgba(167,139,250,0.25);
+      border-radius: var(--radius);
+      padding: 14px 14px 6px;
+      margin-bottom: 14px;
+      animation: fadeUp 0.25s ease;
+    }
+    .card-purchase-block.warn {
+      background: linear-gradient(135deg, rgba(251,146,60,0.08), rgba(251,191,36,0.05));
+      border-color: rgba(251,146,60,0.3);
+    }
+    .cpb-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-bottom: 10px;
+    }
+    .card-purchase-block.warn .cpb-title { color: #fb923c; }
+    .cpb-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+      padding-bottom: 6px;
+    }
+    .cpb-btn {
+      display: inline-block;
+      background: var(--purple);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 8px;
+    }
+    .cpb-btn:active { transform: scale(0.96); }
+    .cpb-preview {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-dim);
+      background: var(--bg);
+      padding: 9px 11px;
+      border-radius: 8px;
+      border: 1px dashed var(--border);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    /* Installments selector inside the form */
+    .installments-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .inst-btn {
+      padding: 9px 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .inst-btn:active { transform: scale(0.94); }
+    .inst-btn.active {
+      background: #2a1a5e;
+      border-color: var(--purple);
+      color: var(--purple-light);
+    }
+
+    /* Installment row in history list */
+    .installment-row {
+      border-left: 3px solid var(--purple);
+    }
+    .installment-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 7px;
+      background: rgba(167,139,250,0.18);
+      color: var(--purple-light);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+
+    /* Card purchase detail modal */
+    .cpd-card {
+      display: flex;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--purple);
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .cpd-card-row {
+      display: flex; align-items: center; gap: 12px;
+      width: 100%;
+    }
+    .cpd-emoji { font-size: 24px; }
+    .cpd-card-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .cpd-card-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .cpd-desc {
+      font-size: 13px;
+      color: var(--text);
+      padding: 10px 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .cpd-tags {
+      display: flex; flex-wrap: wrap; gap: 4px;
+      margin-bottom: 10px;
+    }
+    .cpd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .cpd-cell {
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+    .cpd-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .cpd-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .cpd-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin: 8px 0 8px;
+    }
+    .cpd-installments {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .cpd-inst {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      transition: opacity 0.15s;
+    }
+    .cpd-inst.past { opacity: 0.55; }
+    .cpd-inst.current {
+      border-color: var(--purple);
+      background: rgba(167,139,250,0.08);
+    }
+    .cpd-inst-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .cpd-inst.current .cpd-inst-num {
+      background: var(--purple);
+      color: white;
+      border-color: var(--purple);
+    }
+    .cpd-inst-info { flex: 1; min-width: 0; }
+    .cpd-inst-month {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .cpd-inst-due {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .cpd-inst-amount {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+    }
+    .cpd-edit-note {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+      padding: 8px;
+      background: var(--bg);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 4.3 · Historial colapsado + detalle de resumen
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Summary row in history */
+    .summary-row {
+      border-left: 3px solid var(--purple);
+      cursor: pointer;
+    }
+    .summary-row:active { opacity: 0.8; }
+    .summary-paid {
+      opacity: 0.65;
+    }
+    .summary-paid-badge {
+      display: inline-block;
+      margin-left: 7px;
+      padding: 1px 8px;
+      background: rgba(74,222,128,0.15);
+      color: #4ade80;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+    .summary-chevron {
+      font-size: 18px;
+      color: var(--muted);
+      margin-left: 4px;
+      line-height: 1;
+    }
+
+    /* Summary detail modal components */
+    .sum-header {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+    .sum-month {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .sum-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .sum-paid-banner {
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 7px;
+      color: #4ade80;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .sum-purchases {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .sum-purchase-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .sum-purchase-row:active { opacity: 0.8; }
+    .sum-purchase-row:hover { border-color: var(--purple); }
+    .sum-cat-icon { font-size: 18px; flex-shrink: 0; }
+    .sum-purchase-info { flex: 1; min-width: 0; }
+    .sum-purchase-desc {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .sum-purchase-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .sum-purchase-amount {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+    .sum-total-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .sum-total-amount {
+      color: var(--red);
+      font-size: 16px;
+    }
+
+    /* Secondary button (edit) */
+    .btn-secondary {
+      flex: 1;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--purple);
+      background: transparent;
+      color: var(--purple-light);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-secondary:active { transform: scale(0.97); }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 4.5 · Inicio enriquecido
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Upcoming summaries section */
+    .upcoming-section { }
+    .upcoming-month {
+      margin-bottom: 14px;
+    }
+    .upcoming-month-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 2px;
+      margin-bottom: 6px;
+    }
+    .upcoming-month-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .upcoming-month-total {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--red);
+    }
+    .upcoming-card-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .upcoming-card-row:active { opacity: 0.8; }
+    .upcoming-card-row:hover { border-color: var(--purple); }
+    .upcoming-card-row.paid { opacity: 0.55; }
+    .upcoming-card-row.overdue { border-color: rgba(248,113,113,0.4); }
+    .upcoming-card-info { flex: 1; min-width: 0; }
+    .upcoming-card-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .upcoming-card-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .upcoming-card-amount {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--red);
+      flex-shrink: 0;
+    }
+
+    /* Active purchases (cuotas en curso) */
+    .active-purchase-row {
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--purple);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .active-purchase-row:active { opacity: 0.8; }
+    .active-purchase-top {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 8px;
+    }
+    .active-cat-icon { font-size: 18px; flex-shrink: 0; }
+    .active-purchase-info { flex: 1; min-width: 0; }
+    .active-purchase-desc {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .active-purchase-meta {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .active-progress-wrap {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .active-progress-bar {
+      flex: 1;
+      height: 5px;
+      background: var(--card);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .active-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), #c084fc);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    .active-progress-pct {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--purple-light);
+      min-width: 30px;
+      text-align: right;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 4.6 · Tarjetas pro
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Credit limit bar in cardRow */
+    .credit-limit-bar-wrap {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 5px;
+    }
+    .credit-limit-bar {
+      flex: 1; height: 4px;
+      background: var(--card);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .credit-limit-fill {
+      height: 100%; border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    .credit-limit-fill.safe  { background: linear-gradient(90deg, #4ade80, #22c55e); }
+    .credit-limit-fill.warn  { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+    .credit-limit-fill.danger{ background: linear-gradient(90deg, #f87171, #ef4444); }
+    .credit-limit-pct {
+      font-size: 10px; font-weight: 700; min-width: 48px; text-align: right;
+      font-family: 'DM Mono', monospace;
+    }
+    .credit-limit-pct.safe   { color: var(--green); }
+    .credit-limit-pct.warn   { color: var(--orange); }
+    .credit-limit-pct.danger { color: var(--red); }
+
+    /* Reminder and limit alerts in dashboard */
+    .reminder-alert, .limit-alert {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .reminder-alert:active, .limit-alert:active { opacity: 0.8; }
+    .reminder-alert {
+      background: linear-gradient(135deg, rgba(251,146,60,0.1), rgba(251,191,36,0.06));
+      border: 1px solid rgba(251,146,60,0.3);
+      border-left: 3px solid #fb923c;
+    }
+    .limit-alert.warn {
+      background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,146,60,0.06));
+      border: 1px solid rgba(251,191,36,0.3);
+      border-left: 3px solid #fbbf24;
+    }
+    .limit-alert.danger {
+      background: linear-gradient(135deg, rgba(248,113,113,0.12), rgba(239,68,68,0.06));
+      border: 1px solid rgba(248,113,113,0.3);
+      border-left: 3px solid #f87171;
+    }
+    .reminder-text {
+      flex: 1; font-size: 13px; color: var(--text-dim);
+    }
+    .reminder-text strong { color: var(--text); }
+    .reminder-amount {
+      display: block; font-size: 12px; font-weight: 700;
+      color: var(--red); margin-top: 2px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* MSI badge in purchase detail */
+    .msi-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4ade80;
+      margin-bottom: 10px;
+    }
+
+    /* Per-card stats rows */
+    .card-stat-row {
+      margin-bottom: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .card-stat-row:hover { border-color: var(--purple); }
+    .card-stat-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--purple);
+    }
+    .card-stat-info { flex: 1; min-width: 0; }
+    .card-stat-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .card-stat-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .card-stat-avg { text-align: right; flex-shrink: 0; }
+    .card-stat-avg-val {
+      font-size: 14px; font-weight: 700; color: var(--red);
+      font-family: 'DM Mono', monospace;
+    }
+    .card-stat-avg-lbl { font-size: 10px; color: var(--muted); }
+    .card-stat-top-cat {
+      padding: 8px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+    .card-stat-top-cat strong { color: var(--text-dim); }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 5 · Planificación
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Net worth card */
+    .plan-networth-card {
+      background: linear-gradient(135deg, #1a0a3e, #12122a);
+      border: 1px solid rgba(167,139,250,0.3);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      margin-bottom: 20px;
+    }
+    .plan-networth-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--purple-light);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .plan-networth-value {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 14px;
+    }
+    .plan-networth-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .plan-nw-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--text-dim);
+    }
+    .plan-nw-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%; flex-shrink: 0;
+    }
+    .plan-nw-dot.green { background: #4ade80; }
+    .plan-nw-dot.blue  { background: #60a5fa; }
+    .plan-nw-dot.red   { background: #f87171; }
+    .plan-nw-val {
+      margin-left: auto;
+      font-weight: 600;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .plan-nw-val.red { color: var(--red); }
+    .plan-nw-val.green { color: var(--green); }
+
+    /* Forecast grid */
+    .plan-hint {
+      font-size: 12px; color: var(--muted);
+      background: var(--bg);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .forecast-month {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      padding: 8px 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+    .forecast-month.current {
+      border-color: var(--purple);
+      background: rgba(167,139,250,0.06);
+    }
+    .forecast-month-name {
+      font-size: 10px; font-weight: 700;
+      color: var(--muted); text-align: center;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .forecast-month.current .forecast-month-name { color: var(--purple-light); }
+    .forecast-bar-wrap {
+      width: 100%; display: flex; align-items: center; gap: 2px;
+    }
+    .forecast-bar {
+      flex: 1; height: 4px; background: var(--card);
+      border-radius: 3px; overflow: hidden;
+    }
+    .forecast-bar-fill {
+      height: 100%; border-radius: 3px; transition: width 0.4s ease;
+    }
+    .forecast-bar-fill.safe   { background: #4ade80; }
+    .forecast-bar-fill.warn   { background: #fbbf24; }
+    .forecast-bar-fill.danger { background: #f87171; }
+    .forecast-pct {
+      font-size: 8px; font-weight: 700; min-width: 22px; text-align: right;
+    }
+    .forecast-pct.safe   { color: var(--green); }
+    .forecast-pct.warn   { color: var(--orange); }
+    .forecast-pct.danger { color: var(--red); }
+    .forecast-free {
+      font-size: 11px; font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      text-align: center;
+    }
+    .forecast-free.green { color: var(--green); }
+    .forecast-free.red   { color: var(--red); }
+    .forecast-label {
+      font-size: 9px; color: var(--muted); text-align: center;
+    }
+    .plan-legend {
+      display: flex; flex-direction: column; gap: 5px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+    .plan-legend-row {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--muted);
+    }
+    .plan-legend-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .plan-legend-dot.green  { background: #4ade80; }
+    .plan-legend-dot.orange { background: #fb923c; }
+    .plan-legend-dot.muted  { background: var(--muted); }
+
+    /* Sinking fund rows */
+    .plan-empty {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--muted);
+    }
+    .sf-row {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .sf-row.sf-done {
+      border-color: rgba(74,222,128,0.3);
+      background: rgba(74,222,128,0.04);
+    }
+    .sf-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .sf-emoji { font-size: 22px; flex-shrink: 0; }
+    .sf-info { flex: 1; min-width: 0; }
+    .sf-name {
+      font-size: 14px; font-weight: 600; color: var(--text);
+    }
+    .sf-meta { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .sf-amounts { text-align: right; flex-shrink: 0; }
+    .sf-saved {
+      font-size: 14px; font-weight: 700;
+      color: var(--text); font-family: 'DM Mono', monospace;
+    }
+    .sf-target { font-size: 10px; color: var(--muted); }
+    .sf-bar-wrap {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px;
+    }
+    .sf-bar {
+      flex: 1; height: 6px; background: var(--card);
+      border-radius: 4px; overflow: hidden;
+    }
+    .sf-bar-fill {
+      height: 100%; border-radius: 4px; transition: width 0.4s ease;
+    }
+    .sf-bar-fill.active { background: linear-gradient(90deg, var(--purple), #c084fc); }
+    .sf-bar-fill.done   { background: linear-gradient(90deg, #4ade80, #22c55e); }
+    .sf-pct {
+      font-size: 11px; font-weight: 700;
+      color: var(--purple-light); min-width: 32px; text-align: right;
+    }
+    .sf-row.sf-done .sf-pct { color: var(--green); }
+    .sf-contribution {
+      font-size: 12px; color: var(--muted);
+      padding: 6px 0;
+    }
+    .sf-actions {
+      display: flex; gap: 6px; margin-top: 8px;
+    }
+    .sf-btn-add {
+      flex: 1; padding: 8px;
+      background: var(--purple); color: white;
+      border: none; border-radius: 8px;
+      font-family: inherit; font-size: 12px;
+      font-weight: 700; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sf-btn-add:active { transform: scale(0.96); }
+    .sf-btn-edit, .sf-btn-del {
+      padding: 8px 12px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; font-family: inherit;
+      font-size: 13px; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sf-btn-edit:active, .sf-btn-del:active { transform: scale(0.96); }
+    .sf-btn-del { border-color: #5a2a2a; color: var(--red); }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 6 · Argentina-grade: inflación + multi-moneda
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Settings section label */
+    .settings-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--purple-light);
+      margin: 20px 0 8px 4px;
+    }
+
+    /* Currency badge in txRow */
+    .currency-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      background: rgba(251,191,36,0.15);
+      color: #fbbf24;
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+    .inflation-badge {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 9px;
+      color: var(--purple-light);
+      opacity: 0.8;
+      vertical-align: middle;
+    }
+
+    /* Currency selector in add form */
+    .currency-selector-wrap {
+      margin-bottom: 10px;
+    }
+    .currency-chips {
+      display: flex; gap: 5px; flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .currency-chip {
+      padding: 5px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .currency-chip:active { transform: scale(0.95); }
+    .currency-chip.active {
+      background: rgba(251,191,36,0.15);
+      border-color: #fbbf24;
+      color: #fbbf24;
+    }
+    .currency-rate-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 6px;
+    }
+    .currency-rate-input {
+      width: 120px;
+      padding: 8px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+    }
+    .currency-preview {
+      font-size: 13px;
+      color: var(--purple-light);
+      font-weight: 600;
+      padding: 8px 10px;
+      background: var(--bg);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      margin-bottom: 6px;
+    }
+    .currency-fetch-btn {
+      font-size: 11px;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 2px 0;
+      text-decoration: underline;
+    }
+    .currency-fetch-btn:active { opacity: 0.7; }
+
+    /* IPC page */
+    .ipc-explainer {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+    .ipc-table {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ipc-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .ipc-row.ipc-header {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      background: transparent;
+      border-color: transparent;
+      padding: 4px 12px;
+    }
+    .ipc-month-label {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .ipc-input-wrap {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .ipc-input {
+      width: 70px;
+      padding: 6px 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      text-align: right;
+    }
+    .ipc-input:focus { border-color: var(--purple); outline: none; }
+    .ipc-pct-sign {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      min-width: 14px;
+    }
+
+    /* Converter modal */
+    .converter-rates {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .converter-rate-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--purple);
+      border-radius: 9px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .converter-rate-val {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+    }
+    .converter-form label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      display: block;
+      margin: 10px 0 4px;
+    }
+    .converter-form input {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: right;
+    }
+    .converter-form input:focus {
+      border-color: var(--purple);
+      outline: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FASE 7 · Inteligencia y polish
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Insights card */
+    .insights-section {}
+    .insight-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      margin-bottom: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      transition: opacity 0.15s;
+    }
+    .insight-row:active { opacity: 0.8; }
+    .insight-row.good   { border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.05); }
+    .insight-row.warn   { border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.05); }
+    .insight-row.danger { border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.06); }
+    .insight-row.info   { border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.05); }
+    .insight-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .insight-text { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+    /* Heatmap */
+    .heatmap-day-labels {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 3px; margin-bottom: 4px;
+    }
+    .heatmap-day-labels span {
+      text-align: center; font-size: 10px;
+      font-weight: 700; color: var(--muted);
+    }
+    .heatmap-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .heatmap-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: rgba(167,139,250, calc(var(--intensity, 0) * 0.85 + 0.08));
+      display: flex; align-items: center; justify-content: center;
+      cursor: default;
+      position: relative;
+      transition: transform 0.1s;
+    }
+    .heatmap-cell:active { transform: scale(0.9); }
+    .heatmap-cell.empty { background: transparent; }
+    .heatmap-cell.today {
+      box-shadow: 0 0 0 2px var(--purple);
+    }
+    .heatmap-day-num {
+      font-size: 9px; color: rgba(255,255,255,0.7); font-weight: 600;
+    }
+    .heatmap-legend {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 8px; font-size: 10px; color: var(--muted);
+    }
+    .heatmap-legend-scale { display: flex; gap: 3px; }
+    .heatmap-legend-cell {
+      width: 14px; height: 14px; border-radius: 3px;
+      background: rgba(167,139,250, calc(var(--intensity, 0) * 0.85 + 0.08));
+    }
+
+    /* Year-over-year comparison */
+    .yoy-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .yoy-month {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      min-width: 28px; text-transform: uppercase;
+    }
+    .yoy-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .yoy-bar-wrap { display: flex; align-items: center; gap: 6px; }
+    .yoy-bar {
+      height: 8px; border-radius: 4px; min-width: 2px;
+      transition: width 0.4s ease;
+    }
+    .yoy-bar.current { background: var(--purple); }
+    .yoy-bar.prev    { background: var(--muted); opacity: 0.5; }
+    .yoy-label {
+      font-size: 10px; color: var(--text-dim);
+      font-family: 'DM Mono', monospace; min-width: 60px;
+    }
+    .yoy-label.muted { color: var(--muted); }
+    .yoy-pct {
+      font-size: 11px; font-weight: 700; min-width: 40px; text-align: right;
+      font-family: 'DM Mono', monospace;
+    }
+    .yoy-pct.up   { color: var(--red); }
+    .yoy-pct.down { color: var(--green); }
+    .yoy-pct.muted{ color: var(--muted); }
+    .yoy-legend {
+      display: flex; gap: 16px; margin-top: 8px;
+      font-size: 11px; color: var(--muted);
+    }
+    .yoy-legend > div { display: flex; align-items: center; gap: 5px; }
+    .yoy-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .yoy-dot.current { background: var(--purple); }
+    .yoy-dot.prev    { background: var(--muted); opacity: 0.5; }
+
+    /* Rules page */
+    .rule-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      margin-bottom: 8px;
+    }
+    .rule-info { flex: 1; }
+    .rule-name {
+      font-size: 13px; font-weight: 600; color: var(--text);
+    }
+    .rule-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .rule-del-btn {
+      padding: 6px 10px;
+      background: transparent;
+      border: 1px solid #5a2a2a;
+      border-radius: 7px;
+      color: var(--red);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .rule-del-btn:active { transform: scale(0.95); }
+
     .empty-section {
       text-align: center; padding: 40px 20px;
       color: var(--muted);
@@ -1267,7 +2609,7 @@
 
 <header class="header-v2">
   <div class="logo" onclick="showView('dashboard')" style="cursor:pointer">💰 Mi<span>Economía</span></div>
-  <div class="header-v2-meta" id="header-meta">v1.7</div>
+  <div class="header-v2-meta" id="header-meta">v2.4</div>
 </header>
 
 <main id="main"></main>
@@ -1282,6 +2624,10 @@
   <button class="bn-btn" id="nav-history" onclick="showView('history')">
     <span class="bn-icon">📋</span>
     <span>Historial</span>
+  </button>
+  <button class="bn-btn" id="nav-planning" onclick="showView('planning')">
+    <span class="bn-icon">🎯</span>
+    <span>Plan</span>
   </button>
   <button class="bn-btn" id="nav-stats" onclick="showView('stats')">
     <span class="bn-icon">📈</span>
@@ -1376,6 +2722,757 @@ let methodForm = {
   icon: '💳',
   oldLabel: null  // to migrate transactions when editing
 };
+
+// ── CARDS (Fase 4.1) ──────────────────────────────────────────────────────
+// Modelo de tarjetas de crédito con cierre y vencimiento.
+// Estructura:
+//   { id, name, emoji, color, closingDay, dueDateMode, dueDay, dueOffsetDays, active }
+//   dueDateMode: 'fixed' (dueDay) | 'relative' (dueOffsetDays) | 'manual'
+const CARD_COLORS = [
+  '#a78bfa', // violeta (default app)
+  '#60a5fa', // azul
+  '#4ade80', // verde
+  '#fbbf24', // amarillo
+  '#fb923c', // naranja
+  '#f87171', // rojo
+  '#f472b6', // rosa
+  '#94a3b8'  // gris
+];
+
+// Plantillas con valores típicos en Argentina. El usuario puede editar antes de guardar.
+// Cierre/vencimiento son aproximaciones razonables: cada banco emisor tiene su propio ciclo.
+const CARD_PRESETS = [
+  { name: 'Visa',             emoji: '💳', color: '#60a5fa', closingDay: 20, dueDateMode: 'fixed', dueDay: 5  },
+  { name: 'Mastercard',       emoji: '💳', color: '#f87171', closingDay: 20, dueDateMode: 'fixed', dueDay: 5  },
+  { name: 'American Express', emoji: '💎', color: '#4ade80', closingDay: 15, dueDateMode: 'fixed', dueDay: 5  },
+  { name: 'Naranja',          emoji: '🟠', color: '#fb923c', closingDay: 1,  dueDateMode: 'fixed', dueDay: 12 }
+];
+
+// Detecta gastos viejos cargados con método "Tarjeta crédito" (pre-fase 4) sin tarjeta asignada.
+// La migración real (mover esos txs a mie_card_purchases) llega en sub-fase 4.2.
+function getOldCardCreditTxs() {
+  return transactions.filter(t => t.type === 'expense' && t.method === 'Tarjeta crédito');
+}
+
+function loadCards() {
+  try {
+    const stored = localStorage.getItem('mie_cards');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return [];
+}
+function saveCardsToStorage() {
+  localStorage.setItem('mie_cards', JSON.stringify(CARDS));
+}
+let CARDS = loadCards();
+
+function getCard(cardId) {
+  return CARDS.find(c => c.id === cardId) || null;
+}
+
+// Form state for new/edit card
+let cardForm = {
+  id: null,
+  name: '',
+  emoji: '💳',
+  color: '#a78bfa',
+  closingDay: 20,
+  dueDateMode: 'fixed',
+  dueDay: 5,
+  dueOffsetDays: 15,
+  active: true
+};
+
+// Devuelve un texto humano del vencimiento configurado, ej: "vence día 5" o "vence 15 días después del cierre"
+function cardDueText(card) {
+  if (card.dueDateMode === 'fixed') return `vence día ${card.dueDay}`;
+  if (card.dueDateMode === 'relative') return `vence ${card.dueOffsetDays} días después del cierre`;
+  if (card.dueDateMode === 'manual') return 'vencimiento manual';
+  return '';
+}
+
+// ── CARD PURCHASES (Fase 4.2) ─────────────────────────────────────────────
+// Modelo: una fila por compra (no por cuota). Las cuotas se calculan en runtime
+// usando el día de cierre de la tarjeta. Beneficio: si editás la tarjeta o la
+// compra, todo se recalcula automáticamente sin migraciones.
+//
+// Estructura:
+//   {
+//     id, cardId, purchaseDate ('YYYY-MM-DD'), totalAmount, installments,
+//     category, description, tags, firstInstallmentMonth ('YYYY-MM' cacheado)
+//   }
+function loadCardPurchases() {
+  try {
+    const stored = localStorage.getItem('mie_card_purchases');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return [];
+}
+function saveCardPurchasesToStorage() {
+  localStorage.setItem('mie_card_purchases', JSON.stringify(CARD_PURCHASES));
+}
+let CARD_PURCHASES = loadCardPurchases();
+
+// ── CARD PAYMENTS (Fase 4.3) ─────────────────────────────────────────────
+// Registro de resúmenes marcados como pagados. Solo visual — no afecta el
+// balance porque las cuotas ya están distribuidas mes a mes.
+// Estructura: { cardId, summaryMonth ('YYYY-MM'), paidAt, paidAmount? }
+function loadCardPayments() {
+  try {
+    const stored = localStorage.getItem('mie_card_payments');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return [];
+}
+function saveCardPaymentsToStorage() {
+  localStorage.setItem('mie_card_payments', JSON.stringify(CARD_PAYMENTS));
+}
+let CARD_PAYMENTS = loadCardPayments();
+
+// Clave única para un resumen: "cardId|YYYY-MM"
+function summaryKey(cardId, year, month) {
+  return `${cardId}|${year}-${String(month + 1).padStart(2, '0')}`;
+}
+function isSummaryPaid(cardId, year, month) {
+  const key = summaryKey(cardId, year, month);
+  return CARD_PAYMENTS.some(p => summaryKey(p.cardId, ...p.summaryMonth.split('-').slice(0, 2).map((v, i) => i === 1 ? Number(v) - 1 : Number(v))) === key);
+}
+// Versión más directa y robusta sin el split
+function isSummaryPaidDirect(cardId, year, month) {
+  const ym = `${year}-${String(month + 1).padStart(2, '0')}`;
+  return CARD_PAYMENTS.some(p => p.cardId === cardId && p.summaryMonth === ym);
+}
+function markSummaryPaid(cardId, year, month, amount) {
+  const ym = `${year}-${String(month + 1).padStart(2, '0')}`;
+  // Idempotente: si ya está pagado, actualiza el timestamp
+  CARD_PAYMENTS = CARD_PAYMENTS.filter(p => !(p.cardId === cardId && p.summaryMonth === ym));
+  CARD_PAYMENTS.push({ cardId, summaryMonth: ym, paidAt: new Date().toISOString(), paidAmount: amount });
+  saveCardPaymentsToStorage();
+}
+function unmarkSummaryPaid(cardId, year, month) {
+  const ym = `${year}-${String(month + 1).padStart(2, '0')}`;
+  CARD_PAYMENTS = CARD_PAYMENTS.filter(p => !(p.cardId === cardId && p.summaryMonth === ym));
+  saveCardPaymentsToStorage();
+}
+
+// ── IPC HELPERS (Fase 6) ─────────────────────────────────────────────────
+
+// Factor acumulado de inflación desde fromYM hasta hoy.
+// Si IPC_DATA tiene datos para cada mes, compone (1 + ipc/100) × ... × (1 + ipc_n/100).
+// Meses sin dato: se saltan (el usuario puede ir llenando a medida que los conoce).
+function getInflationMultiplier(txDate) {
+  if (!txDate || Object.keys(IPC_DATA).length === 0) return 1;
+  const from = parseLocalDate(txDate);
+  if (!from) return 1;
+  const now = new Date();
+  let multiplier = 1;
+  // Iterar desde el mes siguiente al de la tx hasta el mes actual
+  let cur = new Date(from.getFullYear(), from.getMonth() + 1, 1);
+  while (cur <= now) {
+    const key = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, '0')}`;
+    if (IPC_DATA[key] !== undefined) {
+      multiplier *= (1 + IPC_DATA[key] / 100);
+    }
+    cur.setMonth(cur.getMonth() + 1);
+  }
+  return multiplier;
+}
+
+// Formatter con ajuste de inflación opcional.
+// Usa fmtReal(amount, txDate) en lugar de fmt(amount) donde el monto se muestra al usuario.
+// Si el toggle está apagado, se comporta igual que fmt.
+function fmtReal(amount, txDate) {
+  if (!settingsFlags.adjustForInflation || !txDate) return fmt(amount);
+  const mult = getInflationMultiplier(txDate);
+  return fmt(amount * mult);
+}
+
+// Convierte un monto en moneda extranjera a ARS usando la tasa almacenada o la cacheada.
+// currency: 'ARS' | 'USD_BLUE' | 'USD_OFICIAL' | 'USD_MEP'
+function toARS(originalAmount, currency, exchangeRate) {
+  if (!currency || currency === 'ARS') return originalAmount;
+  return originalAmount * (exchangeRate || 1);
+}
+// Un sinking fund es dinero apartado cada mes para un gasto futuro no mensual.
+// Una meta de ahorro es lo mismo con propósito explícito. Usamos el mismo modelo.
+// Estructura:
+//   { id, name, emoji, color, targetAmount, targetDate ('YYYY-MM-DD'),
+//     savedAmount, monthlyContribution? (calculado), notes? }
+function loadSinkingFunds() {
+  try {
+    const stored = localStorage.getItem('mie_sinking_funds');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return [];
+}
+function saveSinkingFunds() {
+  localStorage.setItem('mie_sinking_funds', JSON.stringify(SINKING_FUNDS));
+}
+let SINKING_FUNDS = loadSinkingFunds();
+
+// ── INFLACIÓN (Fase 6) ────────────────────────────────────────────────────
+// IPC mensual cargado a mano. Estructura: { 'YYYY-MM': pct } donde pct es el
+// porcentaje mensual (ej: 4.2 = 4,2% en ese mes). El usuario lo lee de cualquier
+// diario y lo carga en Ajustes.
+function loadIPC() {
+  try {
+    const stored = localStorage.getItem('mie_ipc');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return {};
+}
+function saveIPC() { localStorage.setItem('mie_ipc', JSON.stringify(IPC_DATA)); }
+let IPC_DATA = loadIPC();
+
+// ── MULTI-MONEDA (Fase 6) ─────────────────────────────────────────────────
+// Cotizaciones históricas: { 'YYYY-MM-DD': { blue, oficial, mep } }
+// Se guarda automáticamente cuando el usuario registra una tx en USD.
+function loadExchangeRates() {
+  try {
+    const stored = localStorage.getItem('mie_exchange_rates');
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return {};
+}
+function saveExchangeRates() {
+  localStorage.setItem('mie_exchange_rates', JSON.stringify(EXCHANGE_RATES));
+}
+let EXCHANGE_RATES = loadExchangeRates();
+
+// Cotización en memoria (cacheada de DolarApi para la sesión actual)
+let cachedRates = null;
+let cachedRatesTs = 0; // timestamp de la última fetch
+
+async function fetchLiveRates() {
+  const now = Date.now();
+  if (cachedRates && (now - cachedRatesTs) < 5 * 60 * 1000) return cachedRates; // cache 5min
+  try {
+    const res = await fetch('https://dolarapi.com/v1/dolares');
+    if (!res.ok) return null;
+    const data = await res.json();
+    const blue    = data.find(d => d.casa === 'blue');
+    const oficial = data.find(d => d.casa === 'oficial');
+    const mep     = data.find(d => d.casa === 'bolsa');
+    cachedRates = {
+      blue:    blue    ? Math.round((blue.compra + blue.venta) / 2)    : null,
+      oficial: oficial ? Math.round((oficial.compra + oficial.venta) / 2) : null,
+      mep:     mep     ? Math.round((mep.compra + mep.venta) / 2)     : null,
+    };
+    cachedRatesTs = now;
+    return cachedRates;
+  } catch { return null; }
+}
+
+// Meses restantes desde hoy hasta targetDate
+function monthsUntilTarget(targetDate) {
+  if (!targetDate) return null;
+  const now = new Date();
+  const target = new Date(targetDate + 'T00:00:00');
+  const months = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
+  return Math.max(0, months);
+}
+
+// Contribución mensual necesaria para llegar al objetivo
+function monthlyContributionNeeded(fund) {
+  const months = monthsUntilTarget(fund.targetDate);
+  if (!months || months <= 0) return 0;
+  const remaining = Math.max(0, fund.targetAmount - (fund.savedAmount || 0));
+  return remaining / months;
+}
+
+// ── PURE ALGORITHM ────────────────────────────────────────────────────────
+// Funciones puras (no tocan DOM ni localStorage). Reusables y testeables.
+
+// Parsea 'YYYY-MM-DD' como fecha local (evita el shift de UTC midnight).
+function parseLocalDate(yyyymmdd) {
+  if (!yyyymmdd || typeof yyyymmdd !== 'string') return null;
+  const parts = yyyymmdd.split('-').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+// Si el día pedido no existe en el mes (ej: 31 en febrero), devuelve el último
+// día válido del mes. month es 0-indexado.
+function clampDayToMonth(year, month, day) {
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  return Math.min(day, lastDay);
+}
+
+// Mes (0-indexado) y año del primer resumen donde entra una compra.
+// Convención: si el día de compra <= cierre, entra al resumen de ese mes.
+// Si es posterior, entra al siguiente.
+function getFirstSummaryMonth(purchaseDate, closingDay) {
+  const d = parseLocalDate(purchaseDate);
+  if (!d) return null;
+  const purchaseDay = d.getDate();
+  const effectiveClosing = clampDayToMonth(d.getFullYear(), d.getMonth(), closingDay);
+  if (purchaseDay <= effectiveClosing) {
+    return { year: d.getFullYear(), month: d.getMonth() };
+  }
+  // Va al resumen del mes siguiente
+  const next = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+  return { year: next.getFullYear(), month: next.getMonth() };
+}
+
+// Suma N meses a un { year, month } (0-indexado)
+function addMonths(ym, n) {
+  const total = ym.month + n;
+  const yearAdd = Math.floor(total / 12);
+  const newMonth = ((total % 12) + 12) % 12;
+  return { year: ym.year + yearAdd, month: newMonth };
+}
+
+// Devuelve las cuotas (purchase, num, total, amount) que caen en un resumen
+// específico de una tarjeta. La cuota 1 va al resumen de getFirstSummaryMonth,
+// la 2 al siguiente, etc.
+function getInstallmentsForMonth(card, year, month) {
+  if (!card) return [];
+  const result = [];
+  for (const p of CARD_PURCHASES) {
+    if (p.cardId !== card.id) continue;
+    const first = getFirstSummaryMonth(p.purchaseDate, card.closingDay);
+    if (!first) continue;
+    const monthsDiff = (year - first.year) * 12 + (month - first.month);
+    if (monthsDiff < 0 || monthsDiff >= p.installments) continue;
+    result.push({
+      purchase: p,
+      installmentNum: monthsDiff + 1,        // 1-indexado
+      installmentTotal: p.installments,
+      amount: p.totalAmount / p.installments
+    });
+  }
+  return result;
+}
+
+// Resumen consolidado de una tarjeta para un mes
+function getCardSummaryForMonth(card, year, month) {
+  const installments = getInstallmentsForMonth(card, year, month);
+  return {
+    installments,
+    total: installments.reduce((s, i) => s + i.amount, 0),
+    count: installments.length,
+    dueDate: getDueDate(card, year, month)
+  };
+}
+
+// Fecha de vencimiento del resumen de un mes específico.
+// Modo 'fixed': día fijo del mes siguiente al cierre.
+// Modo 'relative': N días después del cierre.
+// Modo 'manual': null (el usuario lo carga al recibir cada resumen — Fase 4.5).
+function getDueDate(card, summaryYear, summaryMonth) {
+  if (!card) return null;
+  if (card.dueDateMode === 'fixed') {
+    const dueY = summaryYear + (summaryMonth + 1 >= 12 ? 1 : 0);
+    const dueM = (summaryMonth + 1) % 12;
+    const day = clampDayToMonth(dueY, dueM, card.dueDay);
+    return new Date(dueY, dueM, day);
+  }
+  if (card.dueDateMode === 'relative') {
+    const closingDay = clampDayToMonth(summaryYear, summaryMonth, card.closingDay);
+    const close = new Date(summaryYear, summaryMonth, closingDay);
+    close.setDate(close.getDate() + card.dueOffsetDays);
+    return close;
+  }
+  return null;
+}
+
+// Helper: cuántas cuotas de una compra están a futuro (incluyendo la del mes actual)
+function getRemainingInstallments(purchase) {
+  const card = getCard(purchase.cardId);
+  if (!card) return purchase.installments;
+  const first = getFirstSummaryMonth(purchase.purchaseDate, card.closingDay);
+  if (!first) return purchase.installments;
+  const now = new Date();
+  const elapsed = (now.getFullYear() - first.year) * 12 + (now.getMonth() - first.month);
+  const remaining = purchase.installments - Math.max(0, elapsed);
+  return Math.max(0, remaining);
+}
+
+// Total a pagar en un mes específico, sumando todas las cuotas de todas las tarjetas
+// que caen en ese mes. Usado por dashboard y stats.
+function sumInstallmentsForMonth(year, month) {
+  let total = 0;
+  for (const card of CARDS) {
+    const items = getInstallmentsForMonth(card, year, month);
+    total += items.reduce((s, i) => s + i.amount, 0);
+  }
+  return total;
+}
+
+// Total acumulado en cuotas de toda la historia (para totales de stats globales)
+function sumAllCardPurchases() {
+  return CARD_PURCHASES.reduce((s, p) => s + p.totalAmount, 0);
+}
+
+// ── HELPER UNIFICADO (Fase 4.4) ───────────────────────────────────────────
+// Gasto total del mes X por categoría, mezclando txs legacy + cuotas de tarjeta.
+// Reemplaza los inline byCat que estaban dispersos. Usarlo en presupuestos y dashboard.
+function getMonthExpenseByCat(year, month) {
+  const cat = {};
+  transactions
+    .filter(t => {
+      const d = new Date(t.date);
+      return t.type === 'expense' && d.getFullYear() === year && d.getMonth() === month;
+    })
+    .forEach(t => { cat[t.category] = (cat[t.category] || 0) + t.amount; });
+  for (const card of CARDS) {
+    const items = getInstallmentsForMonth(card, year, month);
+    for (const it of items) {
+      cat[it.purchase.category] = (cat[it.purchase.category] || 0) + it.amount;
+    }
+  }
+  return cat;
+}
+
+// Total de gastos del mes X mezclando ambas fuentes
+function getMonthExpenseTotal(year, month) {
+  const byCat = getMonthExpenseByCat(year, month);
+  return Object.values(byCat).reduce((s, v) => s + v, 0);
+}
+
+// Gasto del mes X desglosado por tarjeta (para stats)
+function getMonthExpenseByCard(year, month) {
+  const byCard = {};
+  for (const card of CARDS) {
+    const items = getInstallmentsForMonth(card, year, month);
+    const total = items.reduce((s, i) => s + i.amount, 0);
+    if (total > 0) byCard[card.id] = total;
+  }
+  return byCard;
+}
+
+// ── FORECAST ENGINE (Fase 5) ──────────────────────────────────────────────
+
+// Ingresos esperados por mes: suma de recurrentes tipo 'income' activos.
+function expectedMonthlyIncome() {
+  return recurring
+    .filter(r => r.type === 'income' && r.active !== false)
+    .reduce((s, r) => s + (parseFloat(r.amount) || 0), 0);
+}
+
+// Compromisos fijos por mes para un año/mes dado:
+//   recurrentes expense activos + cuotas de tarjeta que caen en ese mes
+function fixedCommitmentsForMonth(year, month) {
+  const recurringExpense = recurring
+    .filter(r => r.type === 'expense' && r.active !== false)
+    .reduce((s, r) => s + (parseFloat(r.amount) || 0), 0);
+  const cardInstallments = sumInstallmentsForMonth(year, month);
+  return recurringExpense + cardInstallments;
+}
+
+// Gasto variable promedio de los últimos N meses (excluye recurrentes y tarjeta)
+// "variable" = lo que el usuario cargó en mie_txs pero no son recurrentes.
+function avgVariableExpense(months) {
+  const now = new Date();
+  const recurringExpense = recurring
+    .filter(r => r.type === 'expense' && r.active !== false)
+    .reduce((s, r) => s + (parseFloat(r.amount) || 0), 0);
+
+  let totalVar = 0;
+  let monthsWithData = 0;
+  for (let i = 1; i <= months; i++) { // empieza en 1 para no incluir el mes actual incompleto
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const monthTxs = transactions.filter(t => {
+      const td = new Date(t.date);
+      return t.type === 'expense' && td.getFullYear() === y && td.getMonth() === m;
+    });
+    const monthTotal = monthTxs.reduce((s, t) => s + t.amount, 0);
+    // Variable = total - recurrentes (aproximación: los recurrentes son constantes)
+    const variable = Math.max(0, monthTotal - recurringExpense);
+    totalVar += variable;
+    monthsWithData++;
+  }
+  return monthsWithData > 0 ? totalVar / monthsWithData : 0;
+}
+
+// Proyección mensual para los próximos N meses.
+// Devuelve array de { year, month, incomeExpected, fixedCommitments, variableAvg, free, totalCommitted }
+function buildForecast(months) {
+  const now = new Date();
+  const incomeExp = expectedMonthlyIncome();
+  const varAvg = avgVariableExpense(3);
+  const result = [];
+
+  for (let i = 0; i < months; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const fixed = fixedCommitmentsForMonth(y, m);
+    const totalCommitted = fixed + varAvg;
+    const free = incomeExp - totalCommitted;
+    result.push({ year: y, month: m, incomeExpected: incomeExp, fixedCommitments: fixed, variableAvg: varAvg, totalCommitted, free });
+  }
+  return result;
+}
+
+// ── NET WORTH ENGINE (Fase 5) ─────────────────────────────────────────────
+
+// Saldo líquido acumulado: todos los ingresos menos todos los gastos históricos.
+// Incluye txs legacy + compras con tarjeta (al total de la compra, no por cuotas).
+// Es una aproximación — no incluye activos reales ni cuentas bancarias.
+function getLiquidBalance() {
+  const income = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+  const expense = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+  const cardPaid = CARD_PURCHASES.reduce((s, p) => {
+    // Solo las cuotas ya pasadas cuentan como gastadas
+    const card = getCard(p.cardId);
+    if (!card) return s + p.totalAmount; // sin tarjeta = todo gastado
+    const first = getFirstSummaryMonth(p.purchaseDate, card.closingDay);
+    if (!first) return s + p.totalAmount;
+    const now = new Date();
+    const elapsed = (now.getFullYear() - first.year) * 12 + (now.getMonth() - first.month);
+    const paid = Math.min(p.installments, Math.max(0, elapsed + 1)); // +1 incluye el mes actual
+    return s + (p.totalAmount / p.installments) * paid;
+  }, 0);
+  return income - expense - cardPaid;
+}
+
+// Cuotas pendientes totales (compromisos futuros en tarjeta)
+function getPendingInstallmentsTotal() {
+  return CARD_PURCHASES.reduce((s, p) => {
+    const remaining = getRemainingInstallments(p);
+    const perInst = p.totalAmount / p.installments;
+    return s + perInst * remaining;
+  }, 0);
+}
+
+// Total guardado en sinking funds
+function getSinkingFundsTotal() {
+  return SINKING_FUNDS.reduce((s, f) => s + (f.savedAmount || 0), 0);
+}
+
+// Patrimonio neto = líquido + sinking funds - cuotas pendientes
+function getNetWorth() {
+  return getLiquidBalance() + getSinkingFundsTotal() - getPendingInstallmentsTotal();
+}
+
+// ── HELPERS FASE 4.5 ─────────────────────────────────────────────────────
+
+// Resúmenes de los próximos N meses con su total y vencimiento.
+// Devuelve array de { year, month, cards: [{card, total, due, paid}], grandTotal }
+// ordenado cronológicamente, saltando los meses sin actividad.
+function getUpcomingSummaries(months) {
+  const now = new Date();
+  const result = [];
+  for (let i = 0; i < months; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    const y = d.getFullYear(), m = d.getMonth();
+    const cards = [];
+    for (const card of CARDS) {
+      if (card.active === false) continue;
+      const items = getInstallmentsForMonth(card, y, m);
+      const total = items.reduce((s, it) => s + it.amount, 0);
+      if (total === 0) continue;
+      const due = getDueDate(card, y, m);
+      const paid = isSummaryPaidDirect(card.id, y, m);
+      cards.push({ card, total, due, paid });
+    }
+    if (cards.length === 0) continue;
+    const grandTotal = cards.reduce((s, c) => s + c.total, 0);
+    result.push({ year: y, month: m, cards, grandTotal });
+  }
+  return result;
+}
+
+// Compras en cuotas activas (alguna cuota aún no vencida).
+// Devuelve array ordenado: las que vencen antes primero.
+function getActivePurchases() {
+  const now = new Date();
+  const nowYM = { year: now.getFullYear(), month: now.getMonth() };
+  return CARD_PURCHASES
+    .map(p => {
+      const card = getCard(p.cardId);
+      if (!card) return null;
+      const first = getFirstSummaryMonth(p.purchaseDate, card.closingDay);
+      if (!first) return null;
+      // Cuántas cuotas ya pasaron (índice 0 = primera cuota)
+      const elapsed = (nowYM.year - first.year) * 12 + (nowYM.month - first.month);
+      const paid = Math.min(Math.max(0, elapsed), p.installments);
+      const remaining = p.installments - paid;
+      if (remaining <= 0) return null; // terminada
+      return { purchase: p, card, first, paid, remaining, total: p.installments };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.remaining - b.remaining); // las que terminan antes arriba
+}
+
+// ── AUTO-CATEGORIZACIÓN (Fase 7) ─────────────────────────────────────────
+// Aprende del historial: para cada descripción normalizada,
+// registra qué categoría se eligió más veces. Sin IA — pura frecuencia local.
+
+function buildDescriptionCategoryMap() {
+  const map = {}; // normalized_desc -> { catId: count }
+  for (const t of transactions) {
+    const desc = (t.description || '').trim().toLowerCase();
+    if (!desc || desc.length < 3) continue;
+    if (!map[desc]) map[desc] = {};
+    map[desc][t.category] = (map[desc][t.category] || 0) + 1;
+  }
+  return map;
+}
+
+// Devuelve la categoría más probable para una descripción dada.
+// Busca coincidencias exactas primero, luego parciales (contiene).
+function getAutoCategory(description) {
+  if (!description || description.trim().length < 3) return null;
+  const query = description.trim().toLowerCase();
+  const map = buildDescriptionCategoryMap();
+
+  // Coincidencia exacta
+  if (map[query]) {
+    return Object.entries(map[query]).sort((a,b) => b[1]-a[1])[0]?.[0] || null;
+  }
+
+  // Coincidencia parcial: buscar entradas que contengan la query o viceversa
+  let bestMatch = null, bestCount = 0;
+  for (const [desc, cats] of Object.entries(map)) {
+    if (desc.includes(query) || query.includes(desc)) {
+      const topCat = Object.entries(cats).sort((a,b) => b[1]-a[1])[0];
+      if (topCat && topCat[1] > bestCount) {
+        bestCount = topCat[1];
+        bestMatch = topCat[0];
+      }
+    }
+  }
+  return bestMatch;
+}
+
+// ── REGLAS AUTOMÁTICAS (Fase 7) ───────────────────────────────────────────
+// Reglas simples: si el gasto mensual acumulado en una categoría supera un umbral,
+// mostrar una alerta al guardar. Sin backend, todo local.
+// Estructura: { id, name, category, threshold, tag? }
+function loadRules() {
+  try { return JSON.parse(localStorage.getItem('mie_rules') || '[]'); } catch { return []; }
+}
+function saveRules() { localStorage.setItem('mie_rules', JSON.stringify(RULES)); }
+let RULES = loadRules();
+
+// ── INSIGHTS ENGINE (Fase 7) ──────────────────────────────────────────────
+// Genera observaciones rule-based sobre el comportamiento financiero del usuario.
+// Sin IA — puras reglas locales. Cada insight tiene { icon, text, type, action? }.
+function generateInsights() {
+  const insights = [];
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth();
+
+  // ─ Gasto mensual por categoría vs promedio de 3 meses anteriores
+  const thisByCat = getMonthExpenseByCat(y, m);
+  for (const [catId, thisAmt] of Object.entries(thisByCat)) {
+    if (thisAmt < 1000) continue; // ignorar montos insignificantes
+    const hist = [];
+    for (let i = 1; i <= 3; i++) {
+      const d = new Date(y, m - i, 1);
+      const prev = getMonthExpenseByCat(d.getFullYear(), d.getMonth());
+      if (prev[catId]) hist.push(prev[catId]);
+    }
+    if (hist.length < 2) continue;
+    const avg = hist.reduce((s, v) => s + v, 0) / hist.length;
+    const pct = Math.round(((thisAmt - avg) / avg) * 100);
+    if (pct >= 30) {
+      const cat = getCat(catId);
+      insights.push({ icon: '⚠️', text: `Gastaste ${pct}% más en ${cat.label} que tu promedio de los últimos ${hist.length} meses.`, type: 'warn' });
+    } else if (pct <= -25) {
+      const cat = getCat(catId);
+      insights.push({ icon: '✅', text: `Bajaste ${Math.abs(pct)}% en ${cat.label} vs tu promedio. ¡Buen trabajo!`, type: 'good' });
+    }
+  }
+
+  // ─ Tendencia descendente en categoría (3 meses seguidos bajando)
+  const allCats = [...new Set(transactions.filter(t=>t.type==='expense').map(t=>t.category))];
+  for (const catId of allCats) {
+    const vals = [];
+    for (let i = 0; i < 4; i++) {
+      const d = new Date(y, m - i, 1);
+      const bc = getMonthExpenseByCat(d.getFullYear(), d.getMonth());
+      vals.push(bc[catId] || 0);
+    }
+    if (vals[0] > 0 && vals[1] > vals[0] && vals[2] > vals[1]) {
+      const cat = getCat(catId);
+      insights.push({ icon: '📉', text: `Tu gasto en ${cat.label} viene bajando 3 meses seguidos. Bien encaminado.`, type: 'good' });
+    }
+  }
+
+  // ─ Categoría dominante del mes (>40% del gasto total)
+  const totalThisMonth = Object.values(thisByCat).reduce((s,v)=>s+v, 0);
+  if (totalThisMonth > 0) {
+    for (const [catId, amt] of Object.entries(thisByCat)) {
+      const pct = Math.round((amt / totalThisMonth) * 100);
+      if (pct >= 40) {
+        const cat = getCat(catId);
+        insights.push({ icon: '🔍', text: `${cat.label} representa el ${pct}% de tu gasto este mes. ¿Es esperado?`, type: 'info' });
+      }
+    }
+  }
+
+  // ─ Presupuesto casi agotado
+  const now_day = now.getDate();
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const monthProgress = now_day / daysInMonth;
+  for (const [catId, limit] of Object.entries(budgets)) {
+    const spent = thisByCat[catId] || 0;
+    const pct = spent / limit;
+    if (pct >= 0.9 && pct < 1 && monthProgress < 0.7) {
+      const cat = getCat(catId);
+      insights.push({ icon: '🎯', text: `Ya usaste el ${Math.round(pct*100)}% del presupuesto de ${cat.label} y el mes está al ${Math.round(monthProgress*100)}%.`, type: 'warn' });
+    } else if (pct >= 1) {
+      const cat = getCat(catId);
+      insights.push({ icon: '🔴', text: `Superaste el presupuesto de ${cat.label}: gastaste ${fmt(spent)} de ${fmt(limit)}.`, type: 'danger' });
+    }
+  }
+
+  // ─ Resumen de tarjeta próximo a vencer
+  for (const card of CARDS) {
+    if (card.active === false) continue;
+    for (let i = 0; i < 2; i++) {
+      const d = new Date(y, m + i, 1);
+      const cy = d.getFullYear(), cm = d.getMonth();
+      const items = getInstallmentsForMonth(card, cy, cm);
+      if (items.length === 0) continue;
+      const due = getDueDate(card, cy, cm);
+      if (!due) continue;
+      const paid = isSummaryPaidDirect(card.id, cy, cm);
+      if (paid) continue;
+      const daysLeft = Math.ceil((due - now) / 86400000);
+      if (daysLeft >= 0 && daysLeft <= 5) {
+        const total = items.reduce((s,it)=>s+it.amount,0);
+        const urgency = daysLeft === 0 ? 'hoy' : daysLeft === 1 ? 'mañana' : `en ${daysLeft} días`;
+        insights.push({ icon: '💳', text: `Resumen ${card.name} vence ${urgency}: ${fmt(total)}.`, type: 'warn', action: `showSummaryDetail('${card.id}',${cy},${cm})` });
+      }
+    }
+  }
+
+  // ─ Mes positivo/negativo
+  const income = transactions.filter(t=>{const d=new Date(t.date);return d.getFullYear()===y&&d.getMonth()===m&&t.type==='income';}).reduce((s,t)=>s+t.amount,0);
+  const expense_total = totalThisMonth + sumInstallmentsForMonth(y, m);
+  if (income > 0) {
+    const balance = income - expense_total;
+    const savingRate = Math.round((balance / income) * 100);
+    if (savingRate >= 20) {
+      insights.push({ icon: '🏦', text: `Ahorraste el ${savingRate}% de tus ingresos este mes. ¡Excelente!`, type: 'good' });
+    } else if (balance < 0) {
+      insights.push({ icon: '⚠️', text: `Este mes los gastos superan los ingresos por ${fmt(Math.abs(balance))}.`, type: 'danger' });
+    }
+  }
+
+  return insights.slice(0, 5); // máximo 5 insights para no abrumar
+}
+
+// Evalúa reglas contra el estado actual y devuelve las que dispararon.
+function checkRules() {
+  if (RULES.length === 0) return [];
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth();
+  const byCat = getMonthExpenseByCat(y, m);
+  const triggered = [];
+  for (const rule of RULES) {
+    const spent = byCat[rule.category] || 0;
+    if (spent >= rule.threshold) {
+      triggered.push({ rule, spent });
+    }
+  }
+  return triggered;
+}
+
 const MONTHS_ES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 
 function getCat(id) {
@@ -1486,13 +3583,27 @@ const CATEGORY_EMOJIS = [
 // ── STATE ─────────────────────────────────────────────────────────────────
 let currentView = 'dashboard';
 let histFilter = 'all';
-let formState = {
-  id: null, // for edit mode
-  type: 'expense', amount: '', category: 'tarjeta',
-  method: 'Tarjeta crédito', description: '',
-  tags: [],
-  date: new Date().toISOString().slice(0,10)
-};
+function defaultFormState() {
+  return {
+    id: null, // for edit mode
+    type: 'expense', amount: '', category: 'tarjeta',
+    method: 'Tarjeta crédito', description: '',
+    tags: [],
+    date: new Date().toISOString().slice(0,10),
+    // Fase 4.2: campos extra cuando method = 'Tarjeta crédito'
+    cardId: null,
+    installments: 1,
+    // Fase 4.6: sin interés (MSI)
+    noInterest: false,
+    // Fase 6: multi-moneda
+    currency: 'ARS',
+    originalAmount: '',
+    exchangeRate: 1,
+    // Fase 7: flag de categoría elegida manualmente
+    _catManuallySet: false
+  };
+}
+let formState = defaultFormState();
 // ── PHASE 3 STATE ─────────────────────────────────────────────────────────
 let tagFilter = ''; // selected tag filter in history
 let pendingTagInput = ''; // current text in tag input
@@ -1508,6 +3619,8 @@ function saveSettingsFlags() {
 let settingsFlags = Object.assign({
   quickAddEnabled: false,
   showPieChart: true,
+  adjustForInflation: false,  // Fase 6: toggle "ver en pesos de hoy"
+  showConverter: true          // Fase 6: convertidor rápido en inicio
 }, loadSettingsFlags());
 
 // Theme
@@ -1591,7 +3704,7 @@ function showView(v) {
   document.querySelectorAll('.bn-btn').forEach(b => b.classList.remove('active'));
   // Map sub-views to main nav items
   let navTarget = v;
-  if (['budgets', 'recurring', 'categories', 'methods', 'about'].includes(v)) navTarget = 'settings';
+  if (['budgets', 'recurring', 'categories', 'methods', 'cards', 'about', 'inflation', 'rules'].includes(v)) navTarget = 'settings';
   if (v === 'add') navTarget = null; // no highlight on add
   if (navTarget) {
     const navEl = document.getElementById('nav-' + navTarget);
@@ -1600,7 +3713,7 @@ function showView(v) {
 
   // Hide FAB on add and settings sub-pages
   const fab = document.getElementById('fab');
-  if (['add', 'budgets', 'recurring', 'categories', 'methods', 'about'].includes(v)) {
+  if (['add', 'budgets', 'recurring', 'categories', 'methods', 'cards', 'about', 'inflation', 'rules'].includes(v)) {
     fab.classList.add('hidden');
   } else {
     fab.classList.remove('hidden');
@@ -1622,6 +3735,10 @@ function render() {
   else if (currentView === 'recurring') main.innerHTML = renderRecurring();
   else if (currentView === 'categories') main.innerHTML = renderCategoriesPage();
   else if (currentView === 'methods')   main.innerHTML = renderMethodsPage();
+  else if (currentView === 'cards')      main.innerHTML = renderCardsPage();
+  else if (currentView === 'planning')   main.innerHTML = renderPlanning();
+  else if (currentView === 'inflation')  main.innerHTML = renderInflationPage();
+  else if (currentView === 'rules')      main.innerHTML = renderRulesPage();
   attachEvents();
 }
 
@@ -1642,12 +3759,18 @@ function renderDashboard() {
   });
 
   const income  = monthTxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const expense = monthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const expense_legacy = monthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  // Fase 4.2: sumar cuotas que caen en este mes
+  const installmentsThisMonth = sumInstallmentsForMonth(y, m);
+  const expense = expense_legacy + installmentsThisMonth;
   const balance = income - expense;
-  const cardExp = monthTxs.filter(t=>t.type==='expense'&&t.method==='Tarjeta crédito').reduce((s,t)=>s+t.amount,0);
+  const cardExp_legacy = monthTxs.filter(t=>t.type==='expense'&&t.method==='Tarjeta crédito').reduce((s,t)=>s+t.amount,0);
+  const cardExp = cardExp_legacy + installmentsThisMonth;
 
+  // También para mes anterior
+  const prevInstallments = sumInstallmentsForMonth(py, pm);
   const prevIncome  = prevMonthTxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const prevExpense = prevMonthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const prevExpense = prevMonthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0) + prevInstallments;
 
   const incomeChange  = pctChange(income, prevIncome);
   const expenseChange = pctChange(expense, prevExpense);
@@ -1660,8 +3783,8 @@ function renderDashboard() {
   const dailyAvg = daysElapsed > 0 ? expense / daysElapsed : 0;
   const projection = isCurrentMonth ? dailyAvg * daysInMonth : expense;
 
-  const byCat = {};
-  monthTxs.filter(t=>t.type==='expense').forEach(t => { byCat[t.category] = (byCat[t.category]||0)+t.amount; });
+  // Fase 4.4: usar helper unificado en vez de inline (ya incluye cuotas por categoría)
+  const byCat = getMonthExpenseByCat(y, m);
   const topCats = Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,5);
 
   const recentTxs = monthTxs.slice(0,6);
@@ -1730,6 +3853,22 @@ function renderDashboard() {
         <div class="mini-stat-sub">${isCurrentMonth ? 'A este ritmo' : 'Cerrado'}</div>
       </div>
     </div>` : ''}
+
+    ${(() => {
+      // ── Fase 7: Insights automáticos ──────────────────────────
+      if (transactions.length < 5 && CARD_PURCHASES.length === 0) return ''; // no hay datos suficientes
+      const insights = generateInsights();
+      if (insights.length === 0) return '';
+      return `
+      <div class="section insights-section">
+        <div class="section-title">💡 Observaciones</div>
+        ${insights.map(ins => `
+          <div class="insight-row ${ins.type}" ${ins.action ? `onclick="${ins.action}" style="cursor:pointer"` : ''}>
+            <span class="insight-icon">${ins.icon}</span>
+            <span class="insight-text">${ins.text}</span>
+          </div>`).join('')}
+      </div>`;
+    })()}
 
     <!-- Credit card -->
     <div class="credit-highlight">
@@ -1816,6 +3955,137 @@ function renderDashboard() {
         para no tener que cargarlos cada mes.
       </p>` : ''}
     </div>`}
+
+    ${(() => {
+      // ── Fase 4.6: Recordatorios de vencimiento y alertas de límite ───────
+      const now = new Date();
+      const alerts = [];
+
+      for (const card of CARDS) {
+        if (card.active === false) continue;
+
+        // Recordatorio: algún resumen de los próximos 3 meses con vencimiento cercano
+        for (let i = 0; i < 3; i++) {
+          const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+          const y = d.getFullYear(), m = d.getMonth();
+          const items = getInstallmentsForMonth(card, y, m);
+          if (items.length === 0) continue;
+          const due = getDueDate(card, y, m);
+          if (!due) continue;
+          const paid = isSummaryPaidDirect(card.id, y, m);
+          if (paid) continue;
+          const daysLeft = Math.ceil((due - now) / 86400000);
+          const reminderDays = card.reminderDays || 3;
+          if (daysLeft >= 0 && daysLeft <= reminderDays) {
+            const total = items.reduce((s, it) => s + it.amount, 0);
+            const urgency = daysLeft === 0 ? 'hoy' : daysLeft === 1 ? 'mañana' : `en ${daysLeft} días`;
+            alerts.push(`<div class="reminder-alert" onclick="showSummaryDetail('${card.id}',${y},${m})">
+              <span style="font-size:16px">${card.emoji}</span>
+              <div class="reminder-text">
+                <strong>${card.name}</strong> vence ${urgency}
+                <span class="reminder-amount">−${fmt(total)}</span>
+              </div>
+              <span style="color:var(--muted);font-size:16px">›</span>
+            </div>`);
+          }
+        }
+
+        // Límite: si el resumen actual supera el 80%
+        if (card.creditLimit) {
+          const items = getInstallmentsForMonth(card, now.getFullYear(), now.getMonth());
+          const used = items.reduce((s, i) => s + i.amount, 0);
+          const pct = Math.round((used / card.creditLimit) * 100);
+          if (pct >= 80) {
+            const cls = pct >= 100 ? 'danger' : 'warn';
+            alerts.push(`<div class="limit-alert ${cls}" onclick="showView('cards')">
+              <span style="font-size:16px">${card.emoji}</span>
+              <div class="reminder-text">
+                <strong>${card.name}</strong> al ${pct}% del límite
+                <span class="reminder-amount">${fmt(used)} / ${fmt(card.creditLimit)}</span>
+              </div>
+            </div>`);
+          }
+        }
+      }
+
+      if (alerts.length === 0) return '';
+      return `<div class="section" style="padding-top:0">${alerts.join('')}</div>`;
+    })()}
+
+    ${(() => {
+      // ── Fase 4.5: Próximos resúmenes ─────────────────────────
+      const upcoming = getUpcomingSummaries(3);
+      if (upcoming.length === 0) return '';
+      return `
+      <div class="section upcoming-section">
+        <div class="section-title">📅 Se viene en tarjetas</div>
+        ${upcoming.map(u => {
+          const monthName = MONTHS_ES[u.month];
+          const isCurrentMonth = u.year === y && u.month === m;
+          return `
+          <div class="upcoming-month">
+            <div class="upcoming-month-header">
+              <span class="upcoming-month-label">${monthName} ${u.year}${isCurrentMonth ? ' · actual' : ''}</span>
+              <span class="upcoming-month-total">−${fmt(u.grandTotal)}</span>
+            </div>
+            ${u.cards.map(c => {
+              const dueText = c.due
+                ? `vence ${c.due.getDate()} ${MONTHS_ES[c.due.getMonth()].toLowerCase().slice(0,3)}`
+                : 'venc. manual';
+              const overdue = c.due && c.due < new Date() && !c.paid;
+              return `
+              <div class="upcoming-card-row ${c.paid ? 'paid' : ''} ${overdue ? 'overdue' : ''}"
+                onclick="showSummaryDetail('${c.card.id}', ${u.year}, ${u.month})">
+                <span style="font-size:16px">${c.card.emoji}</span>
+                <div class="upcoming-card-info">
+                  <div class="upcoming-card-name">${c.card.name}${c.paid ? ' <span class="summary-paid-badge">✓</span>' : ''}</div>
+                  <div class="upcoming-card-meta">${dueText}${overdue ? ' · <span style="color:var(--red)">vencido</span>' : ''}</div>
+                </div>
+                <div class="upcoming-card-amount">−${fmt(c.total)}</div>
+              </div>`;
+            }).join('')}
+          </div>`;
+        }).join('')}
+      </div>`;
+    })()}
+
+    ${(() => {
+      // ── Fase 4.5: Cuotas activas ──────────────────────────────
+      const active = getActivePurchases();
+      if (active.length === 0) return '';
+      const shown = active.slice(0, 4);
+      return `
+      <div class="section">
+        <div class="section-title">🔄 Compras en cuotas</div>
+        ${shown.map(({ purchase: p, card, paid, remaining, total }) => {
+          const cat = getCat(p.category);
+          const pct = Math.round((paid / total) * 100);
+          const perInst = p.totalAmount / total;
+          return `
+          <div class="active-purchase-row" onclick="showCardPurchaseDetail(${p.id})">
+            <div class="active-purchase-top">
+              <span class="active-cat-icon">${cat.icon}</span>
+              <div class="active-purchase-info">
+                <div class="active-purchase-desc">${p.description || cat.label}</div>
+                <div class="active-purchase-meta">${card.emoji} ${card.name} · ${remaining}/${total} cuotas restantes · ${fmt(perInst)}/mes</div>
+              </div>
+            </div>
+            <div class="active-progress-wrap">
+              <div class="active-progress-bar">
+                <div class="active-progress-fill" style="width:${pct}%"></div>
+              </div>
+              <span class="active-progress-pct">${pct}%</span>
+            </div>
+          </div>`;
+        }).join('')}
+        ${active.length > 4 ? `
+        <div style="text-align:center;margin-top:8px">
+          <button onclick="showView('history')" style="font-size:12px;color:var(--purple-light);background:none;border:none;cursor:pointer;font-family:inherit">
+            +${active.length - 4} más en historial →
+          </button>
+        </div>` : ''}
+      </div>`;
+    })()}
   </div>`;
 }
 
@@ -1931,44 +4201,495 @@ function txRow(tx, showDelete = true) {
     </div>
   ` : '';
   const isAuto = tx.description && tx.description.includes('(auto)');
+
+  // Fase 6: mostrar monto ajustado por inflación y badge de moneda extranjera
+  const displayAmount = fmtReal(tx.amount, tx.date);
+  const isInflationAdjusted = settingsFlags.adjustForInflation && Object.keys(IPC_DATA).length > 0;
+  const currencyBadge = tx.currency && tx.currency !== 'ARS'
+    ? `<span class="currency-badge">${tx.originalAmount ? tx.originalAmount.toLocaleString('es-AR') : ''} ${tx.currency.replace('USD_', 'USD ')}</span>`
+    : '';
+  const inflationBadge = isInflationAdjusted && tx.date
+    ? `<span class="inflation-badge" title="Ajustado por inflación">★ real</span>`
+    : '';
+
   return `
-  <div class="tx-row" onclick="${isAuto ? `showToast('Movimientos automáticos no se editan, solo se borran', 'error')` : `editTransaction(${tx.id})`}" style="cursor:pointer">
+  <div class="tx-row" onclick="${isAuto ? `showToast('Movimientos autom\u00e1ticos no se editan, solo se borran', 'error')` : `editTransaction(${tx.id})`}" style="cursor:pointer">
     <span class="tx-icon">${cat.icon}</span>
     <div class="tx-info">
-      <div class="tx-desc" ${hasLongDesc ? 'style="white-space:normal;line-height:1.35"' : ''}>${desc.replace(/\n/g, '<br>')}</div>
+      <div class="tx-desc" ${hasLongDesc ? 'style="white-space:normal;line-height:1.35"' : ''}>${desc.replace(/\n/g, '<br>')}${currencyBadge}</div>
       <div class="tx-meta">${meth.icon} ${tx.method} · ${fmtRelativeDate(tx.date)} · ${cat.label}</div>
       ${tags}
     </div>
     <div class="tx-right">
-      <div class="tx-amount ${color}">${fmtSign(tx.amount, tx.type)}</div>
+      <div class="tx-amount ${color}">${tx.type === 'income' ? '+' : '−'}${displayAmount}${inflationBadge}</div>
       ${showDelete ? `<button class="btn-delete" onclick="event.stopPropagation(); deleteTx(${tx.id})">✕</button>` : ''}
     </div>
   </div>`;
 }
 
+// ── SUMMARY ROW (Fase 4.3) ────────────────────────────────────────────────
+// Fila colapsada: una línea por tarjeta por mes. Toca → modal de detalle.
+function summaryRow(r) {
+  const monthName = MONTHS_ES[r.month];
+  const paid = r.paid;
+  const dueText = r.due
+    ? `vence ${r.due.getDate()} ${MONTHS_ES[r.due.getMonth()].toLowerCase().slice(0, 3)}`
+    : 'vencimiento manual';
+
+  return `
+  <div class="tx-row summary-row ${paid ? 'summary-paid' : ''}"
+    style="border-left-color:${r.card.color}"
+    onclick="showSummaryDetail('${r.card.id}', ${r.year}, ${r.month})">
+    <span class="tx-icon">${r.card.emoji}</span>
+    <div class="tx-info">
+      <div class="tx-desc">
+        ${r.card.name}
+        ${paid ? '<span class="summary-paid-badge">✓ pagado</span>' : ''}
+      </div>
+      <div class="tx-meta">Resumen ${monthName} ${r.year} · ${dueText} · ${r.items.length} compra${r.items.length !== 1 ? 's' : ''}</div>
+    </div>
+    <div class="tx-right">
+      <div class="tx-amount red">−${fmt(r.total)}</div>
+      <span class="summary-chevron">›</span>
+    </div>
+  </div>`;
+}
+
+// Devuelve un array de "filas virtuales" (cuotas) para mostrar en el historial.
+// Cada cuota se ubica en el mes donde cae su vencimiento, no en la fecha de compra.
+// Filtra por type/tag/search reusando los mismos predicados que las txs.
+// Fase 4.3: devuelve UNA fila por (tarjeta × mes) con el total de ese resumen.
+// Antes (4.2): una fila por cuota individual. Ahora: una fila colapsada que
+// al tocarse abre el modal de detalle del resumen.
+function buildInstallmentRowsForHistory() {
+  const rows = [];
+  if (CARD_PURCHASES.length === 0) return rows;
+
+  // Recolectar todos los (cardId, year, month) únicos que tienen cuotas
+  const seen = new Set();
+  for (const p of CARD_PURCHASES) {
+    const card = getCard(p.cardId);
+    if (!card) continue;
+    const first = getFirstSummaryMonth(p.purchaseDate, card.closingDay);
+    if (!first) continue;
+    for (let i = 0; i < p.installments; i++) {
+      const ym = addMonths(first, i);
+      seen.add(`${p.cardId}|${ym.year}|${ym.month}`);
+    }
+  }
+
+  for (const key of seen) {
+    const [cardId, yearStr, monthStr] = key.split('|');
+    const year = Number(yearStr), month = Number(monthStr);
+    const card = getCard(cardId);
+    if (!card) continue;
+
+    const items = getInstallmentsForMonth(card, year, month);
+    const total = items.reduce((s, i) => s + i.amount, 0);
+    const due = getDueDate(card, year, month);
+    const sortDate = due
+      ? `${due.getFullYear()}-${String(due.getMonth() + 1).padStart(2, '0')}-${String(due.getDate()).padStart(2, '0')}`
+      : `${year}-${String(month + 1).padStart(2, '0')}-15`;
+    const paid = isSummaryPaidDirect(cardId, year, month);
+
+    // Para que funcionen los filtros de búsqueda
+    const allDescriptions = items.map(i => i.purchase.description || '').join(' ');
+    const allTags = [...new Set(items.flatMap(i => i.purchase.tags || []))];
+    const allCategories = [...new Set(items.map(i => i.purchase.category))];
+
+    rows.push({
+      _kind: 'summary',
+      _sortDate: sortDate,
+      card, year, month, total, paid, due, items,
+      // predicados de filtro compatibles con el merge de renderHistory
+      type: 'expense',
+      method: 'Tarjeta crédito',
+      category: allCategories[0] || 'tarjeta',
+      description: allDescriptions,
+      tags: allTags,
+      date: sortDate,
+      amount: total,
+      amount_searchable: Math.round(total).toString()
+    });
+  }
+
+  return rows;
+}
+
+// ── SUMMARY DETAIL MODAL (Fase 4.3) ───────────────────────────────────────
+// Modal principal de 4.3: detalle de un resumen por tarjeta y mes.
+// Muestra todas las compras con sus cuotas, total, vencimiento y "Marcar pagado".
+function showSummaryDetail(cardId, year, month) {
+  const card = getCard(cardId);
+  if (!card) return;
+
+  const items = getInstallmentsForMonth(card, year, month);
+  const total = items.reduce((s, i) => s + i.amount, 0);
+  const due = getDueDate(card, year, month);
+  const paid = isSummaryPaidDirect(cardId, year, month);
+  const monthName = MONTHS_ES[month];
+
+  const dueText = due
+    ? `${due.getDate()} ${MONTHS_ES[due.getMonth()]} ${due.getFullYear()}`
+    : 'Vencimiento manual';
+
+  // Agrupado por compra para mostrar descripción + cuota X/Y
+  const byPurchase = {};
+  for (const it of items) {
+    const pid = it.purchase.id;
+    if (!byPurchase[pid]) byPurchase[pid] = { purchase: it.purchase, installmentNum: it.installmentNum, installmentTotal: it.installmentTotal, amount: 0 };
+    byPurchase[pid].amount += it.amount;
+  }
+  const purchaseRows = Object.values(byPurchase);
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:400px;max-height:90vh;overflow-y:auto">
+        <div class="modal-header">
+          <div class="modal-title" style="color:${card.color}">${card.emoji} ${card.name}</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <div class="sum-header">
+          <div class="sum-month">Resumen ${monthName} ${year}</div>
+          <div class="sum-meta">
+            Cierre ${card.closingDay} ${monthName.toLowerCase()} ·
+            ${due ? `Vence ${dueText}` : 'Vencimiento manual'}
+          </div>
+          ${paid ? `<div class="sum-paid-banner">✓ Marcado como pagado</div>` : ''}
+        </div>
+
+        <!-- Lista de compras del resumen -->
+        <div class="sum-purchases">
+          ${purchaseRows.length === 0
+            ? `<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Sin compras en este resumen</div>`
+            : purchaseRows.map(row => {
+                const cat = getCat(row.purchase.category);
+                const desc = row.purchase.description || cat.label;
+                const isMulti = row.installmentTotal > 1;
+                return `
+                  <div class="sum-purchase-row" onclick="showCardPurchaseDetail(${row.purchase.id})">
+                    <span class="sum-cat-icon">${cat.icon}</span>
+                    <div class="sum-purchase-info">
+                      <div class="sum-purchase-desc">${desc}${isMulti ? ` <span class="installment-badge">${row.installmentNum}/${row.installmentTotal}</span>` : ''}</div>
+                      <div class="sum-purchase-meta">${fmtRelativeDate(row.purchase.purchaseDate)} · ${cat.label}</div>
+                    </div>
+                    <div class="sum-purchase-amount">−${fmt(row.amount)}</div>
+                  </div>
+                `;
+              }).join('')
+          }
+        </div>
+
+        <!-- Total y acción de pago -->
+        <div class="sum-total-row">
+          <span>Total resumen</span>
+          <span class="sum-total-amount">−${fmt(total)}</span>
+        </div>
+
+        <div class="form-actions" style="margin-top:14px">
+          ${paid
+            ? `<button class="btn-cancel" onclick="toggleSummaryPaid('${cardId}',${year},${month},${total},false)">↩ Desmarcar</button>`
+            : `<button class="btn-save" style="flex:1" onclick="toggleSummaryPaid('${cardId}',${year},${month},${total},true)">✓ Marcar como pagado</button>`
+          }
+          <button class="btn-cancel" onclick="closeModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function toggleSummaryPaid(cardId, year, month, amount, markAsPaid) {
+  if (markAsPaid) {
+    markSummaryPaid(cardId, year, month, amount);
+    showToast('Resumen marcado como pagado');
+  } else {
+    unmarkSummaryPaid(cardId, year, month);
+    showToast('Desmarcado');
+  }
+  // Re-abrir el modal con el estado actualizado
+  showSummaryDetail(cardId, year, month);
+  render();
+}
+
+// ── CARD PURCHASE DETAIL MODAL (actualizado Fase 4.3) ─────────────────────
+// Accesible desde showSummaryDetail. Ahora incluye botón de edición.
+function showCardPurchaseDetail(purchaseId) {
+  const p = CARD_PURCHASES.find(x => x.id === purchaseId);
+  if (!p) return;
+  const card = getCard(p.cardId);
+  const cat = getCat(p.category);
+  if (!card) {
+    showToast('La tarjeta de esta compra fue eliminada', 'error');
+    return;
+  }
+
+  const first = getFirstSummaryMonth(p.purchaseDate, card.closingDay);
+  const perInst = p.totalAmount / p.installments;
+  const remaining = getRemainingInstallments(p);
+  const remainingAmount = perInst * remaining;
+
+  const now = new Date();
+  const nowYM = { year: now.getFullYear(), month: now.getMonth() };
+  const installmentsList = [];
+  for (let i = 0; i < p.installments; i++) {
+    const ym = addMonths(first, i);
+    const due = getDueDate(card, ym.year, ym.month);
+    const monthsToNow = (nowYM.year - ym.year) * 12 + (nowYM.month - ym.month);
+    let status = 'future';
+    if (monthsToNow > 0) status = 'past';
+    else if (monthsToNow === 0) status = 'current';
+    installmentsList.push({ num: i + 1, ym, due, status });
+  }
+
+  const tagsHtml = p.tags && p.tags.length > 0
+    ? `<div class="cpd-tags">${p.tags.map(t => `<span class="tx-tag-mini">#${t}</span>`).join('')}</div>`
+    : '';
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:400px;max-height:90vh;overflow-y:auto">
+        <div class="modal-header">
+          <div class="modal-title">${cat.icon} Compra con tarjeta</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <div class="cpd-card" style="border-left-color:${card.color}">
+          <div class="cpd-card-row">
+            <span class="cpd-emoji">${card.emoji}</span>
+            <div>
+              <div class="cpd-card-name">${card.name}</div>
+              <div class="cpd-card-meta">Cierre día ${card.closingDay} · ${cardDueText(card)}</div>
+            </div>
+          </div>
+        </div>
+
+        ${p.description ? `<div class="cpd-desc">${p.description.replace(/\n/g, '<br>')}</div>` : ''}
+        ${p.noInterest ? `<div class="msi-badge">💚 Sin interés (MSI)</div>` : ''}
+        ${tagsHtml}
+
+        <div class="cpd-grid">
+          <div class="cpd-cell">
+            <div class="cpd-label">Total</div>
+            <div class="cpd-value">${fmt(p.totalAmount)}</div>
+          </div>
+          <div class="cpd-cell">
+            <div class="cpd-label">Cuotas</div>
+            <div class="cpd-value">${p.installments}x ${fmt(perInst)}</div>
+          </div>
+          <div class="cpd-cell">
+            <div class="cpd-label">Comprado</div>
+            <div class="cpd-value">${fmtRelativeDate(p.purchaseDate)}</div>
+          </div>
+          <div class="cpd-cell">
+            <div class="cpd-label">Restante</div>
+            <div class="cpd-value">${remaining}/${p.installments} · ${fmt(remainingAmount)}</div>
+          </div>
+        </div>
+
+        <div class="cpd-section-title">Desglose de cuotas</div>
+        <div class="cpd-installments">
+          ${installmentsList.map(it => `
+            <div class="cpd-inst ${it.status}">
+              <div class="cpd-inst-num">${it.num}</div>
+              <div class="cpd-inst-info">
+                <div class="cpd-inst-month">${MONTHS_ES[it.ym.month]} ${it.ym.year}</div>
+                <div class="cpd-inst-due">${it.due ? `Vence ${it.due.getDate()} ${MONTHS_ES[it.due.getMonth()].toLowerCase().slice(0,3)}` : 'Vencimiento manual'}</div>
+              </div>
+              <div class="cpd-inst-amount">${fmt(perInst)}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="form-actions" style="margin-top:14px">
+          <button class="btn-cancel" onclick="closeModal()">Cerrar</button>
+          <button class="btn-secondary" onclick="openEditPurchase(${p.id})">✏️ Editar</button>
+          <button class="btn-delete" onclick="deleteCardPurchase(${p.id})">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function deleteCardPurchase(purchaseId) {
+  const p = CARD_PURCHASES.find(x => x.id === purchaseId);
+  if (!p) return;
+  showConfirm(
+    '¿Eliminar esta compra?',
+    `Se borrarán todas las cuotas asociadas (${p.installments} en total). Esta acción no se puede deshacer.`,
+    () => {
+      CARD_PURCHASES = CARD_PURCHASES.filter(x => x.id !== purchaseId);
+      saveCardPurchasesToStorage();
+      closeModal();
+      showToast('Compra eliminada');
+      render();
+    }
+  );
+}
+
+// ── EDICIÓN DE COMPRAS CON TARJETA (Fase 4.3) ─────────────────────────────
+let editPurchaseState = null;
+
+function openEditPurchase(purchaseId) {
+  const p = CARD_PURCHASES.find(x => x.id === purchaseId);
+  if (!p) return;
+
+  editPurchaseState = {
+    id: p.id,
+    cardId: p.cardId,
+    purchaseDate: p.purchaseDate,
+    totalAmount: p.totalAmount.toString(),
+    installments: p.installments,
+    category: p.category,
+    description: p.description || '',
+    tags: [...(p.tags || [])]
+  };
+  renderEditPurchaseModal();
+}
+
+function renderEditPurchaseModal() {
+  const st = editPurchaseState;
+  if (!st) return;
+  const activeCards = CARDS.filter(c => c.active !== false);
+  const cats = CATEGORIES.expense;
+  const installmentsOptions = [1, 2, 3, 6, 9, 12, 18, 24];
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:380px;max-height:90vh;overflow-y:auto">
+        <div class="modal-header">
+          <div class="modal-title">✏️ Editar compra</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <label>Tarjeta</label>
+        <select id="ep-card" onchange="editPurchaseState.cardId=this.value">
+          ${activeCards.map(c => `
+            <option value="${c.id}" ${st.cardId===c.id?'selected':''}>
+              ${c.emoji} ${c.name} · cierre ${c.closingDay}
+            </option>
+          `).join('')}
+        </select>
+
+        <label>Monto total</label>
+        <input type="number" id="ep-amount" value="${st.totalAmount}"
+          placeholder="0" inputmode="decimal"
+          oninput="editPurchaseState.totalAmount=this.value" />
+
+        <label>Cuotas</label>
+        <div class="installments-grid">
+          ${installmentsOptions.map(n => `
+            <button class="inst-btn ${st.installments===n?'active':''}"
+              onclick="editPurchaseState.installments=${n}; renderEditPurchaseModal()">${n===1?'1 pago':n+'x'}</button>
+          `).join('')}
+        </div>
+
+        <label>Categoría</label>
+        <div class="cat-grid" style="margin-bottom:10px">
+          ${cats.map(cat => `
+            <button class="cat-btn ${st.category===cat.id?'active':''}"
+              onclick="editPurchaseState.category='${cat.id}'; renderEditPurchaseModal()">
+              ${cat.icon}
+              <span class="cat-lbl">${cat.label}</span>
+            </button>`).join('')}
+        </div>
+
+        <label>Descripción <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional)</span></label>
+        <textarea id="ep-desc" placeholder="Descripción de la compra"
+          oninput="editPurchaseState.description=this.value">${st.description}</textarea>
+
+        <label>Fecha de compra</label>
+        <input type="date" id="ep-date" value="${st.purchaseDate}"
+          onchange="editPurchaseState.purchaseDate=this.value" />
+
+        <div class="form-actions" style="margin-top:14px">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveEditPurchase()">💾 Guardar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveEditPurchase() {
+  const st = editPurchaseState;
+  if (!st) return;
+
+  const amount = parseFloat(st.totalAmount);
+  if (!amount || isNaN(amount) || amount <= 0) {
+    showToast('Ingresá un monto válido', 'error');
+    return;
+  }
+  const card = getCard(st.cardId);
+  if (!card) { showToast('Tarjeta no válida', 'error'); return; }
+
+  const first = getFirstSummaryMonth(st.purchaseDate, card.closingDay);
+  const firstStr = first ? `${first.year}-${String(first.month + 1).padStart(2, '0')}` : null;
+
+  const idx = CARD_PURCHASES.findIndex(p => p.id === st.id);
+  if (idx < 0) { showToast('Compra no encontrada', 'error'); return; }
+
+  CARD_PURCHASES[idx] = {
+    ...CARD_PURCHASES[idx],
+    cardId: st.cardId,
+    purchaseDate: st.purchaseDate,
+    totalAmount: amount,
+    installments: Math.max(1, parseInt(st.installments) || 1),
+    category: st.category,
+    description: st.description.trim(),
+    tags: st.tags || [],
+    firstInstallmentMonth: firstStr
+  };
+  saveCardPurchasesToStorage();
+  editPurchaseState = null;
+  closeModal();
+  showToast('Compra actualizada');
+  render();
+}
+
 // ── HISTORY ───────────────────────────────────────────────────────────────
 function renderHistory() {
-  let filtered = transactions.filter(t => histFilter === 'all' || t.type === histFilter);
+  // Fase 4.2: combinar txs legacy con cuotas virtuales calculadas desde card_purchases
+  const txRows = transactions.map(t => ({ ...t, _kind: 'tx', _sortDate: t.date }));
+  const installmentRows = buildInstallmentRowsForHistory();
+  let combined = [...txRows, ...installmentRows];
 
-  // Tag filter
+  // Filtros (aplicables a ambos tipos)
+  combined = combined.filter(r => histFilter === 'all' || r.type === histFilter);
+
   if (tagFilter) {
-    filtered = filtered.filter(t => t.tags && t.tags.includes(tagFilter));
+    combined = combined.filter(r => r.tags && r.tags.includes(tagFilter));
   }
 
   const q = searchQuery.trim().toLowerCase();
   if (q) {
-    filtered = filtered.filter(t => {
-      const cat = getCat(t.category);
+    combined = combined.filter(r => {
+      const cat = getCat(r.category);
+      const inAmount = r._kind === 'installment'
+        ? r.amount_searchable.includes(q)
+        : r.amount.toString().includes(q);
       return (
-        (t.description || '').toLowerCase().includes(q) ||
+        (r.description || '').toLowerCase().includes(q) ||
         cat.label.toLowerCase().includes(q) ||
-        t.method.toLowerCase().includes(q) ||
-        t.amount.toString().includes(q) ||
-        t.date.includes(q) ||
-        (t.tags || []).some(tag => tag.includes(q))
+        (r.method || '').toLowerCase().includes(q) ||
+        inAmount ||
+        (r.date || '').includes(q) ||
+        (r.tags || []).some(tag => tag.includes(q))
       );
     });
   }
+
+  // Ordenar por fecha desc (cuotas usan la fecha del vencimiento del resumen)
+  combined.sort((a, b) => {
+    if (a._sortDate < b._sortDate) return 1;
+    if (a._sortDate > b._sortDate) return -1;
+    // Tie: txs antes que cuotas
+    if (a._kind !== b._kind) return a._kind === 'tx' ? -1 : 1;
+    return 0;
+  });
 
   const allTags = getAllUsedTags();
 
@@ -1997,12 +4718,12 @@ function renderHistory() {
       `).join('')}
     </div>` : ''}
 
-    ${q || tagFilter ? `<div class="search-results-info">${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}${q ? ` para "${q}"` : ''}${tagFilter ? ` con etiqueta #${tagFilter}` : ''}</div>` : ''}
+    ${q || tagFilter ? `<div class="search-results-info">${combined.length} resultado${combined.length !== 1 ? 's' : ''}${q ? ` para "${q}"` : ''}${tagFilter ? ` con etiqueta #${tagFilter}` : ''}</div>` : ''}
 
     <div class="section">
-      ${filtered.length === 0
+      ${combined.length === 0
         ? `<div class="empty"><div class="emoji">🔍</div><p>${q || tagFilter ? 'No se encontraron movimientos.' : 'No hay movimientos aquí.'}</p></div>`
-        : filtered.map(tx => txRow(tx, true)).join('')
+        : combined.map(r => r._kind === 'summary' ? summaryRow(r) : txRow(r, true)).join('')
       }
     </div>
   </div>`;
@@ -2035,14 +4756,187 @@ function clearSearch() {
 }
 
 // ── STATS ─────────────────────────────────────────────────────────────────
-function renderStats() {
-  const total_income  = transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const total_expense = transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
-  const total_card    = transactions.filter(t=>t.type==='expense'&&t.method==='Tarjeta crédito').reduce((s,t)=>s+t.amount,0);
+// ── PLANNING (Fase 5) ─────────────────────────────────────────────────────
+function renderPlanning() {
+  const forecast = buildForecast(6);
+  const netWorth = getNetWorth();
+  const liquid = getLiquidBalance();
+  const pending = getPendingInstallmentsTotal();
+  const sfTotal = getSinkingFundsTotal();
+  const hasRecurringIncome = recurring.some(r => r.type === 'income' && r.active !== false);
+  const now = new Date();
 
-  // By method
+  return `
+  <div class="fade-up">
+    <div style="margin-bottom:20px">
+      <div class="section-title" style="margin-bottom:4px">🎯 Planificación</div>
+      <div style="font-size:12px;color:var(--muted)">Abril ${now.getFullYear()}</div>
+    </div>
+
+    <!-- ── Patrimonio neto ── -->
+    <div class="plan-networth-card">
+      <div class="plan-networth-label">Patrimonio neto estimado</div>
+      <div class="plan-networth-value ${netWorth >= 0 ? 'green' : 'red'}">${netWorth >= 0 ? '+' : ''}${fmt(netWorth)}</div>
+      <div class="plan-networth-breakdown">
+        <div class="plan-nw-item">
+          <span class="plan-nw-dot green"></span>
+          <span>Saldo líquido</span>
+          <span class="plan-nw-val ${liquid >= 0 ? 'green' : 'red'}">${liquid >= 0 ? '+' : ''}${fmt(liquid)}</span>
+        </div>
+        <div class="plan-nw-item">
+          <span class="plan-nw-dot blue"></span>
+          <span>Fondos de reserva</span>
+          <span class="plan-nw-val">${fmt(sfTotal)}</span>
+        </div>
+        <div class="plan-nw-item">
+          <span class="plan-nw-dot red"></span>
+          <span>Cuotas pendientes</span>
+          <span class="plan-nw-val red">−${fmt(pending)}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Forecast de cashflow ── -->
+    <div class="section">
+      <div class="section-title">📅 Proyección de cashflow</div>
+      ${!hasRecurringIncome ? `
+        <div class="plan-hint">
+          💡 Configurá tus ingresos en
+          <button onclick="showView('recurring')" style="color:var(--purple-light);background:none;border:none;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;font-weight:600">Recurrentes</button>
+          para que la proyección sea más precisa.
+        </div>` : ''}
+      <div class="forecast-grid">
+        ${forecast.map((f, i) => {
+          const isNow = i === 0;
+          const pct = f.incomeExpected > 0
+            ? Math.min(100, Math.round((f.totalCommitted / f.incomeExpected) * 100))
+            : 0;
+          const freeClass = f.free >= 0 ? 'green' : 'red';
+          const barClass = pct >= 100 ? 'danger' : pct >= 80 ? 'warn' : 'safe';
+          return `
+          <div class="forecast-month ${isNow ? 'current' : ''}">
+            <div class="forecast-month-name">${MONTHS_ES[f.month].slice(0,3)}${isNow ? ' · hoy' : ''}</div>
+            <div class="forecast-bar-wrap">
+              <div class="forecast-bar">
+                <div class="forecast-bar-fill ${barClass}" style="width:${pct}%"></div>
+              </div>
+              <span class="forecast-pct ${barClass}">${pct}%</span>
+            </div>
+            <div class="forecast-free ${freeClass}">${f.free >= 0 ? '+' : ''}${fmt(f.free)}</div>
+            <div class="forecast-label">libre</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="plan-legend">
+        <div class="plan-legend-row">
+          <span class="plan-legend-dot green"></span>
+          <span>Ingresos esperados: <strong>${fmt(forecast[0]?.incomeExpected || 0)}</strong>/mes</span>
+        </div>
+        <div class="plan-legend-row">
+          <span class="plan-legend-dot orange"></span>
+          <span>Compromisos fijos (cuotas + recurrentes): varía por mes</span>
+        </div>
+        <div class="plan-legend-row">
+          <span class="plan-legend-dot muted"></span>
+          <span>Variable promedio (últ. 3 meses): <strong>${fmt(forecast[0]?.variableAvg || 0)}</strong>/mes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Fondos de reserva / Metas ── -->
+    <div class="section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="section-title" style="margin:0">🏦 Fondos de reserva</div>
+        <button class="subpage-action" style="font-size:12px;padding:6px 12px" onclick="openSinkingFundForm()">+ Nuevo</button>
+      </div>
+
+      ${SINKING_FUNDS.length === 0 ? `
+        <div class="plan-empty">
+          <div style="font-size:36px;margin-bottom:10px">🏦</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-dim);margin-bottom:6px">Sin fondos todavía</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px">
+            Creá fondos para gastos no mensuales: vacaciones, seguros, regalos de fin de año.
+            La app calcula cuánto apartar por mes.
+          </div>
+          <button class="btn-save" style="padding:10px 20px" onclick="openSinkingFundForm()">Crear primer fondo</button>
+        </div>
+      ` : SINKING_FUNDS.map(f => sinkingFundRow(f)).join('')}
+    </div>
+
+  </div>`;
+}
+
+function sinkingFundRow(f) {
+  const pct = f.targetAmount > 0
+    ? Math.min(100, Math.round(((f.savedAmount || 0) / f.targetAmount) * 100))
+    : 0;
+  const barClass = pct >= 100 ? 'safe' : pct >= 60 ? 'warn' : 'safe'; // always safe except done
+  const done = pct >= 100;
+  const contribution = monthlyContributionNeeded(f);
+  const months = monthsUntilTarget(f.targetDate);
+  const dueText = f.targetDate
+    ? (() => {
+        const d = new Date(f.targetDate + 'T00:00:00');
+        return `${MONTHS_ES[d.getMonth()].slice(0,3)} ${d.getFullYear()}`;
+      })()
+    : 'Sin fecha';
+
+  return `
+  <div class="sf-row ${done ? 'sf-done' : ''}">
+    <div class="sf-header">
+      <span class="sf-emoji">${f.emoji || '🎯'}</span>
+      <div class="sf-info">
+        <div class="sf-name">${f.name}${done ? ' ✓' : ''}</div>
+        <div class="sf-meta">${dueText}${months !== null && months > 0 ? ` · ${months} mes${months !== 1 ? 'es' : ''}` : done ? ' · ¡Completado!' : ''}</div>
+      </div>
+      <div class="sf-amounts">
+        <div class="sf-saved">${fmt(f.savedAmount || 0)}</div>
+        <div class="sf-target">/ ${fmt(f.targetAmount)}</div>
+      </div>
+    </div>
+    <div class="sf-bar-wrap">
+      <div class="sf-bar">
+        <div class="sf-bar-fill ${done ? 'done' : 'active'}" style="width:${pct}%"></div>
+      </div>
+      <span class="sf-pct">${pct}%</span>
+    </div>
+    ${!done && contribution > 0 ? `
+    <div class="sf-contribution">Apartar <strong>${fmt(contribution)}/mes</strong> para llegar a tiempo</div>
+    ` : ''}
+    <div class="sf-actions">
+      <button onclick="addToSinkingFund('${f.id}')" class="sf-btn-add">+ Agregar</button>
+      <button onclick="editSinkingFund('${f.id}')" class="sf-btn-edit">✏️</button>
+      <button onclick="deleteSinkingFund('${f.id}')" class="sf-btn-del">🗑️</button>
+    </div>
+  </div>`;
+}
+
+function renderStats() {
+  const total_income     = transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const total_expense_legacy = transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  // Fase 4.2: sumar todas las compras con tarjeta al total general
+  const total_purchases  = sumAllCardPurchases();
+  const total_expense    = total_expense_legacy + total_purchases;
+  const total_card       = transactions.filter(t=>t.type==='expense'&&t.method==='Tarjeta crédito').reduce((s,t)=>s+t.amount,0) + total_purchases;
+
+  // By method — Fase 4.4: en vez de meter todo en "Tarjeta crédito",
+  // cada tarjeta aparece con su nombre propio si tiene compras históricas.
   const byMethod = {};
   transactions.filter(t=>t.type==='expense').forEach(t => { byMethod[t.method] = (byMethod[t.method]||0)+t.amount; });
+  // Compras por tarjeta — cada una como entrada propia
+  for (const card of CARDS) {
+    const cardTotal = CARD_PURCHASES.filter(p => p.cardId === card.id).reduce((s, p) => s + p.totalAmount, 0);
+    if (cardTotal > 0) {
+      const key = `${card.emoji} ${card.name}`;
+      byMethod[key] = (byMethod[key] || 0) + cardTotal;
+    }
+  }
+  // Compras huérfanas (tarjeta borrada) van a "Tarjeta crédito" genérico
+  for (const p of CARD_PURCHASES) {
+    if (!getCard(p.cardId)) {
+      byMethod['Tarjeta crédito'] = (byMethod['Tarjeta crédito'] || 0) + p.totalAmount;
+    }
+  }
   const methods = Object.entries(byMethod).sort((a,b)=>b[1]-a[1]);
 
   // By category (for pie chart) - histórico completo
@@ -2050,6 +4944,10 @@ function renderStats() {
   transactions.filter(t => t.type === 'expense').forEach(t => {
     byCategoryAll[t.category] = (byCategoryAll[t.category] || 0) + t.amount;
   });
+  // Fase 4.2: agregar compras con tarjeta al pie por categoría
+  for (const p of CARD_PURCHASES) {
+    byCategoryAll[p.category] = (byCategoryAll[p.category] || 0) + p.totalAmount;
+  }
   const pieCats = Object.entries(byCategoryAll).sort((a, b) => b[1] - a[1]);
   const pieTotal = pieCats.reduce((s, [_, v]) => s + v, 0);
 
@@ -2058,14 +4956,19 @@ function renderStats() {
   for (let i = chartRange - 1; i >= 0; i--) {
     const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i);
     const y = d.getFullYear(), m = d.getMonth();
+    const monthKey = `${y}-${String(m+1).padStart(2,'0')}-01`; // primer día del mes para fmtReal
     const monthTxs = transactions.filter(t => {
       const td = new Date(t.date);
       return td.getFullYear()===y && td.getMonth()===m;
     });
+    // Fase 6: si el toggle está activo, ajustar por inflación (usando el 1ro del mes como proxy)
+    const inflMult = settingsFlags.adjustForInflation ? getInflationMultiplier(monthKey) : 1;
+    const rawIncome  = monthTxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+    const rawExpense = monthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0) + sumInstallmentsForMonth(y, m);
     monthlySummary.push({
       label: MONTHS_ES[m].slice(0,3),
-      income: monthTxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0),
-      expense: monthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0),
+      income:  rawIncome  * inflMult,
+      expense: rawExpense * inflMult,
     });
   }
   const maxVal = Math.max(...monthlySummary.flatMap(m=>[m.income,m.expense]), 1);
@@ -2138,7 +5041,7 @@ function renderStats() {
     <!-- Monthly chart -->
     <div class="section">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-        <div class="section-title" style="margin:0">📅 Evolución mensual</div>
+        <div class="section-title" style="margin:0">📅 Evolución mensual${settingsFlags.adjustForInflation ? ' <span style="font-size:10px;color:var(--purple-light);font-weight:600;text-transform:none;letter-spacing:0"> · en pesos de hoy</span>' : ''}</div>
         <div class="range-selector">
           <button class="range-btn ${chartRange===3?'active':''}" onclick="setChartRange(3)">3M</button>
           <button class="range-btn ${chartRange===6?'active':''}" onclick="setChartRange(6)">6M</button>
@@ -2190,7 +5093,197 @@ function renderStats() {
 
     <!-- Count -->
     <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px">
-      ${transactions.length} movimiento${transactions.length!==1?'s':''} registrado${transactions.length!==1?'s':''}
+      ${transactions.length + CARD_PURCHASES.length} movimiento${(transactions.length + CARD_PURCHASES.length)!==1?'s':''} registrado${(transactions.length + CARD_PURCHASES.length)!==1?'s':''}
+      ${CARD_PURCHASES.length > 0 ? `<span style="opacity:0.6"> (${CARD_PURCHASES.length} con tarjeta)</span>` : ''}
+    </div>
+
+    ${(() => {
+      // ── Fase 4.6: Análisis por tarjeta ───────────────────────
+      if (CARDS.length === 0 || CARD_PURCHASES.length === 0) return '';
+
+      const cardStats = CARDS.map(card => {
+        const purchases = CARD_PURCHASES.filter(p => p.cardId === card.id);
+        if (purchases.length === 0) return null;
+        const totalSpent = purchases.reduce((s, p) => s + p.totalAmount, 0);
+
+        // Categoría top
+        const byCat = {};
+        purchases.forEach(p => { byCat[p.category] = (byCat[p.category] || 0) + p.totalAmount; });
+        const topCatEntry = Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+        const topCat = topCatEntry ? getCat(topCatEntry[0]) : null;
+
+        // Promedio de resumen mensual (últimos 6 meses)
+        let monthlyAvg = 0;
+        const now = new Date();
+        let monthsWithActivity = 0;
+        for (let i = 0; i < 6; i++) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const items = getInstallmentsForMonth(card, d.getFullYear(), d.getMonth());
+          const monthTotal = items.reduce((s, it) => s + it.amount, 0);
+          if (monthTotal > 0) { monthlyAvg += monthTotal; monthsWithActivity++; }
+        }
+        if (monthsWithActivity > 0) monthlyAvg /= monthsWithActivity;
+
+        return { card, purchases, totalSpent, topCat, topCatAmount: topCatEntry?.[1] || 0, monthlyAvg };
+      }).filter(Boolean).sort((a,b) => b.totalSpent - a.totalSpent);
+
+      if (cardStats.length === 0) return '';
+
+      return `
+      <div class="section">
+        <div class="section-title">💳 Análisis por tarjeta</div>
+        ${cardStats.map(({ card, purchases, totalSpent, topCat, topCatAmount, monthlyAvg }) => `
+          <div class="card-stat-row" onclick="showView('cards')">
+            <div class="card-stat-header" style="border-left-color:${card.color}">
+              <span style="font-size:18px">${card.emoji}</span>
+              <div class="card-stat-info">
+                <div class="card-stat-name">${card.name}</div>
+                <div class="card-stat-meta">${purchases.length} compra${purchases.length!==1?'s':''} · ${fmt(totalSpent)} total</div>
+              </div>
+              <div class="card-stat-avg">
+                <div class="card-stat-avg-val">${fmt(monthlyAvg)}</div>
+                <div class="card-stat-avg-lbl">/mes</div>
+              </div>
+            </div>
+            ${topCat ? `
+              <div class="card-stat-top-cat">
+                ${topCat.icon} Mayor gasto: <strong>${topCat.label}</strong> — ${fmt(topCatAmount)}
+              </div>` : ''}
+          </div>
+        `).join('')}
+      </div>`;
+    })()}
+
+    ${renderHeatmap()}
+    ${renderYearComparison()}
+  </div>`;
+}
+
+// ── HEATMAP (Fase 7) ──────────────────────────────────────────────────────
+function renderHeatmap() {
+  if (transactions.length === 0) return '';
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth();
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const firstWeekday = new Date(y, m, 1).getDay(); // 0=dom
+
+  // Gasto por día del mes actual
+  const byDay = {};
+  transactions.forEach(t => {
+    const d = new Date(t.date);
+    if (t.type !== 'expense' || d.getFullYear() !== y || d.getMonth() !== m) return;
+    const day = d.getDate();
+    byDay[day] = (byDay[day] || 0) + t.amount;
+  });
+  // Sumar cuotas del mes
+  for (const card of CARDS) {
+    const items = getInstallmentsForMonth(card, y, m);
+    items.forEach(it => {
+      const day = card.closingDay || 15; // las cuotas no tienen día exacto — usar día de cierre como proxy
+      byDay[day] = (byDay[day] || 0) + it.amount;
+    });
+  }
+
+  const maxDay = Math.max(...Object.values(byDay), 1);
+  const today = now.getDate();
+  const dayLabels = ['D','L','M','X','J','V','S'];
+
+  // Celdas: primer día del mes puede no ser lunes
+  const cells = [];
+  for (let pad = 0; pad < firstWeekday; pad++) cells.push({ empty: true });
+  for (let d = 1; d <= daysInMonth; d++) {
+    const amt = byDay[d] || 0;
+    const intensity = amt > 0 ? Math.max(0.1, amt / maxDay) : 0;
+    cells.push({ day: d, amt, intensity, isToday: d === today });
+  }
+
+  return `
+  <div class="section">
+    <div class="section-title">🗓️ Actividad diaria — ${MONTHS_ES[m]} ${y}</div>
+    <div class="heatmap-day-labels">
+      ${dayLabels.map(l => `<span>${l}</span>`).join('')}
+    </div>
+    <div class="heatmap-grid">
+      ${cells.map(c => c.empty
+        ? `<div class="heatmap-cell empty"></div>`
+        : `<div class="heatmap-cell ${c.isToday ? 'today' : ''}"
+              style="--intensity:${c.intensity.toFixed(2)}"
+              title="Día ${c.day}: ${c.amt > 0 ? fmt(c.amt) : 'sin gastos'}">
+             <span class="heatmap-day-num">${c.day}</span>
+           </div>`
+      ).join('')}
+    </div>
+    <div class="heatmap-legend">
+      <span>Sin gasto</span>
+      <div class="heatmap-legend-scale">
+        ${[0.1,0.3,0.5,0.7,1].map(v => `<div class="heatmap-legend-cell" style="--intensity:${v}"></div>`).join('')}
+      </div>
+      <span>${fmt(maxDay)}</span>
+    </div>
+  </div>`;
+}
+
+// ── COMPARACIÓN AÑO VS AÑO (Fase 7) ──────────────────────────────────────
+let showYearComparison = false;
+
+function renderYearComparison() {
+  if (transactions.length === 0) return '';
+  const now = new Date();
+  const currentY = now.getFullYear();
+  const prevY = currentY - 1;
+
+  const toggleBtn = `
+    <button onclick="showYearComparison=!showYearComparison; render()"
+      style="font-size:11px;color:var(--purple-light);background:none;border:1px solid var(--border);
+             border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;font-weight:600">
+      ${showYearComparison ? '▲ Ocultar' : `📊 vs ${prevY}`}
+    </button>`;
+
+  if (!showYearComparison) {
+    return `<div style="text-align:center;margin:8px 0 16px">${toggleBtn}</div>`;
+  }
+
+  // Últimos 6 meses — comparar año actual vs año anterior
+  const rows = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const m2 = d.getMonth();
+    const curByCat = getMonthExpenseByCat(currentY, m2);
+    const prevByCat = getMonthExpenseByCat(prevY, m2);
+    const curTotal = Object.values(curByCat).reduce((s,v)=>s+v,0) + sumInstallmentsForMonth(currentY, m2);
+    const prevTotal = Object.values(prevByCat).reduce((s,v)=>s+v,0) + sumInstallmentsForMonth(prevY, m2);
+    const pct = prevTotal > 0 ? Math.round(((curTotal - prevTotal) / prevTotal) * 100) : null;
+    rows.push({ month: MONTHS_ES[m2].slice(0,3), curTotal, prevTotal, pct });
+  }
+  const maxVal = Math.max(...rows.flatMap(r => [r.curTotal, r.prevTotal]), 1);
+
+  return `
+  <div class="section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="section-title" style="margin:0">📊 ${currentY} vs ${prevY}</div>
+      ${toggleBtn}
+    </div>
+    ${rows.map(r => `
+      <div class="yoy-row">
+        <div class="yoy-month">${r.month}</div>
+        <div class="yoy-bars">
+          <div class="yoy-bar-wrap">
+            <div class="yoy-bar current" style="width:${(r.curTotal/maxVal*100).toFixed(1)}%"></div>
+            <span class="yoy-label">${fmt(r.curTotal)}</span>
+          </div>
+          <div class="yoy-bar-wrap">
+            <div class="yoy-bar prev" style="width:${(r.prevTotal/maxVal*100).toFixed(1)}%"></div>
+            <span class="yoy-label muted">${r.prevTotal > 0 ? fmt(r.prevTotal) : '—'}</span>
+          </div>
+        </div>
+        ${r.pct !== null && r.prevTotal > 0 ? `
+          <div class="yoy-pct ${r.pct > 0 ? 'up' : 'down'}">${r.pct > 0 ? '+' : ''}${r.pct}%</div>
+        ` : '<div class="yoy-pct muted">—</div>'}
+      </div>
+    `).join('')}
+    <div class="yoy-legend">
+      <div><span class="yoy-dot current"></span>${currentY}</div>
+      <div><span class="yoy-dot prev"></span>${prevY}</div>
     </div>
   </div>`;
 }
@@ -2215,7 +5308,43 @@ function renderForm() {
     <!-- Amount -->
     <label>Monto</label>
     <input type="number" id="f-amount" placeholder="0" value="${formState.amount}"
-      oninput="formState.amount=this.value" style="text-align:center" inputmode="decimal" />
+      oninput="formState.amount=this.value; updateFormCurrencyPreview()" style="text-align:center" inputmode="decimal" enterkeyhint="next" />
+
+    <!-- Fase 6: selector de moneda (solo en gastos, opcional) -->
+    ${formState.type === 'expense' ? `
+    <div class="currency-selector-wrap">
+      <div class="currency-chips">
+        ${[
+          { id: 'ARS', label: 'ARS $' },
+          { id: 'USD_BLUE', label: 'USD Blue' },
+          { id: 'USD_OFICIAL', label: 'USD Oficial' },
+          { id: 'USD_MEP', label: 'USD MEP' }
+        ].map(c => `
+          <button class="currency-chip ${formState.currency===c.id?'active':''}"
+            onclick="setFormCurrency('${c.id}')">${c.label}</button>
+        `).join('')}
+      </div>
+      ${formState.currency !== 'ARS' ? `
+        <div class="currency-rate-row">
+          <span style="font-size:12px;color:var(--muted)">Cotización ARS</span>
+          <input type="number" class="currency-rate-input" id="f-rate"
+            placeholder="ej: 1250" value="${formState.exchangeRate > 1 ? formState.exchangeRate : ''}"
+            inputmode="decimal"
+            oninput="formState.exchangeRate=parseFloat(this.value)||1; updateFormCurrencyPreview()" />
+        </div>
+        <div class="currency-preview" id="currency-preview">
+          ${(() => {
+            const usd = parseFloat(formState.amount) || 0;
+            const rate = formState.exchangeRate || 1;
+            if (usd > 0 && rate > 1) return `= ${fmt(usd * rate)} ARS`;
+            return 'Ingresá monto y cotización';
+          })()}
+        </div>
+        <button class="currency-fetch-btn" onclick="fetchRateForForm('${formState.currency}')">
+          🔄 Cotización actual
+        </button>
+      ` : ''}
+    </div>` : ''}
 
     <!-- Category -->
     <label>Categoría</label>
@@ -2229,14 +5358,100 @@ function renderForm() {
 
     <!-- Method -->
     <label>Método de pago</label>
-    <select id="f-method" onchange="formState.method=this.value">
+    <select id="f-method" onchange="setFormMethod(this.value)">
       ${METHODS.map(m => `<option value="${m.label}" ${formState.method===m.label?'selected':''}>${m.icon} ${m.label}</option>`).join('')}
     </select>
+
+    ${(() => {
+      // Fase 4.2: campos extra cuando es compra con tarjeta de crédito.
+      // Solo en CREATE mode (la edición de compras con tarjeta llega en 4.3).
+      if (formState.type !== 'expense') return '';
+      if (formState.method !== 'Tarjeta crédito') return '';
+      if (isEdit) return ''; // legacy edit: no extra fields
+
+      const activeCards = CARDS.filter(c => c.active !== false);
+      if (activeCards.length === 0) {
+        return `
+          <div class="card-purchase-block warn">
+            <div class="cpb-title">⚠️ Configurá una tarjeta primero</div>
+            <div class="cpb-desc">
+              Para registrar compras con cuotas necesitás tener al menos una tarjeta cargada.
+              <button class="cpb-btn" onclick="cancelForm(); showView('cards')">Ir a Tarjetas</button>
+            </div>
+          </div>
+        `;
+      }
+
+      // Fase 4.6: sugerir última tarjeta usada
+      const lastCardId = localStorage.getItem('mie_last_card');
+      const lastCard = lastCardId ? activeCards.find(c => c.id === lastCardId) : null;
+      const selectedCardId = formState.cardId || (lastCard ? lastCard.id : activeCards[0].id);
+      if (!formState.cardId) formState.cardId = selectedCardId;
+
+      const installmentsOptions = [1, 2, 3, 6, 9, 12, 18, 24];
+      // Si el usuario tiene un valor custom, lo respetamos
+      const currentInst = formState.installments || 1;
+
+      return `
+        <div class="card-purchase-block">
+          <div class="cpb-title">💳 Compra con tarjeta</div>
+
+          <label>Tarjeta</label>
+          <select id="f-card" onchange="formState.cardId=this.value">
+            ${activeCards.map(c => `
+              <option value="${c.id}" ${selectedCardId===c.id?'selected':''}>
+                ${c.emoji} ${c.name} · cierre ${c.closingDay}
+              </option>
+            `).join('')}
+          </select>
+
+          <label>Cuotas</label>
+          <div class="installments-grid">
+            ${installmentsOptions.map(n => `
+              <button class="inst-btn ${currentInst===n?'active':''}"
+                onclick="formState.installments=${n}; render()">${n===1?'1 pago':n+'x'}</button>
+            `).join('')}
+          </div>
+
+          ${(() => {
+            // Vista previa: a qué resumen entra la cuota 1
+            const card = getCard(selectedCardId);
+            if (!card) return '';
+            const first = getFirstSummaryMonth(formState.date, card.closingDay);
+            if (!first) return '';
+            const monthName = MONTHS_ES[first.month];
+            const due = getDueDate(card, first.year, first.month);
+            const dueText = due
+              ? `vence ${due.getDate()} ${MONTHS_ES[due.getMonth()].toLowerCase().slice(0,3)}`
+              : 'vencimiento manual';
+            const amt = parseFloat(formState.amount) || 0;
+            const perInst = amt / currentInst;
+            return `
+              <div class="cpb-preview">
+                Cuota 1${currentInst>1?` de ${currentInst}`:''} entra al resumen de
+                <strong>${monthName} ${first.year}</strong> · ${dueText}
+                ${amt > 0 && currentInst > 1 ? `<br><span style="opacity:0.85">${currentInst} cuotas de <strong>${fmt(perInst)}</strong></span>` : ''}
+              </div>
+            `;
+          })()}
+
+          <!-- Fase 4.6: MSI toggle -->
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-top:4px;margin-bottom:8px">
+            <input type="checkbox" ${formState.noInterest ? 'checked' : ''}
+              onchange="formState.noInterest=this.checked"
+              style="width:16px;height:16px;cursor:pointer" />
+            <span style="font-size:12px;color:var(--text-dim);text-transform:none;letter-spacing:0;font-weight:500;margin:0">
+              💚 Sin interés (MSI / cuotas sin cargo)
+            </span>
+          </label>
+        </div>
+      `;
+    })()}
 
     <!-- Description -->
     <label>Descripción / Notas <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional)</span></label>
     <textarea id="f-desc" placeholder="Ej: Cumpleaños de Juan en restaurante X, fuimos 6 personas"
-      oninput="formState.description=this.value">${formState.description}</textarea>
+      oninput="formState.description=this.value; applyAutoCategory(this.value)">${formState.description}</textarea>
 
     <!-- Tags -->
     <label>Etiquetas <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional, ej: vacaciones, regalo)</span></label>
@@ -2274,7 +5489,7 @@ function renderForm() {
 }
 
 function cancelForm() {
-  formState = { id: null, type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
+  formState = defaultFormState();
   showView('dashboard');
 }
 
@@ -2286,10 +5501,84 @@ function setFormType(t) {
 
 function setFormCat(id) {
   formState.category = id;
+  formState._catManuallySet = true; // Fase 7: el usuario eligió manualmente, no sugerir más
   render();
-  // Re-set amount so typing doesn't reset
   const amtEl = document.getElementById('f-amount');
   if (amtEl) { amtEl.value = formState.amount; amtEl.focus(); }
+}
+
+// Fase 7: sugiere categoría basada en historial de descripciones.
+// Solo actúa si el usuario no eligió manualmente una categoría.
+function applyAutoCategory(description) {
+  if (formState._catManuallySet) return;
+  if (formState.id !== null) return; // en edición, no sobreescribir
+  const suggested = getAutoCategory(description);
+  if (suggested && suggested !== formState.category) {
+    formState.category = suggested;
+    // Re-renderizar solo el grid de categorías sin perder el foco del input
+    const catGrid = document.querySelector('.cat-grid');
+    if (catGrid) {
+      const cats = CATEGORIES[formState.type];
+      catGrid.innerHTML = cats.map(cat => `
+        <button class="cat-btn ${formState.category===cat.id?'active':''}" onclick="setFormCat('${cat.id}')">
+          ${cat.icon}
+          <span class="cat-lbl">${cat.label}</span>
+        </button>`).join('');
+    }
+  }
+}
+
+// Fase 4.2: cambiar método triggerea re-render para mostrar/ocultar
+// los campos de compra con tarjeta (selector de tarjeta + cuotas).
+function setFormMethod(value) {
+  formState.method = value;
+  if (value === 'Tarjeta crédito' && !formState.cardId) {
+    formState.cardId = null;
+    if (!formState.installments) formState.installments = 1;
+  }
+  render();
+}
+
+// Fase 6: helpers de multi-moneda en el form
+function setFormCurrency(currency) {
+  formState.currency = currency;
+  if (currency === 'ARS') { formState.exchangeRate = 1; formState.originalAmount = ''; }
+  render();
+  if (currency !== 'ARS') fetchRateForForm(currency);
+}
+
+async function fetchRateForForm(currency) {
+  const rates = await fetchLiveRates();
+  if (!rates) {
+    // Sin conexión o entorno bloqueado — dejar el input vacío para ingreso manual
+    showToast('Ingresá la cotización manualmente');
+    const rateInput = document.getElementById('f-rate');
+    if (rateInput) { rateInput.focus(); rateInput.select(); }
+    return;
+  }
+  let rate = 1;
+  if (currency === 'USD_BLUE')    rate = rates.blue    || 1;
+  if (currency === 'USD_OFICIAL') rate = rates.oficial || 1;
+  if (currency === 'USD_MEP')     rate = rates.mep     || 1;
+  formState.exchangeRate = rate;
+  const today = new Date().toISOString().slice(0,10);
+  if (!EXCHANGE_RATES[today]) EXCHANGE_RATES[today] = {};
+  if (currency === 'USD_BLUE')    EXCHANGE_RATES[today].blue = rate;
+  if (currency === 'USD_OFICIAL') EXCHANGE_RATES[today].oficial = rate;
+  if (currency === 'USD_MEP')     EXCHANGE_RATES[today].mep = rate;
+  saveExchangeRates();
+  const rateInput = document.getElementById('f-rate');
+  if (rateInput) rateInput.value = rate;
+  updateFormCurrencyPreview();
+  showToast(`Cotización: $${rate.toLocaleString('es-AR')}`);
+}
+
+function updateFormCurrencyPreview() {
+  const preview = document.getElementById('currency-preview');
+  if (!preview) return;
+  const usd = parseFloat(formState.amount) || 0;
+  const rate = formState.exchangeRate || 1;
+  preview.textContent = usd > 0 && rate > 1 ? `= ${fmt(usd * rate)} ARS` : 'Ingresá monto y cotización';
 }
 
 function saveTransaction() {
@@ -2302,6 +5591,46 @@ function saveTransaction() {
       amtEl.classList.add('shake');
       setTimeout(() => amtEl.classList.remove('shake'), 500);
     }
+    return;
+  }
+
+  // ── Fase 4.2: Compras con tarjeta de crédito ───────────────────────────
+  // En CREATE + expense + Tarjeta crédito + cardId valido → va a mie_card_purchases
+  // En EDIT seguimos el flujo legacy (mie_txs). La edición de card_purchases es 4.3.
+  const isCardPurchase = (
+    formState.id === null &&
+    formState.type === 'expense' &&
+    formState.method === 'Tarjeta crédito' &&
+    formState.cardId &&
+    getCard(formState.cardId)
+  );
+
+  if (isCardPurchase) {
+    const card = getCard(formState.cardId);
+    const installments = Math.max(1, parseInt(formState.installments) || 1);
+    const first = getFirstSummaryMonth(formState.date, card.closingDay);
+    const firstStr = first ? `${first.year}-${String(first.month + 1).padStart(2, '0')}` : null;
+
+    const purchase = {
+      id: Date.now(),
+      cardId: formState.cardId,
+      purchaseDate: formState.date,
+      totalAmount: amount,
+      installments,
+      category: formState.category,
+      description: formState.description.trim(),
+      tags: (formState.tags || []).filter(t => t.trim()),
+      firstInstallmentMonth: firstStr,
+      noInterest: formState.noInterest === true
+    };
+    CARD_PURCHASES.unshift(purchase);
+    saveCardPurchasesToStorage();
+    // Fase 4.6: recordar última tarjeta usada para sugerirla la próxima vez
+    localStorage.setItem('mie_last_card', formState.cardId);
+    showToast(installments > 1 ? `Compra en ${installments} cuotas guardada` : 'Compra con tarjeta guardada');
+
+    formState = defaultFormState();
+    showView('dashboard');
     return;
   }
 
@@ -2324,22 +5653,42 @@ function saveTransaction() {
     }
   } else {
     // CREATE
+    // Fase 6: si la moneda es USD, el amount en ARS = originalAmount × exchangeRate
+    const finalAmount = (formState.currency && formState.currency !== 'ARS')
+      ? (parseFloat(formState.amount) || 0) * (formState.exchangeRate || 1)
+      : amount;
     const tx = {
       id: Date.now(),
       type: formState.type,
-      amount,
+      amount: finalAmount,
       category: formState.category,
       method: formState.method,
       description: formState.description.trim(),
       tags: (formState.tags || []).filter(t => t.trim()),
       date: formState.date,
     };
+    // Guardar campos de moneda si aplica
+    if (formState.currency && formState.currency !== 'ARS') {
+      tx.currency = formState.currency;
+      tx.originalAmount = parseFloat(formState.amount) || 0;
+      tx.exchangeRate = formState.exchangeRate || 1;
+    }
     transactions.unshift(tx);
     saveTxs(transactions);
     showToast('Movimiento guardado');
   }
 
-  formState = { id: null, type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
+  // Fase 7: evaluar reglas automáticas (con delay para que el toast no se pise)
+  const triggered = checkRules();
+  if (triggered.length > 0) {
+    setTimeout(() => {
+      const r = triggered[0];
+      const cat = getCat(r.rule.category);
+      showToast(`📏 ${cat.label}: ${fmt(r.spent)} supera tu límite de ${fmt(r.rule.threshold)}`, 'error');
+    }, 800);
+  }
+
+  formState = defaultFormState();
   showView('dashboard');
 }
 
@@ -2363,7 +5712,7 @@ function deleteFromEdit() {
   showConfirm('¿Eliminar este movimiento?', 'Esta acción no se puede deshacer.', () => {
     transactions = transactions.filter(t => t.id !== formState.id);
     saveTxs(transactions);
-    formState = { id: null, type:'expense', amount:'', category:'tarjeta', method:'Tarjeta crédito', description:'', tags: [], date: new Date().toISOString().slice(0,10) };
+    formState = defaultFormState();
     showToast('Movimiento eliminado');
     showView('dashboard');
   });
@@ -2412,6 +5761,50 @@ function attachEvents() {
   if (dateEl) dateEl.value = formState.date;
 }
 
+// ── TECLADO MÓVIL: DELEGACIÓN GLOBAL (una sola vez al arrancar) ───────────
+// Usamos delegación en document para capturar Enter/Go en CUALQUIER input,
+// incluyendo los que se inyectan dinámicamente en modales.
+// Escucha keydown + keyup porque algunos teclados Android disparan solo keyup.
+(function initKeyboardDelegation() {
+  const FOCUSABLE = 'input:not([type="hidden"]):not([type="checkbox"]):not(.tag-input)';
+
+  function handleEnter(e) {
+    // Filtrar: solo Enter, solo en inputs relevantes
+    if (e.key !== 'Enter' && e.keyCode !== 13) return;
+    const el = e.target;
+    if (!el.matches(FOCUSABLE)) return;
+    // tag-input tiene su propio handler (agrega tags con Enter)
+    if (el.classList.contains('tag-input')) return;
+
+    e.preventDefault();
+
+    // Contexto: el modal abierto o el form-card o el body
+    const container = el.closest('.modal') || el.closest('.form-card') || document.body;
+    const all = Array.from(container.querySelectorAll(FOCUSABLE)).filter(
+      inp => !inp.disabled && inp.offsetParent !== null
+    );
+    const idx = all.indexOf(el);
+    const next = (idx >= 0 && idx < all.length - 1) ? all[idx + 1] : null;
+
+    if (next) {
+      el.blur();
+      next.focus();
+      if (next.type === 'number' || next.type === 'text') {
+        try { next.select(); } catch(err) {}
+      }
+    } else {
+      el.blur();
+      // Último campo: click en el botón de guardar del contexto
+      const saveBtn = container.querySelector('.btn-save');
+      if (saveBtn) saveBtn.click();
+    }
+  }
+
+  // Escuchar ambos eventos para compatibilidad máxima con teclados Android/iOS
+  document.addEventListener('keydown', handleEnter, true);
+  document.addEventListener('keyup',   handleEnter, true);
+})();
+
 // ── EXPORT / SHARE ────────────────────────────────────────────────────────
 
 function exportExcel() {
@@ -2448,12 +5841,23 @@ function exportExcel() {
 }
 
 function exportCSV() {
-  if (transactions.length === 0) { showToast('No hay datos para exportar', 'error'); return; }
-  const header = ['id','date','type','amount','category','method','description'];
-  const rows = transactions.map(t =>
+  if (transactions.length === 0 && CARD_PURCHASES.length === 0) {
+    showToast('No hay datos para exportar', 'error'); return;
+  }
+  // Sección 1: movimientos regulares
+  const header1 = ['id','date','type','amount','category','method','description'];
+  const rows1 = transactions.map(t =>
     [t.id, t.date, t.type, t.amount, t.category, t.method, (t.description||'').replace(/,/g,' ')].join(',')
   );
-  const csv = [header.join(','), ...rows].join('\n');
+  // Sección 2: compras con tarjeta (Fase 4.2+)
+  const header2 = ['cp_id','cardId','purchaseDate','totalAmount','installments','category','description'];
+  const rows2 = CARD_PURCHASES.map(p =>
+    [p.id, p.cardId, p.purchaseDate, p.totalAmount, p.installments, p.category, (p.description||'').replace(/,/g,' ')].join(',')
+  );
+  let csv = [header1.join(','), ...rows1].join('\n');
+  if (rows2.length > 0) {
+    csv += '\n\n## COMPRAS CON TARJETA\n' + [header2.join(','), ...rows2].join('\n');
+  }
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2517,12 +5921,14 @@ function shareWhatsApp() {
   });
 
   const income  = monthTxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const expense = monthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  // Fase 4.2: sumar cuotas que caen en este mes
+  const installmentsThisMonth = sumInstallmentsForMonth(y, m);
+  const expense = monthTxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0) + installmentsThisMonth;
   const balance = income - expense;
-  const cardExp = monthTxs.filter(t=>t.type==='expense'&&t.method==='Tarjeta crédito').reduce((s,t)=>s+t.amount,0);
+  const cardExp = monthTxs.filter(t=>t.type==='expense'&&t.method==='Tarjeta crédito').reduce((s,t)=>s+t.amount,0) + installmentsThisMonth;
 
-  const byCat = {};
-  monthTxs.filter(t=>t.type==='expense').forEach(t => { byCat[t.category]=(byCat[t.category]||0)+t.amount; });
+  // Fase 4.4: helper unificado
+  const byCat = getMonthExpenseByCat(y, m);
   const topCats = Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,4);
 
   const fmtARS = n => '$' + Math.round(n).toLocaleString('es-AR');
@@ -2578,7 +5984,7 @@ function openAbout() {
         <div class="about-content">
           <div class="about-logo">💰</div>
           <div class="about-title">MiEconomía</div>
-          <div class="about-version">v1.7 · Fase 3 completa</div>
+          <div class="about-version">v2.4 · Completa</div>
           <p class="about-desc">
             Tu app de control financiero personal.<br>
             100% local, sin backend ni cuentas.
@@ -2721,6 +6127,15 @@ function renderSettings() {
         ${customMethods > 0 ? `<span class="settings-badge">+${customMethods}</span>` : ''}
         <div class="settings-arrow">›</div>
       </div>
+      <div class="settings-row" onclick="showView('cards')">
+        <div class="settings-icon" style="background:rgba(167,139,250,0.15)">💎</div>
+        <div class="settings-info">
+          <div class="settings-title">Tarjetas de crédito</div>
+          <div class="settings-desc">Cierre, vencimiento y cuotas por tarjeta</div>
+        </div>
+        ${CARDS.length > 0 ? `<span class="settings-badge">${CARDS.length}</span>` : ''}
+        <div class="settings-arrow">›</div>
+      </div>
     </div>
 
     <!-- Personalización -->
@@ -2748,6 +6163,49 @@ function renderSettings() {
           <div class="settings-desc">Distribución por categoría en Stats ${settingsFlags.showPieChart ? '· activo' : ''}</div>
         </div>
         <div class="switch ${settingsFlags.showPieChart ? 'on' : ''}"></div>
+      </div>
+    </div>
+
+    <!-- Fase 6: Argentina -->
+    <div class="settings-section-label">🇦🇷 Argentina</div>
+    <div class="settings-list">
+      <div class="settings-row" onclick="toggleInflationAdjust()">
+        <div class="settings-icon" style="background:rgba(251,191,36,0.15)">📈</div>
+        <div class="settings-info">
+          <div class="settings-title">Ver en pesos de hoy</div>
+          <div class="settings-desc">Ajusta montos viejos por inflación ${settingsFlags.adjustForInflation ? '· activo' : ''}</div>
+        </div>
+        <div class="switch ${settingsFlags.adjustForInflation ? 'on' : ''}"></div>
+      </div>
+      <div class="settings-row" onclick="showView('inflation')">
+        <div class="settings-icon" style="background:rgba(251,146,60,0.15)">🧾</div>
+        <div class="settings-info">
+          <div class="settings-title">Datos de IPC</div>
+          <div class="settings-desc">Cargar inflación mensual manualmente${Object.keys(IPC_DATA).length > 0 ? ` · ${Object.keys(IPC_DATA).length} mes${Object.keys(IPC_DATA).length>1?'es':''}` : ''}</div>
+        </div>
+        <div class="settings-arrow">›</div>
+      </div>
+      <div class="settings-row" onclick="openConverterModal()">
+        <div class="settings-icon" style="background:rgba(96,165,250,0.15)">💱</div>
+        <div class="settings-info">
+          <div class="settings-title">Convertidor USD ↔ ARS</div>
+          <div class="settings-desc">Blue, oficial y MEP en tiempo real</div>
+        </div>
+        <div class="settings-arrow">›</div>
+      </div>
+    </div>
+
+    <!-- Fase 7: Automatización -->
+    <div class="settings-section-label">⚡ Automatización</div>
+    <div class="settings-list">
+      <div class="settings-row" onclick="showView('rules')">
+        <div class="settings-icon" style="background:rgba(74,222,128,0.1)">📏</div>
+        <div class="settings-info">
+          <div class="settings-title">Reglas automáticas</div>
+          <div class="settings-desc">Alertas al superar límites por categoría${RULES.length > 0 ? ` · ${RULES.length} regla${RULES.length>1?'s':''}` : ''}</div>
+        </div>
+        ${RULES.length > 0 ? `<span class="settings-badge">${RULES.length}</span>` : ''}
+        <div class="settings-arrow">›</div>
       </div>
     </div>
 
@@ -2817,16 +6275,9 @@ function renderSettings() {
 
 // ── BUDGETS PAGE ──────────────────────────────────────────────────────────
 function renderBudgets() {
-  // Calculate spent for current month
-  const now = new Date();
   const y = viewDate.getFullYear(), m = viewDate.getMonth();
-  const monthTxs = transactions.filter(t => {
-    const d = new Date(t.date);
-    return d.getFullYear() === y && d.getMonth() === m && t.type === 'expense';
-  });
-
-  const spent = {};
-  monthTxs.forEach(t => { spent[t.category] = (spent[t.category] || 0) + t.amount; });
+  // Fase 4.4: spent incluye cuotas de tarjeta que caen en este mes, no solo txs legacy
+  const spent = getMonthExpenseByCat(y, m);
 
   const allCats = CATEGORIES.expense;
   const budgeted = allCats.filter(c => budgets[c.id]);
@@ -2899,15 +6350,39 @@ function budgetRow(cat, spent, total) {
 function setBudget(catId) {
   const cat = getCat(catId);
   const current = budgets[catId];
-  const input = prompt(
-    `Presupuesto mensual para "${cat.label}":\n${current ? `(actual: ${fmt(current)})` : ''}`,
-    current || ''
-  );
-  if (input === null) return;
-  const amount = parseFloat(input);
+
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:320px">
+        <div class="modal-header">
+          <div class="modal-title">${cat.icon} ${cat.label}</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <label>Presupuesto mensual</label>
+        <input type="number" id="budget-input" placeholder="0"
+          value="${current || ''}" inputmode="decimal" min="1" enterkeyhint="done" />
+        <div class="form-actions" style="margin-top:12px">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveBudgetModal('${catId}')">Guardar</button>
+        </div>
+      </div>
+    </div>`;
+
+  setTimeout(() => {
+    const inp = document.getElementById('budget-input');
+    if (inp) { inp.focus(); inp.select(); }
+  }, 80);
+}
+
+function saveBudgetModal(catId) {
+  const inp = document.getElementById('budget-input');
+  if (!inp) return;
+  inp.blur();
+  const amount = parseFloat(inp.value);
   if (isNaN(amount) || amount <= 0) { showToast('Monto inválido', 'error'); return; }
   budgets[catId] = amount;
   saveBudgets();
+  closeModal();
   showToast(`Presupuesto definido: ${fmt(amount)}`);
   render();
 }
@@ -3450,6 +6925,825 @@ function deleteMethod(methodId) {
   );
 }
 
+// ── CARDS PAGE (Fase 4.1) ─────────────────────────────────────────────────
+function renderCardsPage() {
+  const oldTxs = getOldCardCreditTxs();
+
+  // Banner de migración: aparece siempre que haya gastos viejos sin migrar.
+  // Si no hay tarjetas todavía, el banner solo informa. Si hay tarjetas, ofrece migrar.
+  const migrationBanner = oldTxs.length > 0 ? `
+    <div class="migration-callout">
+      <div class="mig-title">⚠️ Gastos antiguos detectados</div>
+      Tenés <strong>${oldTxs.length}</strong> ${oldTxs.length === 1 ? 'gasto cargado' : 'gastos cargados'} con método "Tarjeta crédito" sin tarjeta asignada.
+      ${CARDS.filter(c => c.active !== false).length > 0
+        ? `<div style="margin-top:10px"><button class="mig-btn" onclick="openMigrationModal()">Migrar a una tarjeta →</button></div>`
+        : `<div style="margin-top:6px;font-size:11px;opacity:0.85">Creá una tarjeta primero, después podés migrarlos.</div>`
+      }
+    </div>
+  ` : '';
+
+  // Empty state con plantillas (Fase 4.1)
+  const emptyState = `
+    <div class="empty-cards">
+      <div class="big-icon">💳</div>
+      <div class="empty-title">Todavía no agregaste tarjetas</div>
+      <div class="empty-desc">
+        Tocá <strong>+ Nueva</strong> arriba a la derecha, o usá una plantilla acá abajo.
+      </div>
+    </div>
+
+    <div class="preset-section-title">Empezar rápido</div>
+    <div class="preset-grid">
+      ${CARD_PRESETS.map((p, i) => `
+        <button class="preset-card" style="border-left-color:${p.color}" onclick="createCardFromPreset(${i})">
+          <span class="preset-emoji">${p.emoji}</span>
+          <div class="preset-info">
+            <div class="preset-name">${p.name}</div>
+            <div class="preset-meta">Cierre ${p.closingDay} · vence día ${p.dueDay}</div>
+          </div>
+        </button>
+      `).join('')}
+    </div>
+    <div class="preset-help">
+      Son valores típicos en Argentina. Después podés editar cada tarjeta para ajustar al ciclo real de tu banco.
+    </div>
+  `;
+
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">💎 Tarjetas de crédito</div>
+      <div style="display:flex;gap:8px">
+        <button class="subpage-action" style="font-size:11px;padding:6px 10px" onclick="openInstallmentWizard()">⏳ En curso</button>
+        <button class="subpage-action" onclick="openCardForm()">+ Nueva</button>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5">
+      Registrá tus tarjetas con su día de cierre y vencimiento. La app va a usar estos datos para calcular en qué resumen entra cada compra y manejar cuotas correctamente.
+    </p>
+
+    ${migrationBanner}
+
+    ${CARDS.length === 0 ? emptyState : CARDS.map(c => cardRow(c)).join('')}
+  </div>`;
+}
+
+// ── BULK MIGRATION MODAL (Fase 4.2) ───────────────────────────────────────
+// Convierte gastos viejos cargados con method="Tarjeta crédito" (modelo pre-fase-4)
+// en compras con cuotas asignadas a una tarjeta. Por simplicidad, se migran todos
+// como compras de 1 sola cuota (lo más común y lo que tiene sentido sin más datos).
+// Si querían marcar cuotas, las pueden re-cargar individualmente después.
+function openMigrationModal() {
+  const oldTxs = getOldCardCreditTxs();
+  const activeCards = CARDS.filter(c => c.active !== false);
+  if (oldTxs.length === 0 || activeCards.length === 0) return;
+
+  const total = oldTxs.reduce((s, t) => s + t.amount, 0);
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:380px">
+        <div class="modal-header">
+          <div class="modal-title">🔄 Migrar gastos antiguos</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <div style="font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:14px">
+          Vamos a convertir tus <strong>${oldTxs.length}</strong> ${oldTxs.length === 1 ? 'gasto' : 'gastos'} con método "Tarjeta crédito" en compras de tarjeta.
+          Total: <strong>${fmt(total)}</strong>.
+        </div>
+
+        <div class="mig-detail">
+          <strong>Cómo funciona:</strong><br>
+          • Cada gasto se convierte en una compra de <strong>1 cuota</strong> (sin financiación).<br>
+          • Mantienen su fecha, monto, descripción, categoría y tags.<br>
+          • Se mueven de tu lista de movimientos a la tarjeta elegida.<br>
+          • Si después querés que sean en cuotas, podés borrarlas y re-cargarlas.
+        </div>
+
+        <label>Asignar todos a la tarjeta:</label>
+        <select id="mig-card">
+          ${activeCards.map(c => `
+            <option value="${c.id}">${c.emoji} ${c.name} · cierre ${c.closingDay}</option>
+          `).join('')}
+        </select>
+
+        <div class="form-actions" style="margin-top:14px">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="executeMigration()">Migrar ${oldTxs.length} ${oldTxs.length === 1 ? 'gasto' : 'gastos'}</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function executeMigration() {
+  const cardId = document.getElementById('mig-card').value;
+  const card = getCard(cardId);
+  if (!card) return;
+
+  const oldTxs = getOldCardCreditTxs();
+  if (oldTxs.length === 0) { closeModal(); return; }
+
+  let migrated = 0;
+  for (const t of oldTxs) {
+    const first = getFirstSummaryMonth(t.date, card.closingDay);
+    const firstStr = first ? `${first.year}-${String(first.month + 1).padStart(2, '0')}` : null;
+    const purchase = {
+      id: Date.now() + migrated, // evitar colisión de ids al hacer varios en el mismo ms
+      cardId: card.id,
+      purchaseDate: t.date,
+      totalAmount: t.amount,
+      installments: 1,
+      category: t.category,
+      description: t.description || '',
+      tags: t.tags || [],
+      firstInstallmentMonth: firstStr
+    };
+    CARD_PURCHASES.push(purchase);
+    migrated++;
+  }
+  // Borrar los txs viejos
+  const oldIds = new Set(oldTxs.map(t => t.id));
+  transactions = transactions.filter(t => !oldIds.has(t.id));
+
+  saveCardPurchasesToStorage();
+  saveTxs(transactions);
+  closeModal();
+  showToast(`${migrated} ${migrated === 1 ? 'gasto migrado' : 'gastos migrados'}`);
+  render();
+}
+
+// ── WIZARD CUOTA EN CURSO (Fase 4.5) ──────────────────────────────────────
+let wizardState = null;
+
+function openInstallmentWizard() {
+  const activeCards = CARDS.filter(c => c.active !== false);
+  if (activeCards.length === 0) { showToast('Primero agregá una tarjeta', 'error'); return; }
+  wizardState = {
+    cardId: activeCards[0].id,
+    totalAmount: '',
+    installments: 6,
+    paidSoFar: 1,
+    category: 'tecnologia',
+    description: ''
+  };
+  renderWizardModal();
+}
+
+function renderWizardModal() {
+  const st = wizardState;
+  if (!st) return;
+  const activeCards = CARDS.filter(c => c.active !== false);
+  const cats = CATEGORIES.expense;
+  const installmentsOptions = [2, 3, 6, 9, 12, 18, 24];
+  const maxPaid = Math.max(1, st.installments - 1);
+
+  let previewHtml = '';
+  const card = getCard(st.cardId);
+  if (card && st.totalAmount && parseFloat(st.totalAmount) > 0) {
+    const now = new Date();
+    const targetSummary = addMonths({ year: now.getFullYear(), month: now.getMonth() }, -(st.paidSoFar - 1));
+    const perInst = parseFloat(st.totalAmount) / st.installments;
+    const lastSummary = addMonths(targetSummary, st.installments - 1);
+    previewHtml = `
+      <div class="cpb-preview">
+        Cuota 1/${st.installments} → resumen <strong>${MONTHS_ES[targetSummary.month]} ${targetSummary.year}</strong><br>
+        Última cuota → resumen <strong>${MONTHS_ES[lastSummary.month]} ${lastSummary.year}</strong><br>
+        ${st.installments} cuotas de <strong>${fmt(perInst)}</strong>
+      </div>`;
+  }
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:380px;max-height:90vh;overflow-y:auto">
+        <div class="modal-header">
+          <div class="modal-title">⏳ Cuota en curso</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px">
+          Para compras que ya estabas pagando antes de usar MiEconomía. La app ubica las cuotas en los meses correctos.
+        </div>
+        <label>Tarjeta</label>
+        <select id="wz-card" onchange="wizardState.cardId=this.value; renderWizardModal()">
+          ${activeCards.map(c => `<option value="${c.id}" ${st.cardId===c.id?'selected':''}>${c.emoji} ${c.name} · cierre ${c.closingDay}</option>`).join('')}
+        </select>
+        <label>Monto total de la compra</label>
+        <input type="number" id="wz-amount" value="${st.totalAmount}" placeholder="0"
+          inputmode="decimal" oninput="wizardState.totalAmount=this.value; renderWizardModal()" />
+        <label>Total de cuotas</label>
+        <div class="installments-grid">
+          ${installmentsOptions.map(n => `
+            <button class="inst-btn ${st.installments===n?'active':''}"
+              onclick="wizardState.installments=${n}; if(wizardState.paidSoFar>=${n}) wizardState.paidSoFar=${n}-1; renderWizardModal()">${n}x</button>
+          `).join('')}
+        </div>
+        <label>¿Cuántas cuotas ya pagaste? <span style="color:var(--purple-light);font-weight:700">${st.paidSoFar}</span></label>
+        <input type="range" min="1" max="${maxPaid}" value="${st.paidSoFar}"
+          oninput="wizardState.paidSoFar=parseInt(this.value); renderWizardModal()"
+          style="width:100%;margin-bottom:4px" />
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:10px">
+          <span>1</span><span>${maxPaid}</span>
+        </div>
+        ${previewHtml}
+        <label>Categoría</label>
+        <div class="cat-grid" style="margin-bottom:10px">
+          ${cats.map(cat => `
+            <button class="cat-btn ${st.category===cat.id?'active':''}"
+              onclick="wizardState.category='${cat.id}'; renderWizardModal()">
+              ${cat.icon}<span class="cat-lbl">${cat.label}</span>
+            </button>`).join('')}
+        </div>
+        <label>Descripción <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional)</span></label>
+        <textarea id="wz-desc" placeholder="Ej: Celular Samsung 12 cuotas"
+          oninput="wizardState.description=this.value">${st.description}</textarea>
+        <div class="form-actions" style="margin-top:14px">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveWizardPurchase()">Guardar</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveWizardPurchase() {
+  const st = wizardState;
+  if (!st) return;
+  const amount = parseFloat(st.totalAmount);
+  if (!amount || isNaN(amount) || amount <= 0) { showToast('Ingresá un monto válido', 'error'); return; }
+  const card = getCard(st.cardId);
+  if (!card) { showToast('Tarjeta no válida', 'error'); return; }
+
+  const now = new Date();
+  const targetSummary = addMonths({ year: now.getFullYear(), month: now.getMonth() }, -(st.paidSoFar - 1));
+  const purchaseDate = `${targetSummary.year}-${String(targetSummary.month + 1).padStart(2, '0')}-01`;
+  const first = getFirstSummaryMonth(purchaseDate, card.closingDay);
+  const firstStr = first ? `${first.year}-${String(first.month + 1).padStart(2, '0')}` : null;
+
+  const purchase = {
+    id: Date.now(),
+    cardId: st.cardId,
+    purchaseDate,
+    totalAmount: amount,
+    installments: st.installments,
+    category: st.category,
+    description: st.description.trim(),
+    tags: [],
+    firstInstallmentMonth: firstStr,
+    _loadedInProgress: true
+  };
+  CARD_PURCHASES.unshift(purchase);
+  saveCardPurchasesToStorage();
+  wizardState = null;
+  closeModal();
+  showToast(`Compra en ${st.installments} cuotas cargada`);
+  render();
+}
+
+// ── SINKING FUNDS CRUD (Fase 5) ────────────────────────────────────────────
+let sfForm = null;
+
+function openSinkingFundForm(id) {
+  if (id) {
+    const f = SINKING_FUNDS.find(x => x.id === id);
+    if (!f) return;
+    sfForm = { ...f, savedAmount: (f.savedAmount || 0).toString(), targetAmount: f.targetAmount.toString() };
+  } else {
+    sfForm = {
+      id: null,
+      name: '',
+      emoji: '🎯',
+      color: '#a78bfa',
+      targetAmount: '',
+      targetDate: (() => {
+        const d = new Date(); d.setFullYear(d.getFullYear() + 1);
+        return d.toISOString().slice(0,10);
+      })(),
+      savedAmount: '0',
+      notes: ''
+    };
+  }
+  renderSFModal();
+}
+
+function editSinkingFund(id) { openSinkingFundForm(id); }
+
+function renderSFModal() {
+  const f = sfForm;
+  if (!f) return;
+  const sfEmojis = ['🎯','✈️','🏖️','🎁','🏠','🚗','📚','🎓','💍','🏥','🐾','🌍','🎊','🎸','🛋️','💻','📱','🏋️','🌱','🏦'];
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:380px;max-height:90vh;overflow-y:auto">
+        <div class="modal-header">
+          <div class="modal-title">${f.id ? '✏️ Editar fondo' : '🏦 Nuevo fondo'}</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <label>Nombre del fondo</label>
+        <input type="text" id="sf-name" placeholder="Ej: Vacaciones de verano"
+          value="${f.name.replace(/"/g,'&quot;')}"
+          oninput="sfForm.name=this.value" maxlength="40" />
+
+        <label>Ícono · <span id="sf-emoji-display" style="font-size:18px">${f.emoji}</span></label>
+        <div class="emoji-picker">
+          ${sfEmojis.map(e => `
+            <button class="emoji-cell ${f.emoji===e?'selected':''}" id="sfemoji-${e}"
+              onclick="setSFEmoji('${e}')">${e}</button>
+          `).join('')}
+        </div>
+
+        <label>Meta total</label>
+        <input type="number" id="sf-target" min="0" placeholder="Ej: 500000"
+          value="${f.targetAmount}" inputmode="decimal" enterkeyhint="next"
+          oninput="sfForm.targetAmount=this.value; updateSFPreview()" />
+
+        <label>Fecha objetivo</label>
+        <input type="date" id="sf-date" value="${f.targetDate}" enterkeyhint="next"
+          onchange="sfForm.targetDate=this.value; updateSFPreview()" />
+
+        <label>Ya tengo ahorrado</label>
+        <input type="number" id="sf-saved" min="0" placeholder="0"
+          value="${f.savedAmount}" inputmode="decimal" enterkeyhint="done"
+          oninput="sfForm.savedAmount=this.value; updateSFPreview()" />
+
+        <div id="sf-preview"></div>
+
+        <div class="form-actions" style="margin-top:14px">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveSFForm()">Guardar</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('modal-container').innerHTML = html;
+  updateSFPreview();
+}
+
+// Actualiza solo el preview de contribución sin re-renderizar el modal
+function updateSFPreview() {
+  const preview = document.getElementById('sf-preview');
+  if (!preview) return;
+  const targetVal = parseFloat(sfForm.targetAmount) || 0;
+  const savedVal  = parseFloat(sfForm.savedAmount)  || 0;
+  const remaining = Math.max(0, targetVal - savedVal);
+  const months = monthsUntilTarget(sfForm.targetDate);
+  const contribution = months && months > 0 && remaining > 0 ? remaining / months : 0;
+  if (contribution > 0) {
+    preview.innerHTML = `
+      <div class="cpb-preview" style="margin-top:8px">
+        Necesitás apartar <strong>${fmt(contribution)}/mes</strong>
+        durante ${months} mes${months!==1?'es':''} para llegar a la meta.
+        ${targetVal > 0 ? `Faltan <strong>${fmt(remaining)}</strong>.` : ''}
+      </div>`;
+  } else {
+    preview.innerHTML = '';
+  }
+}
+
+// Cambia emoji sin re-renderizar el modal completo
+function setSFEmoji(emoji) {
+  sfForm.emoji = emoji;
+  const display = document.getElementById('sf-emoji-display');
+  if (display) display.textContent = emoji;
+  document.querySelectorAll('.emoji-cell[id^="sfemoji-"]').forEach(btn => {
+    btn.classList.toggle('selected', btn.textContent.trim() === emoji);
+  });
+}
+
+function saveSFForm() {
+  const f = sfForm;
+  if (!f) return;
+  // Leer valores del DOM para capturar lo que el usuario tipió (por si sfForm no se actualizó)
+  const nameEl   = document.getElementById('sf-name');
+  const targetEl = document.getElementById('sf-target');
+  const savedEl  = document.getElementById('sf-saved');
+  const dateEl   = document.getElementById('sf-date');
+  if (nameEl)   f.name         = nameEl.value;
+  if (targetEl) f.targetAmount = targetEl.value;
+  if (savedEl)  f.savedAmount  = savedEl.value;
+  if (dateEl)   f.targetDate   = dateEl.value;
+
+  const name = f.name.trim();
+  if (!name) { showToast('Falta el nombre', 'error'); return; }
+  const target = parseFloat(f.targetAmount);
+  if (!target || isNaN(target) || target <= 0) { showToast('Meta inválida', 'error'); return; }
+  const saved = Math.max(0, parseFloat(f.savedAmount) || 0);
+
+  const fund = {
+    id: f.id || ('sf_' + Date.now()),
+    name,
+    emoji: f.emoji,
+    color: f.color || '#a78bfa',
+    targetAmount: target,
+    targetDate: f.targetDate,
+    savedAmount: saved,
+    notes: f.notes || ''
+  };
+
+  if (f.id) {
+    const idx = SINKING_FUNDS.findIndex(x => x.id === f.id);
+    if (idx >= 0) SINKING_FUNDS[idx] = fund;
+  } else {
+    SINKING_FUNDS.push(fund);
+  }
+  saveSinkingFunds();
+  sfForm = null;
+  closeModal();
+  showToast(`Fondo ${f.id ? 'actualizado' : 'creado'}`);
+  render();
+}
+
+function addToSinkingFund(fundId) {
+  const f = SINKING_FUNDS.find(x => x.id === fundId);
+  if (!f) return;
+  const contribution = monthlyContributionNeeded(f);
+  const suggested = Math.round(contribution);
+
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:320px">
+        <div class="modal-header">
+          <div class="modal-title">${f.emoji || '🎯'} ${f.name}</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.5">
+          Progreso actual: <strong>${fmt(f.savedAmount || 0)}</strong> de <strong>${fmt(f.targetAmount)}</strong>
+          ${suggested > 0 ? `<br>Contribución sugerida: <strong>${fmt(suggested)}</strong>` : ''}
+        </div>
+        <label>¿Cuánto agregás?</label>
+        <input type="number" id="sf-add-input" placeholder="0"
+          value="${suggested || ''}" inputmode="decimal" min="1" enterkeyhint="done" />
+        <div class="form-actions" style="margin-top:12px">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="confirmAddToFund('${fundId}')">Agregar</button>
+        </div>
+      </div>
+    </div>`;
+
+  setTimeout(() => {
+    const inp = document.getElementById('sf-add-input');
+    if (inp) { inp.focus(); inp.select(); }
+  }, 80);
+}
+
+function confirmAddToFund(fundId) {
+  const inp = document.getElementById('sf-add-input');
+  if (!inp) return;
+  inp.blur();
+  const amount = parseFloat(inp.value);
+  if (isNaN(amount) || amount <= 0) { showToast('Ingresá un monto válido', 'error'); return; }
+  const idx = SINKING_FUNDS.findIndex(x => x.id === fundId);
+  if (idx >= 0) {
+    SINKING_FUNDS[idx].savedAmount = (SINKING_FUNDS[idx].savedAmount || 0) + amount;
+    const reached = SINKING_FUNDS[idx].savedAmount >= SINKING_FUNDS[idx].targetAmount;
+    saveSinkingFunds();
+    closeModal();
+    showToast(reached ? '🎉 ¡Meta alcanzada!' : `${fmt(amount)} agregado`);
+    render();
+  }
+}
+
+function deleteSinkingFund(fundId) {
+  const f = SINKING_FUNDS.find(x => x.id === fundId);
+  if (!f) return;
+  showConfirm(
+    `¿Eliminar "${f.name}"?`,
+    'Se borra el fondo y el progreso guardado. Esta acción no se puede deshacer.',
+    () => {
+      SINKING_FUNDS = SINKING_FUNDS.filter(x => x.id !== fundId);
+      saveSinkingFunds();
+      showToast('Fondo eliminado');
+      render();
+    },
+    { icon: '🏦' }
+  );
+}
+
+function cardRow(c) {
+  const dueText = cardDueText(c);
+  const inactive = c.active === false;
+
+  // Fase 4.6: barra de utilización del límite (resumen del mes actual)
+  let limitBar = '';
+  if (c.creditLimit) {
+    const now = new Date();
+    const items = getInstallmentsForMonth(c, now.getFullYear(), now.getMonth());
+    const used = items.reduce((s, i) => s + i.amount, 0);
+    const pct = Math.min(100, Math.round((used / c.creditLimit) * 100));
+    const cls = pct >= 100 ? 'danger' : pct >= 80 ? 'warn' : 'safe';
+    limitBar = `
+      <div class="credit-limit-bar-wrap">
+        <div class="credit-limit-bar">
+          <div class="credit-limit-fill ${cls}" style="width:${pct}%"></div>
+        </div>
+        <span class="credit-limit-pct ${cls}">${pct}% usado</span>
+      </div>`;
+  }
+
+  return `
+    <div class="card-row ${inactive ? 'inactive' : ''}" style="border-left-color:${c.color}">
+      <div class="ricon">${c.emoji}</div>
+      <div class="recurring-info" style="flex:1">
+        <div class="recurring-name">${c.name}${inactive ? ' <span style="font-size:10px;color:var(--muted);font-weight:400">(inactiva)</span>' : ''}</div>
+        <div class="recurring-meta">Cierre día ${c.closingDay} · ${dueText}${c.creditLimit ? ` · límite ${fmt(c.creditLimit)}` : ''}</div>
+        ${limitBar}
+      </div>
+      <button class="recurring-toggle" onclick="editCard('${c.id}')" title="Editar">✏️</button>
+      <button class="recurring-toggle" onclick="deleteCard('${c.id}')" title="Eliminar" style="color:var(--red);border-color:#5a2a2a">🗑️</button>
+    </div>
+  `;
+}
+
+function openCardForm() {
+  cardForm = {
+    id: null,
+    name: '',
+    emoji: '💳',
+    color: '#a78bfa',
+    closingDay: 20,
+    dueDateMode: 'fixed',
+    dueDay: 5,
+    dueOffsetDays: 15,
+    active: true,
+    creditLimit: '',   // Fase 4.6: opcional
+    reminderDays: 3    // Fase 4.6: días antes del vencimiento
+  };
+  renderCardModal();
+}
+
+// Crear directo desde el empty-state: 1 click → tarjeta creada con defaults razonables.
+// Si ya existe una con ese nombre, abre el form pre-cargado en vez de duplicar.
+function createCardFromPreset(idx) {
+  const preset = CARD_PRESETS[idx];
+  if (!preset) return;
+  const dup = CARDS.find(c => c.name.toLowerCase() === preset.name.toLowerCase());
+  if (dup) {
+    showToast(`Ya tenés "${preset.name}"`, 'error');
+    return;
+  }
+  const newCard = {
+    id: 'card_' + Date.now(),
+    name: preset.name,
+    emoji: preset.emoji,
+    color: preset.color,
+    closingDay: preset.closingDay,
+    dueDateMode: preset.dueDateMode,
+    dueDay: preset.dueDay,
+    active: true
+  };
+  CARDS.push(newCard);
+  saveCardsToStorage();
+  showToast(`${preset.name} agregada`);
+  render();
+}
+
+// Carga una plantilla en el form modal abierto (sin guardar todavía).
+// Útil para que el usuario revise y ajuste el día de cierre antes de guardar.
+function loadPreset(idx) {
+  const preset = CARD_PRESETS[idx];
+  if (!preset) return;
+  cardForm = {
+    id: null,
+    name: preset.name,
+    emoji: preset.emoji,
+    color: preset.color,
+    closingDay: preset.closingDay,
+    dueDateMode: preset.dueDateMode,
+    dueDay: preset.dueDay || 5,
+    dueOffsetDays: preset.dueOffsetDays || 15,
+    active: true
+  };
+  renderCardModal();
+}
+
+function editCard(cardId) {
+  const c = getCard(cardId);
+  if (!c) return;
+  cardForm = {
+    id: c.id,
+    name: c.name,
+    emoji: c.emoji,
+    color: c.color,
+    closingDay: c.closingDay,
+    dueDateMode: c.dueDateMode,
+    dueDay: c.dueDay != null ? c.dueDay : 5,
+    dueOffsetDays: c.dueOffsetDays != null ? c.dueOffsetDays : 15,
+    active: c.active !== false,
+    creditLimit: c.creditLimit || '',
+    reminderDays: c.reminderDays != null ? c.reminderDays : 3
+  };
+  renderCardModal();
+}
+
+function renderCardModal() {
+  // Help text per due mode
+  let dueHelp = '';
+  let dueExtraField = '';
+
+  if (cardForm.dueDateMode === 'fixed') {
+    dueHelp = 'El vencimiento siempre cae el mismo día del mes (ej: día 5 de cada mes).';
+    dueExtraField = `
+      <label>Día de vencimiento</label>
+      <input type="number" min="1" max="31" value="${cardForm.dueDay}"
+        oninput="cardForm.dueDay=Math.max(1,Math.min(31,parseInt(this.value)||1))" />
+    `;
+  } else if (cardForm.dueDateMode === 'relative') {
+    dueHelp = 'El vencimiento se calcula como N días después del cierre. Si el cierre es el 20 y el offset es 15, vence el 4 del mes siguiente.';
+    dueExtraField = `
+      <label>Días después del cierre</label>
+      <input type="number" min="1" max="60" value="${cardForm.dueOffsetDays}"
+        oninput="cardForm.dueOffsetDays=Math.max(1,Math.min(60,parseInt(this.value)||1))" />
+    `;
+  } else {
+    dueHelp = 'Modo manual: la app no calcula el vencimiento. Vas a poder cargar la fecha cuando llegue cada resumen.';
+    dueExtraField = '';
+  }
+
+  const html = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:380px;max-height:90vh;overflow-y:auto">
+        <div class="modal-header">
+          <div class="modal-title">${cardForm.id ? '✏️ Editar' : '➕ Nueva'} tarjeta</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        ${!cardForm.id ? `
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">
+            Cargar plantilla
+          </div>
+          <div class="preset-chips">
+            ${CARD_PRESETS.map((p, i) => `
+              <button class="preset-chip" onclick="loadPreset(${i})">
+                <span>${p.emoji}</span>
+                <span>${p.name}</span>
+              </button>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <label>Nombre</label>
+        <input type="text" placeholder="Ej: Visa Galicia, Amex Platinum"
+          value="${cardForm.name.replace(/"/g, '&quot;')}"
+          oninput="cardForm.name=this.value" maxlength="30" />
+
+        <label>Ícono · Seleccionado: <span style="font-size:18px">${cardForm.emoji}</span></label>
+        <div class="emoji-picker">
+          ${['💳','💎','🏦','🟣','🟢','🔵','🟡','🔴','🟠','⚫','⚪','💼','🪪','🎫','✨','🌟','💰','🛡️','🔐','🏷️'].map(e => `
+            <button class="emoji-cell ${cardForm.emoji === e ? 'selected' : ''}"
+              onclick="cardForm.emoji='${e}'; renderCardModal()">${e}</button>
+          `).join('')}
+        </div>
+
+        <label>Color</label>
+        <div class="color-picker">
+          ${CARD_COLORS.map(c => `
+            <button class="color-cell ${cardForm.color === c ? 'selected' : ''}"
+              style="background:${c}"
+              onclick="cardForm.color='${c}'; renderCardModal()"></button>
+          `).join('')}
+        </div>
+
+        <label>Día de cierre del resumen</label>
+        <input type="number" min="1" max="31" value="${cardForm.closingDay}"
+          oninput="cardForm.closingDay=Math.max(1,Math.min(31,parseInt(this.value)||1))" />
+        <div style="font-size:11px;color:var(--muted);margin-top:-8px;margin-bottom:6px;line-height:1.4">
+          Día del mes en que la tarjeta corta el resumen. Compras anteriores a ese día entran al resumen del mes; posteriores van al siguiente.
+        </div>
+
+        <label>Modo de vencimiento</label>
+        <div class="due-mode-grid">
+          <button class="due-mode-btn ${cardForm.dueDateMode === 'fixed' ? 'active' : ''}"
+            onclick="cardForm.dueDateMode='fixed'; renderCardModal()">Fijo</button>
+          <button class="due-mode-btn ${cardForm.dueDateMode === 'relative' ? 'active' : ''}"
+            onclick="cardForm.dueDateMode='relative'; renderCardModal()">Relativo</button>
+          <button class="due-mode-btn ${cardForm.dueDateMode === 'manual' ? 'active' : ''}"
+            onclick="cardForm.dueDateMode='manual'; renderCardModal()">Manual</button>
+        </div>
+        <div class="due-mode-help">${dueHelp}</div>
+
+        ${dueExtraField}
+
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-top:18px">
+          <input type="checkbox" ${cardForm.active ? 'checked' : ''}
+            onchange="cardForm.active=this.checked"
+            style="width:18px;height:18px;cursor:pointer" />
+          <span style="font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:500;margin:0">
+            Tarjeta activa
+          </span>
+        </label>
+        <div style="font-size:11px;color:var(--muted);margin-top:-2px;line-height:1.4;margin-bottom:14px">
+          Si la desactivás, no aparece como opción al cargar nuevas compras pero conservás el histórico.
+        </div>
+
+        <!-- Fase 4.6: Límite de crédito -->
+        <label>Límite de crédito <span style="color:var(--muted);text-transform:none;font-size:10px">(opcional)</span></label>
+        <input type="number" min="0" placeholder="Ej: 500000 — dejá vacío si no lo sabés"
+          value="${cardForm.creditLimit}"
+          oninput="cardForm.creditLimit=this.value" />
+        <div style="font-size:11px;color:var(--muted);margin-top:-8px;margin-bottom:14px;line-height:1.4">
+          Si lo configurás, la app te muestra el % de utilización actual y te avisa al llegar al 80%.
+        </div>
+
+        <!-- Fase 4.6: Recordatorio de vencimiento -->
+        <label>Recordatorio de vencimiento</label>
+        <div class="due-mode-grid" style="grid-template-columns:repeat(4,1fr)">
+          ${[1, 2, 3, 5].map(d => `
+            <button class="due-mode-btn ${cardForm.reminderDays===d?'active':''}"
+              onclick="cardForm.reminderDays=${d}; renderCardModal()">
+              ${d}d antes
+            </button>`).join('')}
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px;margin-bottom:4px;line-height:1.4">
+          La app te avisa en el Inicio cuando el vencimiento de un resumen está próximo.
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" onclick="saveCardForm()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-container').innerHTML = html;
+}
+
+function saveCardForm() {
+  const name = cardForm.name.trim();
+  if (!name) { showToast('Falta el nombre', 'error'); return; }
+
+  // Validar día de cierre
+  if (!cardForm.closingDay || cardForm.closingDay < 1 || cardForm.closingDay > 31) {
+    showToast('Día de cierre inválido (1-31)', 'error'); return;
+  }
+
+  // Validar día/offset según modo
+  if (cardForm.dueDateMode === 'fixed') {
+    if (!cardForm.dueDay || cardForm.dueDay < 1 || cardForm.dueDay > 31) {
+      showToast('Día de vencimiento inválido (1-31)', 'error'); return;
+    }
+  }
+  if (cardForm.dueDateMode === 'relative') {
+    if (!cardForm.dueOffsetDays || cardForm.dueOffsetDays < 1 || cardForm.dueOffsetDays > 60) {
+      showToast('Offset inválido (1-60 días)', 'error'); return;
+    }
+  }
+
+  // Check duplicate name
+  const existing = CARDS.find(c => c.name.toLowerCase() === name.toLowerCase() && c.id !== cardForm.id);
+  if (existing) { showToast('Ya existe una tarjeta con ese nombre', 'error'); return; }
+
+  // Build card object
+  const newCard = {
+    id: cardForm.id || ('card_' + Date.now()),
+    name,
+    emoji: cardForm.emoji,
+    color: cardForm.color,
+    closingDay: cardForm.closingDay,
+    dueDateMode: cardForm.dueDateMode,
+    active: cardForm.active !== false,
+    reminderDays: cardForm.reminderDays || 3
+  };
+  if (cardForm.dueDateMode === 'fixed') newCard.dueDay = cardForm.dueDay;
+  if (cardForm.dueDateMode === 'relative') newCard.dueOffsetDays = cardForm.dueOffsetDays;
+  // Límite opcional: solo guardarlo si tiene valor
+  const limit = parseFloat(cardForm.creditLimit);
+  if (!isNaN(limit) && limit > 0) newCard.creditLimit = limit;
+
+  if (cardForm.id) {
+    const idx = CARDS.findIndex(c => c.id === cardForm.id);
+    if (idx >= 0) CARDS[idx] = newCard;
+  } else {
+    CARDS.push(newCard);
+  }
+
+  saveCardsToStorage();
+  closeModal();
+  showToast(`Tarjeta ${cardForm.id ? 'actualizada' : 'creada'}`);
+  render();
+}
+
+function deleteCard(cardId) {
+  const c = getCard(cardId);
+  if (!c) return;
+
+  // En sub-fase 4.1 no hay compras vinculadas todavía. Cuando se implemente 4.2,
+  // acá hay que verificar usos en mie_card_purchases y avisar/migrar.
+  showConfirm(
+    `¿Eliminar "${c.name}"?`,
+    'Esta acción no se puede deshacer. Si querés conservarla pero ocultarla, mejor desactivala desde el form de edición.',
+    () => {
+      CARDS = CARDS.filter(x => x.id !== cardId);
+      saveCardsToStorage();
+      showToast('Tarjeta eliminada');
+      render();
+    },
+    { icon: '💎' }
+  );
+}
+
 // ── PHASE 3 TOGGLES ───────────────────────────────────────────────────────
 function toggleQuickAdd() {
   settingsFlags.quickAddEnabled = !settingsFlags.quickAddEnabled;
@@ -3464,6 +7758,264 @@ function togglePieChart() {
   render();
 }
 
+// ── REGLAS AUTOMÁTICAS CRUD (Fase 7) ─────────────────────────────────────
+function renderRulesPage() {
+  const cats = CATEGORIES.expense;
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">📏 Reglas automáticas</div>
+    </div>
+
+    <div class="ipc-explainer">
+      Definí reglas que se evalúan cada vez que guardás un gasto.
+      Si el gasto mensual acumulado en una categoría supera el umbral, la app te avisa con un toast.
+    </div>
+
+    ${RULES.length === 0 ? `
+      <div style="text-align:center;padding:24px;color:var(--muted)">
+        <div style="font-size:36px;margin-bottom:10px">📏</div>
+        <div style="font-size:13px;line-height:1.5">Sin reglas. Creá una para empezar.</div>
+      </div>
+    ` : RULES.map(r => {
+      const cat = getCat(r.category);
+      return `
+      <div class="rule-row">
+        <div class="rule-info">
+          <div class="rule-name">${cat.icon} ${cat.label}</div>
+          <div class="rule-desc">Alertar si supera ${fmt(r.threshold)}/mes</div>
+        </div>
+        <button onclick="deleteRule('${r.id}')" class="rule-del-btn">🗑️</button>
+      </div>`;
+    }).join('')}
+
+    <div style="margin-top:20px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)">
+      <div style="font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px">Nueva regla</div>
+      <label>Categoría</label>
+      <select id="rule-cat">
+        ${cats.map(c => `<option value="${c.id}">${c.icon} ${c.label}</option>`).join('')}
+      </select>
+      <label>Umbral mensual</label>
+      <input type="number" id="rule-threshold" placeholder="Ej: 100000" inputmode="decimal" min="1" />
+      <button class="btn-save" style="margin-top:12px;width:100%" onclick="addRule()">+ Agregar regla</button>
+    </div>
+  </div>`;
+}
+
+function addRule() {
+  const catEl = document.getElementById('rule-cat');
+  const thEl = document.getElementById('rule-threshold');
+  if (!catEl || !thEl) return;
+  const threshold = parseFloat(thEl.value);
+  if (!threshold || isNaN(threshold) || threshold <= 0) { showToast('Ingresá un umbral válido', 'error'); return; }
+  const catId = catEl.value;
+  if (RULES.some(r => r.category === catId)) { showToast('Ya hay una regla para esa categoría', 'error'); return; }
+  RULES.push({ id: 'rule_' + Date.now(), category: catId, threshold });
+  saveRules();
+  showToast('Regla creada');
+  render();
+}
+
+function deleteRule(ruleId) {
+  RULES = RULES.filter(r => r.id !== ruleId);
+  saveRules();
+  showToast('Regla eliminada');
+  render();
+}
+
+// ── INFLACIÓN FUNCTIONS (Fase 6) ──────────────────────────────────────────
+function toggleInflationAdjust() {
+  if (!settingsFlags.adjustForInflation && Object.keys(IPC_DATA).length === 0) {
+    showToast('Primero cargá datos de IPC en Ajustes → Datos de IPC', 'error');
+    return;
+  }
+  settingsFlags.adjustForInflation = !settingsFlags.adjustForInflation;
+  saveSettingsFlags();
+  showToast(settingsFlags.adjustForInflation ? 'Mostrando en pesos de hoy' : 'Desactivado');
+  render();
+}
+
+function renderInflationPage() {
+  const now = new Date();
+  // Generar los últimos 24 meses como lista editable
+  const months = [];
+  for (let i = 0; i < 24; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    months.push({ key, label: `${MONTHS_ES[d.getMonth()]} ${d.getFullYear()}`, value: IPC_DATA[key] });
+  }
+
+  return `
+  <div class="fade-up">
+    <div class="subpage-header">
+      <button class="back-btn" onclick="showView('settings')">‹</button>
+      <div class="subpage-title">🧾 Datos de IPC</div>
+    </div>
+
+    <div class="ipc-explainer">
+      Ingresá el % de inflación mensual de cada mes. Lo podés encontrar en cualquier
+      diario o en el INDEC. Con los datos cargados, activá "Ver en pesos de hoy" en
+      Ajustes para comparar gastos de distintos meses en términos reales.
+    </div>
+
+    <div class="ipc-table">
+      <div class="ipc-row ipc-header">
+        <span>Mes</span>
+        <span>IPC mensual (%)</span>
+      </div>
+      ${months.map(({ key, label, value }) => `
+        <div class="ipc-row">
+          <span class="ipc-month-label">${label}</span>
+          <div class="ipc-input-wrap">
+            <input type="number" class="ipc-input" min="0" max="100" step="0.1"
+              placeholder="—"
+              value="${value !== undefined ? value : ''}"
+              onchange="setIPC('${key}', this.value)" />
+            <span class="ipc-pct-sign">%</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    ${Object.keys(IPC_DATA).length > 0 ? `
+    <div style="margin-top:20px;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);font-size:12px;color:var(--muted)">
+      <strong style="color:var(--text-dim)">${Object.keys(IPC_DATA).length} mes${Object.keys(IPC_DATA).length>1?'es':''} cargados.</strong>
+      Inflación compuesta desde el más antiguo hasta hoy:
+      <strong style="color:var(--purple-light)">${(() => {
+        const oldest = Object.keys(IPC_DATA).sort()[0];
+        const mult = getInflationMultiplier(oldest + '-01');
+        return ((mult - 1) * 100).toFixed(0) + '%';
+      })()}</strong>
+    </div>` : ''}
+
+    <button onclick="clearAllIPC()" style="margin-top:14px;width:100%;padding:10px;background:transparent;border:1px solid #5a2a2a;border-radius:var(--radius);color:var(--red);font-family:inherit;font-size:13px;cursor:pointer">
+      Borrar todos los datos de IPC
+    </button>
+  </div>`;
+}
+
+function setIPC(monthKey, value) {
+  const pct = parseFloat(value);
+  if (isNaN(pct) || value === '') {
+    delete IPC_DATA[monthKey];
+  } else {
+    IPC_DATA[monthKey] = Math.max(0, Math.min(100, pct));
+  }
+  saveIPC();
+  // No re-render: el input está en foco, evitamos perderlo
+}
+
+function clearAllIPC() {
+  showConfirm('¿Borrar todos los datos de IPC?', 'No se puede deshacer.', () => {
+    IPC_DATA = {};
+    saveIPC();
+    if (settingsFlags.adjustForInflation) {
+      settingsFlags.adjustForInflation = false;
+      saveSettingsFlags();
+    }
+    showToast('Datos de IPC borrados');
+    render();
+  }, { icon: '🧾' });
+}
+
+// ── CONVERTIDOR RÁPIDO (Fase 6) ───────────────────────────────────────────
+async function openConverterModal() {
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:340px">
+        <div class="modal-header">
+          <div class="modal-title">💱 Convertidor USD ↔ ARS</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">
+          Obteniendo cotizaciones...
+        </div>
+      </div>
+    </div>`;
+
+  const rates = await fetchLiveRates();
+  const rateItems = rates
+    ? [
+        { label: 'Dólar Blue',    val: rates.blue,    color: '#4ade80' },
+        { label: 'Dólar Oficial', val: rates.oficial, color: '#60a5fa' },
+        { label: 'Dólar MEP',     val: rates.mep,     color: '#fbbf24' }
+      ].filter(r => r.val)
+    : [];
+
+  const noConnection = rateItems.length === 0;
+  const defaultRate = rateItems.find(r => r.label === 'Dólar Blue')?.val || null;
+
+  const ratesHtml = noConnection
+    ? `<div style="font-size:12px;color:var(--muted);padding:10px 0;line-height:1.5">
+        Sin conexión a DolarApi. Ingresá la cotización manualmente abajo.
+       </div>`
+    : rateItems.map(r => `
+        <div class="converter-rate-row" style="border-left-color:${r.color}" onclick="setConverterRate(${r.val})">
+          <span>${r.label}</span>
+          <span class="converter-rate-val" style="color:${r.color}">$${r.val.toLocaleString('es-AR')}</span>
+        </div>`).join('');
+
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeModal()">
+      <div class="modal" style="max-width:340px">
+        <div class="modal-header">
+          <div class="modal-title">💱 Convertidor USD ↔ ARS</div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+
+        <div class="converter-rates">${ratesHtml}</div>
+
+        <div class="converter-form">
+          <label>Cotización (ARS por USD)</label>
+          <input type="number" id="conv-rate" value="${defaultRate || ''}"
+            placeholder="Ej: 1250" inputmode="decimal"
+            oninput="recalcConverter()" enterkeyhint="next" />
+          <label>USD</label>
+          <input type="number" id="conv-usd" value="${defaultRate ? 100 : ''}"
+            placeholder="0" inputmode="decimal"
+            oninput="recalcConverterFromUSD()" enterkeyhint="next" />
+          <label>ARS</label>
+          <input type="number" id="conv-ars" value="${defaultRate ? 100 * defaultRate : ''}"
+            placeholder="0" inputmode="decimal"
+            oninput="recalcConverterFromARS()" enterkeyhint="done" />
+        </div>
+
+        ${!noConnection ? `<div style="font-size:10px;color:var(--muted);text-align:center;margin-top:10px">
+          Fuente: DolarApi · tocá una cotización arriba para usarla
+        </div>` : ''}
+      </div>
+    </div>`;
+}
+
+function setConverterRate(rate) {
+  const rateEl = document.getElementById('conv-rate');
+  const usdEl  = document.getElementById('conv-usd');
+  const arsEl  = document.getElementById('conv-ars');
+  if (!rateEl) return;
+  rateEl.value = rate;
+  const usd = parseFloat(usdEl?.value) || 100;
+  if (usdEl) usdEl.value = usd;
+  if (arsEl) arsEl.value = Math.round(usd * rate);
+}
+function recalcConverter() {
+  const rate = parseFloat(document.getElementById('conv-rate')?.value) || 0;
+  const usd  = parseFloat(document.getElementById('conv-usd')?.value)  || 0;
+  const arsEl = document.getElementById('conv-ars');
+  if (arsEl) arsEl.value = rate > 0 ? Math.round(usd * rate) : '';
+}
+function recalcConverterFromUSD() {
+  const rate = parseFloat(document.getElementById('conv-rate')?.value) || 0;
+  const usd  = parseFloat(document.getElementById('conv-usd')?.value)  || 0;
+  const arsEl = document.getElementById('conv-ars');
+  if (arsEl) arsEl.value = rate > 0 ? Math.round(usd * rate) : '';
+}
+function recalcConverterFromARS() {
+  const rate = parseFloat(document.getElementById('conv-rate')?.value) || 0;
+  const ars  = parseFloat(document.getElementById('conv-ars')?.value)  || 0;
+  const usdEl = document.getElementById('conv-usd');
+  if (usdEl) usdEl.value = rate > 0 ? (ars / rate).toFixed(2) : '';
+}
 function onFabClick() {
   if (settingsFlags.quickAddEnabled) {
     openQuickAdd();
@@ -3583,11 +8135,11 @@ function haptic(type = 'light') {
 // Ripple effect at tap location
 document.addEventListener('pointerdown', (e) => {
   const target = e.target.closest(
-    '.bn-btn, .settings-row, .tx-row, .card, .recurring-row, .budget-row, ' +
+    '.bn-btn, .settings-row, .tx-row, .card, .recurring-row, .budget-row, .card-row, ' +
     '.cat-btn, .month-cell, .system-btn, .backup-btn, .filter-btn, .tag-filter-btn, ' +
     '.btn-add, .btn-save, .btn-cancel, .toggle-btn, .subpage-action, .back-btn, ' +
     '.logo, .month-nav button, .month-label-btn, .tag-suggestion, .modal-close, ' +
-    '.recurring-toggle, .emoji-cell, .quick-cat-btn, .quick-more, ' +
+    '.recurring-toggle, .emoji-cell, .color-cell, .due-mode-btn, .quick-cat-btn, .quick-more, ' +
     '.btn-delete, .credit-highlight, .backup-reminder button, ' +
     '.year-nav button'
   );
