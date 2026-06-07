@@ -1,7 +1,7 @@
 // Service Worker - MiEconomía
 // IMPORTANTE: subí el número de versión en cada deploy (v2, v3, v4...).
 // Eso es lo que dispara el aviso de "Nueva versión disponible".
-const CACHE_NAME = 'mieconomia-v5.2';
+const CACHE_NAME = 'mieconomia-v5.3';
 const ASSETS = [
   './',
   './index.html',
